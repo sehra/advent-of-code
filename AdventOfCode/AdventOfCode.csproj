@@ -5,4 +5,9 @@
     <TargetFramework>netcoreapp3.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="Year2019\Inputs\*.txt" />
+    <EmbeddedResource Include="Year2019\Inputs\*.txt" />
+  </ItemGroup>
+
 </Project>
