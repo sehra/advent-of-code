@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace AdventOfCode.Year2019
@@ -13,10 +12,10 @@ namespace AdventOfCode.Year2019
 		[DataRow("2,3,0,3,99", 3, 6)]
 		[DataRow("2,4,4,5,99,0", 5, 9801)]
 		[DataRow("1,1,1,4,99,5,6,0,99", 0, 30)]
-		public void Computer(string memory, int address, int expected)
+		public async Task Computer(string memory, int address, int expected)
 		{
 			var intcode = new IntcodeComputer(memory);
-			intcode.Run();
+			await intcode.RunAsync();
 
 			Assert.AreEqual(expected, intcode.Get(address));
 		}

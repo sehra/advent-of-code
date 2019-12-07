@@ -16,7 +16,7 @@ namespace AdventOfCode.Year2019
 			var intcode = new IntcodeComputer(_input);
 			intcode.Set(1, 12);
 			intcode.Set(2, 2);
-			intcode.Run();
+			intcode.RunAsync().GetAwaiter().GetResult();
 
 			return intcode.Get(0);
 		}
@@ -30,7 +30,7 @@ namespace AdventOfCode.Year2019
 					var intcode = new IntcodeComputer(_input);
 					intcode.Set(1, noun);
 					intcode.Set(2, verb);
-					intcode.Run();
+					intcode.RunAsync().GetAwaiter().GetResult();
 
 					if (intcode.Get(0) == 19690720)
 					{

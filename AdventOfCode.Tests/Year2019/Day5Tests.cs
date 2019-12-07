@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System.Threading.Tasks;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace AdventOfCode.Year2019
 {
@@ -6,24 +7,24 @@ namespace AdventOfCode.Year2019
 	public class Day5Tests
 	{
 		[TestMethod]
-		public void InputOutput()
+		public async Task InputOutput()
 		{
 			var result = -1;
 			var intcode = new IntcodeComputer(new[] { 3, 0, 4, 0, 99 })
 			{
-				Input = () => 42,
-				Output = value => result = value,
+				Input = () => Task.FromResult(42),
+				Output = value => { result = value; return Task.CompletedTask; }
 			};
-			intcode.Run();
+			await intcode.RunAsync();
 
 			Assert.AreEqual(42, result);
 		}
 
 		[TestMethod]
-		public void AdressingMode()
+		public async Task AddressingMode()
 		{
 			var intcode = new IntcodeComputer(new[] { 1002, 4, 3, 4, 33 });
-			intcode.Run();
+			await intcode.RunAsync();
 
 			Assert.AreEqual(99, intcode.Get(4));
 		}
@@ -37,15 +38,15 @@ namespace AdventOfCode.Year2019
 		[DataRow("3,3,1108,-1,8,3,4,3,99", 9, 0)]
 		[DataRow("3,3,1107,-1,8,3,4,3,99", 7, 1)]
 		[DataRow("3,3,1107,-1,8,3,4,3,99", 8, 0)]
-		public void Comparisons(string memory, int input, int expected)
+		public async Task Comparisons(string memory, int input, int expected)
 		{
 			var result = -1;
 			var intcode = new IntcodeComputer(memory)
 			{
-				Input = () => input,
-				Output = value => result = value,
+				Input = () => Task.FromResult(input),
+				Output = value => { result = value; return Task.CompletedTask; }
 			};
-			intcode.Run();
+			await intcode.RunAsync();
 
 			Assert.AreEqual(expected, result);
 		}
@@ -55,15 +56,15 @@ namespace AdventOfCode.Year2019
 		[DataRow("3,12,6,12,15,1,13,14,13,4,13,99,-1,0,1,9", 42, 1)]
 		[DataRow("3,3,1105,-1,9,1101,0,0,12,4,12,99,1", 0, 0)]
 		[DataRow("3,3,1105,-1,9,1101,0,0,12,4,12,99,1", 42, 1)]
-		public void ConditionalJumps(string memory, int input, int expected)
+		public async Task ConditionalJumps(string memory, int input, int expected)
 		{
 			var result = -1;
 			var intcode = new IntcodeComputer(memory)
 			{
-				Input = () => input,
-				Output = value => result = value,
+				Input = () => Task.FromResult(input),
+				Output = value => { result = value; return Task.CompletedTask; }
 			};
-			intcode.Run();
+			await intcode.RunAsync();
 
 			Assert.AreEqual(expected, result);
 		}
@@ -72,7 +73,7 @@ namespace AdventOfCode.Year2019
 		[DataRow(7, 999)]
 		[DataRow(8, 1000)]
 		[DataRow(9, 1001)]
-		public void LargeExample(int input, int expected)
+		public async Task LargeExample(int input, int expected)
 		{
 			var memory = new[]
 			{
@@ -83,10 +84,10 @@ namespace AdventOfCode.Year2019
 			var result = -1;
 			var intcode = new IntcodeComputer(memory)
 			{
-				Input = () => input,
-				Output = value => result = value,
+				Input = () => Task.FromResult(input),
+				Output = value => { result = value; return Task.CompletedTask; }
 			};
-			intcode.Run();
+			await intcode.RunAsync();
 
 			Assert.AreEqual(expected, result);
 		}

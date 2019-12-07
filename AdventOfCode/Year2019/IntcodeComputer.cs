@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace AdventOfCode.Year2019
 {
@@ -18,8 +19,8 @@ namespace AdventOfCode.Year2019
 			_memory = memory;
 		}
 
-		public Func<int> Input { get; set; }
-		public Action<int> Output { get; set; }
+		public Func<Task<int>> Input { get; set; }
+		public Func<int, Task> Output { get; set; }
 
 		public int Get(int address)
 		{
@@ -31,7 +32,7 @@ namespace AdventOfCode.Year2019
 			_memory[address] = value;
 		}
 
-		public void Run()
+		public async Task RunAsync()
 		{
 			while (true)
 			{
@@ -41,19 +42,19 @@ namespace AdventOfCode.Year2019
 				switch (opcode)
 				{
 					case 1:
-						Memory(3, modes) = Memory(1, modes) + Memory(2, modes);
+						_memory[_memory[_counter + 3]] = Memory(1, modes) + Memory(2, modes);
 						_counter += 4;
 						break;
 					case 2:
-						Memory(3, modes) = Memory(1, modes) * Memory(2, modes);
+						_memory[_memory[_counter + 3]] = Memory(1, modes) * Memory(2, modes);
 						_counter += 4;
 						break;
 					case 3:
-						Memory(1, modes) = Input();
+						_memory[_memory[_counter + 1]] = await Input();
 						_counter += 2;
 						break;
 					case 4:
-						Output(Memory(1, modes));
+						await Output(Memory(1, modes));
 						_counter += 2;
 						break;
 					case 5:
@@ -63,11 +64,11 @@ namespace AdventOfCode.Year2019
 						_counter = Memory(1, modes) == 0 ? Memory(2, modes) : _counter + 3;
 						break;
 					case 7:
-						Memory(3, modes) = Memory(1, modes) < Memory(2, modes) ? 1 : 0;
+						_memory[_memory[_counter + 3]] = Memory(1, modes) < Memory(2, modes) ? 1 : 0;
 						_counter += 4;
 						break;
 					case 8:
-						Memory(3, modes) = Memory(1, modes) == Memory(2, modes) ? 1 : 0;
+						_memory[_memory[_counter + 3]] = Memory(1, modes) == Memory(2, modes) ? 1 : 0;
 						_counter += 4;
 						break;
 					case 99:
@@ -78,14 +79,14 @@ namespace AdventOfCode.Year2019
 			}
 		}
 
-		private ref int Memory(int offset, int modes)
+		private int Memory(int offset, int modes)
 		{
-			switch ((modes / (int)Math.Pow(10, offset - 1)) % 10)
+			return (modes / (int)Math.Pow(10, offset - 1) % 10) switch
 			{
-				case 0: return ref _memory[_memory[_counter + offset]];
-				case 1: return ref _memory[_counter + offset];
-				default: throw new NotSupportedException();
-			}
+				0 => _memory[_memory[_counter + offset]],
+				1 => _memory[_counter + offset],
+				_ => throw new NotSupportedException(),
+			};
 		}
 	}
 }

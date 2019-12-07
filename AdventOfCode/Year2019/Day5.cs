@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace AdventOfCode.Year2019
 {
@@ -16,10 +17,10 @@ namespace AdventOfCode.Year2019
 			var outputs = new List<int>();
 			var intcode = new IntcodeComputer(_input)
 			{
-				Input = () => 1,
-				Output = value => outputs.Add(value),
+				Input = () => Task.FromResult(1),
+				Output = value => { outputs.Add(value); return Task.CompletedTask; }
 			};
-			intcode.Run();
+			intcode.RunAsync().GetAwaiter().GetResult();
 
 			return outputs[^1];
 		}
@@ -29,10 +30,10 @@ namespace AdventOfCode.Year2019
 			var outputs = new List<int>();
 			var intcode = new IntcodeComputer(_input)
 			{
-				Input = () => 5,
-				Output = value => outputs.Add(value),
+				Input = () => Task.FromResult(5),
+				Output = value => { outputs.Add(value); return Task.CompletedTask; }
 			};
-			intcode.Run();
+			intcode.RunAsync().GetAwaiter().GetResult();
 
 			return outputs[^1];
 		}
