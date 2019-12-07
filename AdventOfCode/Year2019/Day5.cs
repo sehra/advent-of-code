@@ -12,7 +12,7 @@ namespace AdventOfCode.Year2019
 			_input = input;
 		}
 
-		public int Part1()
+		public async Task<int> Part1()
 		{
 			var outputs = new List<int>();
 			var intcode = new IntcodeComputer(_input)
@@ -20,12 +20,12 @@ namespace AdventOfCode.Year2019
 				Input = () => Task.FromResult(1),
 				Output = value => { outputs.Add(value); return Task.CompletedTask; }
 			};
-			intcode.RunAsync().GetAwaiter().GetResult();
+			await intcode.RunAsync();
 
 			return outputs[^1];
 		}
 
-		public int Part2()
+		public async Task<int> Part2()
 		{
 			var outputs = new List<int>();
 			var intcode = new IntcodeComputer(_input)
@@ -33,7 +33,7 @@ namespace AdventOfCode.Year2019
 				Input = () => Task.FromResult(5),
 				Output = value => { outputs.Add(value); return Task.CompletedTask; }
 			};
-			intcode.RunAsync().GetAwaiter().GetResult();
+			await intcode.RunAsync();
 
 			return outputs[^1];
 		}

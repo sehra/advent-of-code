@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 namespace AdventOfCode.Year2019
 {
@@ -11,17 +12,17 @@ namespace AdventOfCode.Year2019
 			_input = input;
 		}
 
-		public int Part1()
+		public async Task<int> Part1()
 		{
 			var intcode = new IntcodeComputer(_input);
 			intcode.Set(1, 12);
 			intcode.Set(2, 2);
-			intcode.RunAsync().GetAwaiter().GetResult();
+			await intcode.RunAsync();
 
 			return intcode.Get(0);
 		}
 
-		public int Part2()
+		public async Task<int> Part2()
 		{
 			for (int noun = 0; noun < 100; noun++)
 			{
@@ -30,7 +31,7 @@ namespace AdventOfCode.Year2019
 					var intcode = new IntcodeComputer(_input);
 					intcode.Set(1, noun);
 					intcode.Set(2, verb);
-					intcode.RunAsync().GetAwaiter().GetResult();
+					await intcode.RunAsync();
 
 					if (intcode.Get(0) == 19690720)
 					{

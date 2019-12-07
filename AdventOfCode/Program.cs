@@ -2,6 +2,8 @@
 using System.Globalization;
 using System.IO;
 using System.Reflection;
+using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 
 namespace AdventOfCode
 {
@@ -19,12 +21,19 @@ namespace AdventOfCode
 			var day = Int32.Parse(args[1], CultureInfo.InvariantCulture);
 			var part = Int32.Parse(args[2], CultureInfo.InvariantCulture);
 			var init = args.Length == 4
-				? new object[] { File.ReadAllText(args[3]) }
-				: new object[] { GetEmbeddedInput(year, day) };
+				? new[] { File.ReadAllText(args[3]) }
+				: new[] { GetEmbeddedInput(year, day) };
 
 			var type = Type.GetType($"AdventOfCode.Year{year}.Day{day}");
 			var instance = Activator.CreateInstance(type, init);
-			var result = type.GetMethod($"Part{part}").Invoke(instance, Type.EmptyTypes);
+			var method = type.GetMethod($"Part{part}");
+			var result = method.Invoke(instance, Type.EmptyTypes);
+
+			if (method.ReturnType.IsGenericType && method.ReturnType.GetGenericTypeDefinition() == typeof(Task<>))
+			{
+				result = result.GetType().GetMethod("GetAwaiter").Invoke(result, Type.EmptyTypes);
+				result = result.GetType().GetMethod("GetResult").Invoke(result, Type.EmptyTypes);
+			}
 
 			Console.WriteLine("Result: {0}", result);
 		}
