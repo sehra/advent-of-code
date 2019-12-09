@@ -1,33 +1,35 @@
 ﻿using System;
 using System.Linq;
+using System.Numerics;
 using System.Threading.Tasks;
 
 namespace AdventOfCode.Year2019
 {
 	public class IntcodeComputer
 	{
-		private readonly int[] _memory;
+		private BigInteger[] _memory;
 		private int _counter;
+		private int _relbase;
 
 		public IntcodeComputer(string memory)
-			: this(memory.Split(',').Select(Int32.Parse).ToArray())
+			: this(memory.Split(',').Select(BigInteger.Parse).ToArray())
 		{
 		}
 
-		public IntcodeComputer(int[] memory)
+		public IntcodeComputer(BigInteger[] memory)
 		{
 			_memory = memory;
 		}
 
-		public Func<Task<int>> Input { get; set; }
-		public Func<int, Task> Output { get; set; }
+		public Func<Task<BigInteger>> Input { get; set; }
+		public Func<BigInteger, Task> Output { get; set; }
 
-		public int Get(int address)
+		public BigInteger Get(int address)
 		{
 			return _memory[address];
 		}
 
-		public void Set(int address, int value)
+		public void Set(int address, BigInteger value)
 		{
 			_memory[address] = value;
 		}
@@ -36,21 +38,22 @@ namespace AdventOfCode.Year2019
 		{
 			while (true)
 			{
-				var opcode = _memory[_counter] % 100;
-				var modes = _memory[_counter] / 100;
+				var opcode = (int)(_memory[_counter] % 100);
+				var modes = (int)(_memory[_counter] / 100);
 
 				switch (opcode)
 				{
 					case 1:
-						_memory[_memory[_counter + 3]] = Memory(1, modes) + Memory(2, modes);
+						Memory(3, modes) = Memory(1, modes) + Memory(2, modes);
 						_counter += 4;
 						break;
 					case 2:
-						_memory[_memory[_counter + 3]] = Memory(1, modes) * Memory(2, modes);
+						Memory(3, modes) = Memory(1, modes) * Memory(2, modes);
 						_counter += 4;
 						break;
 					case 3:
-						_memory[_memory[_counter + 1]] = await Input();
+						var input = await Input();
+						Memory(1, modes) = input;
 						_counter += 2;
 						break;
 					case 4:
@@ -58,18 +61,22 @@ namespace AdventOfCode.Year2019
 						_counter += 2;
 						break;
 					case 5:
-						_counter = Memory(1, modes) != 0 ? Memory(2, modes) : _counter + 3;
+						_counter = Memory(1, modes) != 0 ? (int)Memory(2, modes) : _counter + 3;
 						break;
 					case 6:
-						_counter = Memory(1, modes) == 0 ? Memory(2, modes) : _counter + 3;
+						_counter = Memory(1, modes) == 0 ? (int)Memory(2, modes) : _counter + 3;
 						break;
 					case 7:
-						_memory[_memory[_counter + 3]] = Memory(1, modes) < Memory(2, modes) ? 1 : 0;
+						Memory(3, modes) = Memory(1, modes) < Memory(2, modes) ? 1 : 0;
 						_counter += 4;
 						break;
 					case 8:
-						_memory[_memory[_counter + 3]] = Memory(1, modes) == Memory(2, modes) ? 1 : 0;
+						Memory(3, modes) = Memory(1, modes) == Memory(2, modes) ? 1 : 0;
 						_counter += 4;
+						break;
+					case 9:
+						_relbase += (int)Memory(1, modes);
+						_counter += 2;
 						break;
 					case 99:
 						return;
@@ -79,14 +86,46 @@ namespace AdventOfCode.Year2019
 			}
 		}
 
-		private int Memory(int offset, int modes)
+		private ref BigInteger Memory(int offset, int modes)
 		{
-			return (modes / (int)Math.Pow(10, offset - 1) % 10) switch
+			switch (modes / (int)Math.Pow(10, offset - 1) % 10)
 			{
-				0 => _memory[_memory[_counter + offset]],
-				1 => _memory[_counter + offset],
-				_ => throw new NotSupportedException(),
-			};
+				case 0:
+				{
+					var address = _counter + offset;
+					EnsureMemory(address);
+					address = (int)_memory[address];
+					EnsureMemory(address);
+					return ref _memory[address];
+				}
+				case 1:
+				{
+					var address = _counter + offset;
+					EnsureMemory(address);
+					return ref _memory[address];
+				}
+				case 2:
+				{
+					var address = _counter + offset;
+					EnsureMemory(address);
+					address = _relbase + (int)_memory[address];
+					EnsureMemory(address);
+					return ref _memory[address];
+				}
+				default: throw new NotSupportedException();
+			}
+		}
+
+		private void EnsureMemory(int address)
+		{
+			if (address < _memory.Length)
+			{
+				return;
+			}
+
+			var memory = new BigInteger[address + 1];
+			_memory.AsSpan().CopyTo(memory);
+			_memory = memory;
 		}
 	}
 }

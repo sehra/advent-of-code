@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Numerics;
 using System.Threading.Tasks;
 
 namespace AdventOfCode.Year2019
@@ -12,7 +13,7 @@ namespace AdventOfCode.Year2019
 			_input = input;
 		}
 
-		public async Task<int> Part1()
+		public async Task<BigInteger> Part1()
 		{
 			var intcode = new IntcodeComputer(_input);
 			intcode.Set(1, 12);

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Threading.Channels;
 using System.Threading.Tasks;
 
@@ -8,20 +9,20 @@ namespace AdventOfCode.Year2019
 {
 	public class Day7
 	{
-		private readonly int[] _input;
+		private readonly BigInteger[] _input;
 
 		public Day7(string input)
 		{
-			_input = input.Split(',').Select(Int32.Parse).ToArray();
+			_input = input.Split(',').Select(BigInteger.Parse).ToArray();
 		}
 
-		public async Task<int> Part1()
+		public async Task<BigInteger> Part1()
 		{
-			var results = new List<int>();
+			var results = new List<BigInteger>();
 
 			foreach (var setting in new[] { 0, 1, 2, 3, 4 }.Permutations())
 			{
-				var stack = new Stack<int>();
+				var stack = new Stack<BigInteger>();
 				stack.Push(0);
 
 				for (int i = 0, count = setting.Count(); i < count; i++)
@@ -31,7 +32,7 @@ namespace AdventOfCode.Year2019
 					var intcode = new IntcodeComputer(_input.ToArray())
 					{
 						Input = () => Task.FromResult(stack.Pop()),
-						Output = value => { stack.Push(value); return Task.CompletedTask; }
+						Output = value => { stack.Push(value); return Task.CompletedTask; },
 					};
 
 					await intcode.RunAsync();
@@ -43,13 +44,13 @@ namespace AdventOfCode.Year2019
 			return results.Max();
 		}
 
-		public async Task<int> Part2()
+		public async Task<BigInteger> Part2()
 		{
-			var results = new List<int>();
+			var results = new List<BigInteger>();
 
 			foreach (var setting in new[] { 5, 6, 7, 8, 9 }.Permutations())
 			{
-				var channel = Channel.CreateUnbounded<int>();
+				var channel = Channel.CreateUnbounded<BigInteger>();
 				var feedback = channel;
 				var intcodes = new List<Task>();
 
@@ -57,7 +58,7 @@ namespace AdventOfCode.Year2019
 				{
 					await channel.Writer.WriteAsync(setting.ElementAt(i));
 					var input = channel.Reader;
-					channel = Channel.CreateUnbounded<int>();
+					channel = Channel.CreateUnbounded<BigInteger>();
 					var output = (i == count - 1) ? feedback.Writer : channel.Writer;
 					var intcode = new IntcodeComputer(_input.ToArray())
 					{
