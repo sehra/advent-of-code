@@ -57,7 +57,7 @@ namespace AdventOfCode.Year2019
 				}
 			}
 
-			var sb = new StringBuilder().AppendLine();
+			var sb = new StringBuilder();
 
 			for (int h = 0; h < Height; h++)
 			{

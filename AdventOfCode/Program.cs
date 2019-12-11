@@ -35,7 +35,7 @@ namespace AdventOfCode
 				result = result.GetType().GetMethod("GetResult").Invoke(result, Type.EmptyTypes);
 			}
 
-			Console.WriteLine("Result: {0}", result);
+			Console.WriteLine(result);
 		}
 
 		private static string GetEmbeddedInput(int year, int day)
