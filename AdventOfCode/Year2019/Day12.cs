@@ -53,22 +53,19 @@ namespace AdventOfCode.Year2019
 				Step(position, velocity);
 				steps++;
 
-				if (!xperiod.HasValue && velocity.All(v => v.x == 0) &&
-					position.Select(v => v.x).SequenceEqual(_input.Select(v => v.x)))
+				if (!xperiod.HasValue && velocity.All(v => v.x == 0))
 				{
-					xperiod = steps;
+					xperiod = steps * 2;
 				}
 
-				if (!yperiod.HasValue && velocity.All(v => v.y == 0) &&
-					position.Select(v => v.y).SequenceEqual(_input.Select(v => v.y)))
+				if (!yperiod.HasValue && velocity.All(v => v.y == 0))
 				{
-					yperiod = steps;
+					yperiod = steps * 2;
 				}
 
-				if (!zperiod.HasValue && velocity.All(v => v.z == 0) &&
-					position.Select(v => v.z).SequenceEqual(_input.Select(v => v.z)))
+				if (!zperiod.HasValue && velocity.All(v => v.z == 0))
 				{
-					zperiod = steps;
+					zperiod = steps * 2;
 				}
 			} while (!(xperiod.HasValue && yperiod.HasValue && zperiod.HasValue));
 
