@@ -10,4 +10,8 @@
     <EmbeddedResource Include="Year2019\Inputs\*.txt" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="System.Interactive" Version="4.0.0" />
+  </ItemGroup>
+
 </Project>

@@ -10,7 +10,7 @@ namespace AdventOfCode.Year2019
 		[DataRow("<x=-8, y=-10, z=0>\n<x=5, y=5, z=10>\n<x=2, y=-7, z=3>\n<x=9, y=-8, z=-3>", 100, 1940)]
 		public void Part1(string input, int steps, int expected)
 		{
-			Assert.AreEqual(expected, new Day12(input).RunPart1(steps));
+			Assert.AreEqual(expected, new Day12(input).Part1(steps));
 		}
 
 		[DataTestMethod]

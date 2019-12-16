@@ -23,9 +23,7 @@ namespace AdventOfCode.Year2019
 				.ToArray();
 		}
 
-		public int Part1() => RunPart1(1000);
-
-		public int RunPart1(int steps)
+		public int Part1(int steps = 1000)
 		{
 			var position = _input.ToArray();
 			var velocity = new (int x, int y, int z)[_input.Length];

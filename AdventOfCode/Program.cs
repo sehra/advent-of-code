@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 namespace AdventOfCode
@@ -27,7 +27,8 @@ namespace AdventOfCode
 			var type = Type.GetType($"AdventOfCode.Year{year}.Day{day}");
 			var instance = Activator.CreateInstance(type, init);
 			var method = type.GetMethod($"Part{part}");
-			var result = method.Invoke(instance, Type.EmptyTypes);
+			var parameters = method.GetParameters().Select(p => p.RawDefaultValue);
+			var result = method.Invoke(instance, parameters.ToArray());
 
 			if (method.ReturnType.IsGenericType && method.ReturnType.GetGenericTypeDefinition() == typeof(Task<>))
 			{
