@@ -10,6 +10,7 @@ namespace AdventOfCode.Year2019
 		private BigInteger[] _memory;
 		private int _counter;
 		private int _relbase;
+		private bool _halted;
 
 		public IntcodeComputer(string memory)
 			: this(memory.Split(',').Select(BigInteger.Parse).ToArray())
@@ -24,6 +25,11 @@ namespace AdventOfCode.Year2019
 		public Func<Task<BigInteger>> Input { get; set; }
 		public Func<BigInteger, Task> Output { get; set; }
 
+		public void Halt()
+		{
+			_halted = true;
+		}
+
 		public BigInteger Get(int address)
 		{
 			return _memory[address];
@@ -36,7 +42,7 @@ namespace AdventOfCode.Year2019
 
 		public async Task RunAsync()
 		{
-			while (true)
+			while (!_halted)
 			{
 				var opcode = (int)(_memory[_counter] % 100);
 				var modes = (int)(_memory[_counter] / 100);

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Numerics;
+using System.Threading.Channels;
 using System.Threading.Tasks;
 
 namespace AdventOfCode.Year2019
@@ -23,126 +23,118 @@ namespace AdventOfCode.Year2019
 		public async Task<int> Part1()
 		{
 			var (map, dst) = await GetMapAsync();
-			var visited = new HashSet<(int, int)>();
+			var dist = 0;
 
-			return Solve((0, 0), 0);
+			var done = new HashSet<(int, int)> { (0, 0) };
+			var next = new Queue<((int, int) pos, int dist)>();
+			next.Enqueue(((0, 0), 0));
 
-			int Solve((int, int) pos, int len)
+			while (next.TryDequeue(out var node))
 			{
-				if (pos == dst)
+				if (node.pos == dst)
 				{
-					return len;
+					dist = node.dist;
+					break;
 				}
 
-				if (visited.Contains(pos) || !IsOpen(map, pos))
+				foreach (var dir in new[] { N, S, W, E })
 				{
-					return Int32.MaxValue;
+					var test = Step(node.pos, dir);
+
+					if (!done.Contains(test) && IsOpen(map, test))
+					{
+						done.Add(test);
+						next.Enqueue((test, node.dist + 1));
+					}
 				}
-
-				visited.Add(pos);
-
-				return new[]
-				{
-					Solve(Step(pos, N), len + 1),
-					Solve(Step(pos, S), len + 1),
-					Solve(Step(pos, W), len + 1),
-					Solve(Step(pos, E), len + 1),
-				}.Min();
 			}
+
+			return dist;
 		}
 
 		public async Task<int> Part2()
 		{
 			var (map, src) = await GetMapAsync();
-			var visited = new HashSet<(int, int)>();
+			var dist = 0;
 
-			return Solve(src, 0);
+			var done = new HashSet<(int, int)> { src };
+			var next = new Queue<((int, int) pos, int dist)>();
+			next.Enqueue((src, 0));
 
-			int Solve((int, int) pos, int len)
+			while (next.TryDequeue(out var node))
 			{
-				if (visited.Contains(pos) || !IsOpen(map, pos))
+				dist = Math.Max(node.dist, dist);
+
+				foreach (var dir in new[] { N, S, W, E })
 				{
-					return len - 1;
+					var test = Step(node.pos, dir);
+
+					if (!done.Contains(test) && IsOpen(map, test))
+					{
+						done.Add(test);
+						next.Enqueue((test, node.dist + 1));
+					}
 				}
-
-				visited.Add(pos);
-
-				return new[]
-				{
-					Solve(Step(pos, N), len + 1),
-					Solve(Step(pos, S), len + 1),
-					Solve(Step(pos, W), len + 1),
-					Solve(Step(pos, E), len + 1),
-				}.Max();
 			}
+
+			return dist;
 		}
 
-		private async Task<(Dictionary<(int x, int y), char>, (int x, int y))> GetMapAsync()
+		private async Task<(Dictionary<(int, int), char>, (int, int))> GetMapAsync()
 		{
 			var map = new Dictionary<(int, int), char>();
-			var pos = (x: 0, y: 0);
+			var pos = (0, 0);
 			var tar = pos;
 			var dir = N;
 
-			var intcode = new IntcodeComputer(_input)
+			var input = Channel.CreateUnbounded<BigInteger>();
+			var intcode = new IntcodeComputer(_input);
+			intcode.Input = () => input.Reader.ReadAsync().AsTask();
+			intcode.Output = async status =>
 			{
-				Input = () => Task.FromResult((BigInteger)dir),
-				Output = status =>
+				switch ((int)status)
 				{
-					switch ((int)status)
-					{
-						case 0: // hit wall
-							map[Step(pos, dir)] = '#';
-							dir = dir switch
-							{
-								N => W,
-								W => S,
-								S => E,
-								E => N,
-								_ => throw new Exception("dir?"),
-							};
-							break;
-
-						case 1: // moved
-							pos = Step(pos, dir);
-							map[pos] = '.';
-							dir = dir switch
-							{
-								N when !IsWall(Step(pos, E)) => E,
-								N => N,
-								W when !IsWall(Step(pos, N)) => N,
-								W => W,
-								S when !IsWall(Step(pos, W)) => W,
-								S => S,
-								E when !IsWall(Step(pos, S)) => S,
-								E => E,
-								_ => throw new Exception("dir?"),
-							};
-
-							if (pos == default && tar != default)
-							{
-								throw new DoneException();
-							}
-
-							break;
-
-						case 2: // found it
-							tar = Step(pos, dir);
-							goto case 1;
-					}
-
-					return Task.CompletedTask;
-				},
+					case 0: // hit wall
+						map[Step(pos, dir)] = '#';
+						dir = dir switch
+						{
+							N => W,
+							W => S,
+							S => E,
+							E => N,
+							_ => throw new Exception("dir?"),
+						};
+						await input.Writer.WriteAsync(dir);
+						break;
+					case 1: // moved
+						pos = Step(pos, dir);
+						map[pos] = '.';
+						dir = dir switch
+						{
+							N when !IsWall(Step(pos, E)) => E,
+							N => N,
+							W when !IsWall(Step(pos, N)) => N,
+							W => W,
+							S when !IsWall(Step(pos, W)) => W,
+							S => S,
+							E when !IsWall(Step(pos, S)) => S,
+							E => E,
+							_ => throw new Exception("dir?"),
+						};
+						await input.Writer.WriteAsync(dir);
+						if (pos == default && tar != default)
+						{
+							intcode.Halt();
+						}
+						break;
+					case 2: // found it
+						tar = Step(pos, dir);
+						goto case 1;
+				}
 			};
 
-			try
-			{
-				await intcode.RunAsync();
-			}
-			catch (DoneException)
-			{
-				// not best practice
-			}
+			await input.Writer.WriteAsync(dir);
+			await intcode.RunAsync();
 
 			return (map, tar);
 
@@ -160,9 +152,5 @@ namespace AdventOfCode.Year2019
 			E => (pos.x + 1, pos.y),
 			_ => throw new Exception("dir?"),
 		};
-
-		private class DoneException : Exception
-		{
-		}
 	}
 }
