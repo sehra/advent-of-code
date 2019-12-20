@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -28,6 +29,7 @@ namespace AdventOfCode
 			var instance = Activator.CreateInstance(type, init);
 			var method = type.GetMethod($"Part{part}");
 			var parameters = method.GetParameters().Select(p => p.RawDefaultValue);
+			var stopwatch = Stopwatch.StartNew();
 			var result = method.Invoke(instance, parameters.ToArray());
 
 			if (method.ReturnType.IsGenericType && method.ReturnType.GetGenericTypeDefinition() == typeof(Task<>))
@@ -36,6 +38,7 @@ namespace AdventOfCode
 				result = result.GetType().GetMethod("GetResult").Invoke(result, Type.EmptyTypes);
 			}
 
+			Console.WriteLine(stopwatch.Elapsed);
 			Console.WriteLine(result);
 		}
 
