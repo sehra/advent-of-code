@@ -17,7 +17,7 @@ namespace AdventOfCode.Year2019
 		{
 			var (map, _) = ParseMap();
 
-			return Solve(CalculateKeyMap(map), "@", "", new Dictionary<(string, string), int>());
+			return Solve(CalculateKeyMap(map), "@", "", new Dictionary<string, int>(StringComparer.Ordinal));
 		}
 
 		public int Part2()
@@ -33,18 +33,18 @@ namespace AdventOfCode.Year2019
 			map[(pos.x - 1, pos.y + 1)] = '3';
 			map[(pos.x - 1, pos.y - 1)] = '4';
 
-			return Solve(CalculateKeyMap(map), "1234", "", new Dictionary<(string, string), int>());
+			return Solve(CalculateKeyMap(map), "1234", "", new Dictionary<string, int>(StringComparer.Ordinal));
 		}
 
-		private static Dictionary<char, Dictionary<char, (string, int)>> CalculateKeyMap(
+		private static Dictionary<char, List<(char, string, int)>> CalculateKeyMap(
 			Dictionary<(int x, int y), char> map)
 		{
-			var keys = new Dictionary<char, Dictionary<char, (string, int)>>();
+			var keys = new Dictionary<char, List<(char, string, int)>>();
 			var allkeys = map.Where(kv => Char.IsLower(kv.Value) || Char.IsDigit(kv.Value) || kv.Value == '@');
 
 			foreach (var (src, key) in allkeys)
 			{
-				keys.Add(key, new Dictionary<char, (string, int)>());
+				keys.Add(key, new List<(char, string, int)>());
 
 				var done = new HashSet<(int, int)> { src };
 				var next = new Queue<((int, int) pos, string need, int dist)>();
@@ -57,7 +57,7 @@ namespace AdventOfCode.Year2019
 
 					if (c != key && Char.IsLower(c))
 					{
-						keys[key].Add(c, (node.need.ToLower(), node.dist));
+						keys[key].Add((c, node.need.ToLower(), node.dist));
 					}
 					else if (Char.IsUpper(c))
 					{
@@ -89,20 +89,31 @@ namespace AdventOfCode.Year2019
 			};
 		}
 
-		private static IEnumerable<(char bot, char key, int dist)> FindKeys(
-			Dictionary<char, Dictionary<char, (string need, int dist)>> keymap, string bots, string open)
+		private static List<(char bot, char key, int dist)> FindKeys(
+			Dictionary<char, List<(char bot, string need, int dist)>> keymap, string bots, string open)
 		{
-			return bots
-				.SelectMany(bot => keymap[bot]
-					.Where(kv => !open.Contains(kv.Key) && kv.Value.need.All(k => open.Contains(k)))
-					.Select(kv => (bot, kv.Key, kv.Value.dist))
-				);
+			var keys = new List<(char bot, char key, int dist)>();
+
+			foreach (var bot in bots)
+			{
+				foreach (var (key, need, dist) in keymap[bot])
+				{
+					if (open.Contains(key) || !need.All(open.Contains))
+					{
+						continue;
+					}
+
+					keys.Add((bot, key, dist));
+				}
+			}
+
+			return keys;
 		}
 
-		private static int Solve(Dictionary<char, Dictionary<char, (string, int)>> keymap, string bots, string open,
-			Dictionary<(string, string), int> cache)
+		private static int Solve(Dictionary<char, List<(char, string, int)>> keymap, string bots, string open,
+			Dictionary<string, int> cache)
 		{
-			var ckey = (Sort(bots), Sort(open));
+			var ckey = String.Concat(Sort(bots), ".", Sort(open));
 
 			if (cache.TryGetValue(ckey, out var known))
 			{
@@ -111,12 +122,12 @@ namespace AdventOfCode.Year2019
 
 			var keys = FindKeys(keymap, bots, open);
 
-			if (keys.Count() == 0)
+			if (keys.Count == 0)
 			{
 				return 0;
 			}
 
-			var dists = new List<int>();
+			var dists = new List<int>(keys.Count);
 
 			foreach (var (bot, key, dist) in keys)
 			{
@@ -125,7 +136,13 @@ namespace AdventOfCode.Year2019
 
 			return cache[ckey] = dists.Min();
 
-			static string Sort(string value) => new string(value.OrderBy(c => c).ToArray());
+			static string Sort(string value)
+			{
+				var chars = value.ToCharArray();
+				Array.Sort(chars);
+
+				return new string(chars);
+			}
 		}
 
 		private (Dictionary<(int x, int y), char> map, (int x, int y) pos) ParseMap()
