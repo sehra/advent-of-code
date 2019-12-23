@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Numerics;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace AdventOfCode.Year2019
@@ -40,9 +41,9 @@ namespace AdventOfCode.Year2019
 			_memory[address] = value;
 		}
 
-		public async Task RunAsync()
+		public async Task RunAsync(CancellationToken token = default)
 		{
-			while (!_halted)
+			while (!_halted && !token.IsCancellationRequested)
 			{
 				var opcode = (int)(_memory[_counter] % 100);
 				var modes = (int)(_memory[_counter] / 100);
