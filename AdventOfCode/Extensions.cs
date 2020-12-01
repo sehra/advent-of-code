@@ -55,5 +55,11 @@ namespace AdventOfCode
 				}
 			}
 		}
+
+		public static string[] ToLines(this string input,
+			StringSplitOptions options = StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+		{
+			return input.Split(new[] { "\r", "\n", "\r\n" }, options);
+		}
 	}
 }
