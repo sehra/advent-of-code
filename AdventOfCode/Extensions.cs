@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 
 namespace AdventOfCode
@@ -61,5 +62,8 @@ namespace AdventOfCode
 		{
 			return input.Split(new[] { "\r", "\n", "\r\n" }, options);
 		}
+
+		public static int ToInt32(this string value) => Int32.Parse(value, CultureInfo.InvariantCulture);
+		public static long ToInt64(this string value) => Int64.Parse(value, CultureInfo.InvariantCulture);
 	}
 }
