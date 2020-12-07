@@ -65,5 +65,57 @@ namespace AdventOfCode
 
 		public static int ToInt32(this string value) => Int32.Parse(value, CultureInfo.InvariantCulture);
 		public static long ToInt64(this string value) => Int64.Parse(value, CultureInfo.InvariantCulture);
+
+		public static void Upsert<TKey, TValue>(this IDictionary<TKey, TValue> dictionary,
+			TKey key, Func<TValue, TValue> updateValue, TValue insertValue)
+		{
+			if (dictionary.TryGetValue(key, out var value))
+			{
+				dictionary[key] = updateValue(value);
+			}
+			else
+			{
+				dictionary[key] = insertValue;
+			}
+		}
+
+		public static void Upsert<TKey, TValue>(this IDictionary<TKey, TValue> dictionary,
+			TKey key, Func<TValue, TValue> updateValue, Func<TValue> insertValueFactory)
+		{
+			if (dictionary.TryGetValue(key, out var value))
+			{
+				dictionary[key] = updateValue(value);
+			}
+			else
+			{
+				dictionary[key] = insertValueFactory();
+			}
+		}
+
+		public static void Upsert<TKey, TValue>(this IDictionary<TKey, TValue> dictionary,
+			TKey key, Action<TValue> updateValue, TValue insertValue)
+		{
+			if (dictionary.TryGetValue(key, out var value))
+			{
+				updateValue(value);
+			}
+			else
+			{
+				dictionary[key] = insertValue;
+			}
+		}
+
+		public static void Upsert<TKey, TValue>(this IDictionary<TKey, TValue> dictionary,
+			TKey key, Action<TValue> updateValue, Func<TValue> defaultValueFactory)
+		{
+			if (dictionary.TryGetValue(key, out var value))
+			{
+				updateValue(value);
+			}
+			else
+			{
+				dictionary[key] = defaultValueFactory();
+			}
+		}
 	}
 }
