@@ -64,7 +64,9 @@ namespace AdventOfCode
 		}
 
 		public static int ToInt32(this string value) => Int32.Parse(value, CultureInfo.InvariantCulture);
+		public static int ToInt32(this ReadOnlySpan<char> value) => Int32.Parse(value);
 		public static long ToInt64(this string value) => Int64.Parse(value, CultureInfo.InvariantCulture);
+		public static long ToInt64(this ReadOnlySpan<char> value) => Int64.Parse(value);
 
 		public static void Upsert<TKey, TValue>(this IDictionary<TKey, TValue> dictionary,
 			TKey key, Func<TValue, TValue> updateValue, TValue insertValue)
