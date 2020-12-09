@@ -119,5 +119,50 @@ namespace AdventOfCode
 				dictionary[key] = defaultValueFactory();
 			}
 		}
+
+		public static IEnumerable<IList<T>> Window<T>(this IEnumerable<T> items, int size)
+		{
+			if (items is null)
+			{
+				throw new ArgumentNullException(nameof(items));
+			}
+
+			if (size <= 0)
+			{
+				throw new ArgumentOutOfRangeException(nameof(size));
+			}
+
+			return WindowImpl(items, size);
+
+			IEnumerable<IList<T>> WindowImpl(IEnumerable<T> items, int size)
+			{
+				using var enumerator = items.GetEnumerator();
+
+				var curr = new T[size];
+				var i = 0;
+
+				for (i = 0; i < size && enumerator.MoveNext(); i++)
+				{
+					curr[i] = enumerator.Current;
+				}
+
+				if (i < size)
+				{
+					yield break;
+				}
+
+				while (enumerator.MoveNext())
+				{
+					var next = new T[size];
+					curr.AsSpan(1).CopyTo(next);
+					next[^1] = enumerator.Current;
+
+					yield return curr;
+					curr = next;
+				}
+
+				yield return curr;
+			}
+		}
 	}
 }
