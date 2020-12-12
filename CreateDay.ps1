@@ -55,10 +55,40 @@ namespace AdventOfCode.Year${year}
 		}
 	}
 }
-"@
+"@;
+
+$perf = @"
+using System.IO;
+using BenchmarkDotNet.Attributes;
+
+namespace AdventOfCode.Year${year}
+{
+	[MemoryDiagnoser]
+	public class Day${day}Bench
+	{
+		private string _input;
+
+		[GlobalSetup]
+		public void Setup()
+		{
+			using var stream = typeof(Day${day}).Assembly
+				.GetManifestResourceStream("AdventOfCode.Year${year}.Inputs.Day${day}.txt");
+			using var reader = new StreamReader(stream);
+			_input = reader.ReadToEnd();
+		}
+
+		[Benchmark]
+		public int Part1() => new Day${day}(_input).Part1();
+
+		[Benchmark]
+		public int Part2() => new Day${day}(_input).Part2();
+	}
+}
+"@;
 
 Out-File "${PSScriptRoot}/AdventOfCode/Year${year}/Day${day}.cs" -InputObject $code -Encoding UTF8
 Out-File "${PSScriptRoot}/AdventOfCode.Tests/Year${year}/Day${day}Tests.cs" -InputObject $test -Encoding UTF8
+Out-File "${PSScriptRoot}/AdventOfCode.Bench/Year${year}/Day${day}Bench.cs" -InputObject $perf -Encoding UTF8
 
 $cookie = New-Object System.Net.Cookie
 $cookie.Domain = ".adventofcode.com"
