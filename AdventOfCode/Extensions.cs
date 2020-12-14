@@ -67,6 +67,10 @@ namespace AdventOfCode
 		public static int ToInt32(this ReadOnlySpan<char> value) => Int32.Parse(value);
 		public static long ToInt64(this string value) => Int64.Parse(value, CultureInfo.InvariantCulture);
 		public static long ToInt64(this ReadOnlySpan<char> value) => Int64.Parse(value);
+		public static uint ToUInt32(this string value) => UInt32.Parse(value, CultureInfo.InvariantCulture);
+		public static uint ToUInt32(this ReadOnlySpan<char> value) => UInt32.Parse(value);
+		public static ulong ToUInt64(this string value) => UInt64.Parse(value, CultureInfo.InvariantCulture);
+		public static ulong ToUInt64(this ReadOnlySpan<char> value) => UInt64.Parse(value);
 
 		public static void Upsert<TKey, TValue>(this IDictionary<TKey, TValue> dictionary,
 			TKey key, Func<TValue, TValue> updateValue, TValue insertValue)
@@ -134,7 +138,7 @@ namespace AdventOfCode
 
 			return WindowImpl(items, size);
 
-			IEnumerable<IList<T>> WindowImpl(IEnumerable<T> items, int size)
+			static IEnumerable<IList<T>> WindowImpl(IEnumerable<T> items, int size)
 			{
 				using var enumerator = items.GetEnumerator();
 
