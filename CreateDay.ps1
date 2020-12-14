@@ -86,9 +86,9 @@ namespace AdventOfCode.Year${year}
 }
 "@;
 
-Out-File "${PSScriptRoot}/AdventOfCode/Year${year}/Day${day}.cs" -InputObject $code -Encoding UTF8
-Out-File "${PSScriptRoot}/AdventOfCode.Tests/Year${year}/Day${day}Tests.cs" -InputObject $test -Encoding UTF8
-Out-File "${PSScriptRoot}/AdventOfCode.Bench/Year${year}/Day${day}Bench.cs" -InputObject $perf -Encoding UTF8
+Out-File "${PSScriptRoot}/AdventOfCode/Year${year}/Day${day}.cs" -InputObject $code -Encoding UTF8 -NoClobber
+Out-File "${PSScriptRoot}/AdventOfCode.Tests/Year${year}/Day${day}Tests.cs" -InputObject $test -Encoding UTF8 -NoClobber
+Out-File "${PSScriptRoot}/AdventOfCode.Bench/Year${year}/Day${day}Bench.cs" -InputObject $perf -Encoding UTF8 -NoClobber
 
 $cookie = New-Object System.Net.Cookie
 $cookie.Domain = ".adventofcode.com"
