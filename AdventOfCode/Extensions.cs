@@ -168,5 +168,10 @@ namespace AdventOfCode
 				yield return curr;
 			}
 		}
+
+		public static IEnumerable<T> Except<T>(this IEnumerable<T> items, T value)
+		{
+			return items.Except(new[] { value });
+		}
 	}
 }
