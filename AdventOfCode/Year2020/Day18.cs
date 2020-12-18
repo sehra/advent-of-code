@@ -15,15 +15,19 @@ namespace AdventOfCode.Year2020
 
 		public long Part1()
 		{
-			return _input.Sum(expr => Evaluate(expr, false));
+			return _input.Sum(expr => Evaluate(expr, _ => 0));
 		}
 
 		public long Part2()
 		{
-			return _input.Sum(expr => Evaluate(expr, true));
+			return _input.Sum(expr => Evaluate(expr, oper => oper switch {
+				'+' => 1,
+				'*' => 0,
+				_ => throw new Exception("operator?"),
+			}));
 		}
 
-		private static long Evaluate(string expression, bool precedence)
+		private static long Evaluate(string expression, Func<char, int> precedence)
 		{
 			// https://en.wikipedia.org/wiki/Shunting-yard_algorithm
 
@@ -39,7 +43,7 @@ namespace AdventOfCode.Year2020
 				else if (token is '+' or '*')
 				{
 					while (operators.Count > 0 && operators.Peek() is not '(' &&
-						(!precedence || (token is '*' && operators.Peek() is '+')))
+						precedence(token) <= precedence(operators.Peek()))
 					{
 						OperatorOnce();
 					}
