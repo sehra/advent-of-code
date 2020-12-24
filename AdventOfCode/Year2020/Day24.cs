@@ -25,42 +25,46 @@ namespace AdventOfCode.Year2020
 			for (int i = 0; i < 100; i++)
 			{
 				var next = new HashSet<Tile>();
-				var xmin = curr.Min(t => t.X) - 1;
-				var xmax = curr.Max(t => t.X) + 1;
-				var ymin = curr.Min(t => t.Y) - 1;
-				var ymax = curr.Max(t => t.Y) + 1;
-				var zmin = curr.Min(t => t.Z) - 1;
-				var zmax = curr.Max(t => t.Z) + 2;
+				var edge = 0;
+
+				foreach (var tile in curr)
+				{
+					var absx = Math.Abs(tile.X);
+					var absy = Math.Abs(tile.Y);
+					var absz = Math.Abs(tile.Z);
+					edge = Math.Max(edge, Math.Max(Math.Max(absx, absy), absz));
+				}
+
+				edge++;
+				var xmin = -edge;
+				var xmax = edge;
 
 				for (int x = xmin; x <= xmax; x++)
 				{
+					var ymin = Math.Max(-edge, -x - edge);
+					var ymax = Math.Min(edge, -x + edge);
+
 					for (int y = ymin; y <= ymax; y++)
 					{
-						for (int z = zmin; z <= zmax; z++)
-						{
-							if (x + y + z is 0)
-							{
-								var tile = new Tile(x, y, z);
-								var count =
-									(curr.Contains(tile.E()) ? 1 : 0) +
-									(curr.Contains(tile.SW()) ? 1 : 0) +
-									(curr.Contains(tile.SE()) ? 1 : 0) +
-									(curr.Contains(tile.W()) ? 1 : 0) +
-									(curr.Contains(tile.NW()) ? 1 : 0) +
-									(curr.Contains(tile.NE()) ? 1 : 0);
+						var tile = new Tile(x, y, -x - y);
+						var count =
+							(curr.Contains(tile.E()) ? 1 : 0) +
+							(curr.Contains(tile.SW()) ? 1 : 0) +
+							(curr.Contains(tile.SE()) ? 1 : 0) +
+							(curr.Contains(tile.W()) ? 1 : 0) +
+							(curr.Contains(tile.NW()) ? 1 : 0) +
+							(curr.Contains(tile.NE()) ? 1 : 0);
 
-								if (curr.Contains(tile))
-								{
-									if (count is 1 or 2)
-									{
-										next.Add(tile);
-									}
-								}
-								else if (count is 2)
-								{
-									next.Add(tile);
-								}
+						if (curr.Contains(tile))
+						{
+							if (count is 1 or 2)
+							{
+								next.Add(tile);
 							}
+						}
+						else if (count is 2)
+						{
+							next.Add(tile);
 						}
 					}
 				}
@@ -130,11 +134,7 @@ namespace AdventOfCode.Year2020
 					line = line.Slice(1);
 				}
 
-				if (floor.Contains(tile))
-				{
-					floor.Remove(tile);
-				}
-				else
+				if (!floor.Remove(tile))
 				{
 					floor.Add(tile);
 				}
