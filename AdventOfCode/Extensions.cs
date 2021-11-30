@@ -3,175 +3,173 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 
-namespace AdventOfCode
+namespace AdventOfCode;
+
+public static class Extensions
 {
-	public static class Extensions
+	public static IEnumerable<IEnumerable<T>> GroupWhile<T>(this IEnumerable<T> source, Func<T, T, bool> condition)
 	{
-		public static IEnumerable<IEnumerable<T>> GroupWhile<T>(this IEnumerable<T> items, Func<T, T, bool> condition)
+		ArgumentNullException.ThrowIfNull(source);
+		ArgumentNullException.ThrowIfNull(condition);
+
+		var prev = source.First();
+		var list = new List<T> { prev };
+
+		foreach (var item in source.Skip(1))
 		{
-			var prev = items.First();
-			var list = new List<T> { prev };
-
-			foreach (var item in items.Skip(1))
+			if (!condition(prev, item))
 			{
-				if (!condition(prev, item))
-				{
-					yield return list;
-					list = new List<T>();
-				}
-
-				list.Add(item);
-				prev = item;
+				yield return list;
+				list = new List<T>();
 			}
 
-			yield return list;
+			list.Add(item);
+			prev = item;
 		}
 
-		public static IEnumerable<IEnumerable<T>> Permutations<T>(this IEnumerable<T> items)
+		yield return list;
+	}
+
+	public static IEnumerable<IEnumerable<T>> Permutations<T>(this IEnumerable<T> source)
+	{
+		ArgumentNullException.ThrowIfNull(source);
+
+		return PermutationsImpl(source);
+
+		static IEnumerable<IEnumerable<T>> PermutationsImpl(IEnumerable<T> source)
 		{
-			if (items == null)
+			var count = source.Count();
+
+			if (count == 1)
 			{
-				throw new ArgumentNullException(nameof(items));
+				yield return source;
 			}
-
-			return PermutationsImpl(items);
-
-			static IEnumerable<IEnumerable<T>> PermutationsImpl(IEnumerable<T> items)
+			else
 			{
-				var count = items.Count();
-
-				if (count == 1)
+				for (var i = 0; i < count; i++)
 				{
-					yield return items;
-				}
-				else
-				{
-					for (var i = 0; i < count; i++)
+					foreach (var permutation in PermutationsImpl(source.Take(i).Concat(source.Skip(i + 1))))
 					{
-						foreach (var permutation in PermutationsImpl(items.Take(i).Concat(items.Skip(i + 1))))
-						{
-							yield return items.Skip(i).Take(1).Concat(permutation);
-						}
+						yield return source.Skip(i).Take(1).Concat(permutation);
 					}
 				}
 			}
 		}
+	}
 
-		public static string[] ToLines(this string input,
-			StringSplitOptions options = StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+	public static string[] ToLines(this string input,
+		StringSplitOptions options = StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+	{
+		return input.Split(new[] { "\r", "\n", "\r\n" }, options);
+	}
+
+	public static int ToInt32(this string value) => Int32.Parse(value, CultureInfo.InvariantCulture);
+	public static int ToInt32(this ReadOnlySpan<char> value) => Int32.Parse(value, provider: CultureInfo.InvariantCulture);
+	public static long ToInt64(this string value) => Int64.Parse(value, CultureInfo.InvariantCulture);
+	public static long ToInt64(this ReadOnlySpan<char> value) => Int64.Parse(value, provider: CultureInfo.InvariantCulture);
+	public static uint ToUInt32(this string value) => UInt32.Parse(value, CultureInfo.InvariantCulture);
+	public static uint ToUInt32(this ReadOnlySpan<char> value) => UInt32.Parse(value, provider: CultureInfo.InvariantCulture);
+	public static ulong ToUInt64(this string value) => UInt64.Parse(value, CultureInfo.InvariantCulture);
+	public static ulong ToUInt64(this ReadOnlySpan<char> value) => UInt64.Parse(value, provider: CultureInfo.InvariantCulture);
+
+	public static void Upsert<TKey, TValue>(this IDictionary<TKey, TValue> dictionary,
+		TKey key, Func<TValue, TValue> updateValue, TValue insertValue)
+	{
+		if (dictionary.TryGetValue(key, out var value))
 		{
-			return input.Split(new[] { "\r", "\n", "\r\n" }, options);
+			dictionary[key] = updateValue(value);
+		}
+		else
+		{
+			dictionary[key] = insertValue;
+		}
+	}
+
+	public static void Upsert<TKey, TValue>(this IDictionary<TKey, TValue> dictionary,
+		TKey key, Func<TValue, TValue> updateValue, Func<TValue> insertValueFactory)
+	{
+		if (dictionary.TryGetValue(key, out var value))
+		{
+			dictionary[key] = updateValue(value);
+		}
+		else
+		{
+			dictionary[key] = insertValueFactory();
+		}
+	}
+
+	public static void Upsert<TKey, TValue>(this IDictionary<TKey, TValue> dictionary,
+		TKey key, Action<TValue> updateValue, TValue insertValue)
+	{
+		if (dictionary.TryGetValue(key, out var value))
+		{
+			updateValue(value);
+		}
+		else
+		{
+			dictionary[key] = insertValue;
+		}
+	}
+
+	public static void Upsert<TKey, TValue>(this IDictionary<TKey, TValue> dictionary,
+		TKey key, Action<TValue> updateValue, Func<TValue> defaultValueFactory)
+	{
+		if (dictionary.TryGetValue(key, out var value))
+		{
+			updateValue(value);
+		}
+		else
+		{
+			dictionary[key] = defaultValueFactory();
+		}
+	}
+
+	public static IEnumerable<T[]> Window<T>(this IEnumerable<T> source, int size)
+	{
+		ArgumentNullException.ThrowIfNull(source);
+
+		if (size <= 0)
+		{
+			throw new ArgumentOutOfRangeException(nameof(size));
 		}
 
-		public static int ToInt32(this string value) => Int32.Parse(value, CultureInfo.InvariantCulture);
-		public static int ToInt32(this ReadOnlySpan<char> value) => Int32.Parse(value);
-		public static long ToInt64(this string value) => Int64.Parse(value, CultureInfo.InvariantCulture);
-		public static long ToInt64(this ReadOnlySpan<char> value) => Int64.Parse(value);
-		public static uint ToUInt32(this string value) => UInt32.Parse(value, CultureInfo.InvariantCulture);
-		public static uint ToUInt32(this ReadOnlySpan<char> value) => UInt32.Parse(value);
-		public static ulong ToUInt64(this string value) => UInt64.Parse(value, CultureInfo.InvariantCulture);
-		public static ulong ToUInt64(this ReadOnlySpan<char> value) => UInt64.Parse(value);
+		return WindowImpl(source, size);
 
-		public static void Upsert<TKey, TValue>(this IDictionary<TKey, TValue> dictionary,
-			TKey key, Func<TValue, TValue> updateValue, TValue insertValue)
+		static IEnumerable<T[]> WindowImpl(IEnumerable<T> items, int size)
 		{
-			if (dictionary.TryGetValue(key, out var value))
-			{
-				dictionary[key] = updateValue(value);
-			}
-			else
-			{
-				dictionary[key] = insertValue;
-			}
-		}
+			using var enumerator = items.GetEnumerator();
 
-		public static void Upsert<TKey, TValue>(this IDictionary<TKey, TValue> dictionary,
-			TKey key, Func<TValue, TValue> updateValue, Func<TValue> insertValueFactory)
-		{
-			if (dictionary.TryGetValue(key, out var value))
-			{
-				dictionary[key] = updateValue(value);
-			}
-			else
-			{
-				dictionary[key] = insertValueFactory();
-			}
-		}
+			var curr = new T[size];
+			var i = 0;
 
-		public static void Upsert<TKey, TValue>(this IDictionary<TKey, TValue> dictionary,
-			TKey key, Action<TValue> updateValue, TValue insertValue)
-		{
-			if (dictionary.TryGetValue(key, out var value))
+			for (i = 0; i < size && enumerator.MoveNext(); i++)
 			{
-				updateValue(value);
-			}
-			else
-			{
-				dictionary[key] = insertValue;
-			}
-		}
-
-		public static void Upsert<TKey, TValue>(this IDictionary<TKey, TValue> dictionary,
-			TKey key, Action<TValue> updateValue, Func<TValue> defaultValueFactory)
-		{
-			if (dictionary.TryGetValue(key, out var value))
-			{
-				updateValue(value);
-			}
-			else
-			{
-				dictionary[key] = defaultValueFactory();
-			}
-		}
-
-		public static IEnumerable<IList<T>> Window<T>(this IEnumerable<T> items, int size)
-		{
-			if (items is null)
-			{
-				throw new ArgumentNullException(nameof(items));
+				curr[i] = enumerator.Current;
 			}
 
-			if (size <= 0)
+			if (i < size)
 			{
-				throw new ArgumentOutOfRangeException(nameof(size));
+				yield break;
 			}
 
-			return WindowImpl(items, size);
-
-			static IEnumerable<IList<T>> WindowImpl(IEnumerable<T> items, int size)
+			while (enumerator.MoveNext())
 			{
-				using var enumerator = items.GetEnumerator();
-
-				var curr = new T[size];
-				var i = 0;
-
-				for (i = 0; i < size && enumerator.MoveNext(); i++)
-				{
-					curr[i] = enumerator.Current;
-				}
-
-				if (i < size)
-				{
-					yield break;
-				}
-
-				while (enumerator.MoveNext())
-				{
-					var next = new T[size];
-					curr.AsSpan(1).CopyTo(next);
-					next[^1] = enumerator.Current;
-
-					yield return curr;
-					curr = next;
-				}
+				var next = new T[size];
+				curr.AsSpan(1).CopyTo(next);
+				next[^1] = enumerator.Current;
 
 				yield return curr;
+				curr = next;
 			}
-		}
 
-		public static IEnumerable<T> Except<T>(this IEnumerable<T> items, T value)
-		{
-			return items.Except(new[] { value });
+			yield return curr;
 		}
+	}
+
+	public static IEnumerable<T> Except<T>(this IEnumerable<T> source, T value)
+	{
+		ArgumentNullException.ThrowIfNull(source);
+
+		return source.Except(new[] { value });
 	}
 }
