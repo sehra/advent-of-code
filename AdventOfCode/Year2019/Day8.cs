@@ -1,103 +1,99 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Text;
 
-namespace AdventOfCode.Year2019
+namespace AdventOfCode.Year2019;
+
+public class Day8
 {
-	public class Day8
+	private readonly string _input;
+
+	public Day8(string input)
 	{
-		private readonly string _input;
+		_input = input;
+	}
 
-		public Day8(string input)
+	public int Part1()
+	{
+		var layers = new List<string>();
+		var input = _input.AsSpan();
+
+		while (!input.IsEmpty)
 		{
-			_input = input;
+			layers.Add(new string(input[..(25 * 6)]));
+			input = input[(25 * 6)..];
 		}
 
-		public int Part1()
+		var layer = layers
+			.Select(l => new { Data = l, Count = l.Count(x => x == '0') })
+			.OrderBy(l => l.Count)
+			.First();
+
+		return layer.Data.Count(x => x == '1') * layer.Data.Count(x => x == '2');
+	}
+
+	public string Part2()
+	{
+		const int Width = 25;
+		const int Height = 6;
+
+		var picture = DecodePicture(_input, Width, Height);
+		var result = new int?[Width, Height];
+
+		for (int w = 0; w < Width; w++)
 		{
-			var layers = new List<string>();
-			var input = _input.AsSpan();
-
-			while (!input.IsEmpty)
-			{
-				layers.Add(new string(input.Slice(0, 25 * 6)));
-				input = input.Slice(25 * 6);
-			}
-
-			var layer = layers
-				.Select(l => new { Data = l, Count = l.Count(x => x == '0') })
-				.OrderBy(l => l.Count)
-				.First();
-
-			return layer.Data.Count(x => x == '1') * layer.Data.Count(x => x == '2');
-		}
-
-		public string Part2()
-		{
-			const int Width = 25;
-			const int Height = 6;
-
-			var picture = DecodePicture(_input, Width, Height);
-			var result = new int?[Width, Height];
-
-			for (int w = 0; w < Width; w++)
-			{
-				for (int h = 0; h < Height; h++)
-				{
-					for (int l = 0; l < picture.Count; l++)
-					{
-						result[w, h] = (result[w, h], picture[l][w, h]) switch
-						{
-							(null, 2) => null,
-							(null, var value) => value,
-							(var value, _) => value,
-						};
-					}
-				}
-			}
-
-			var sb = new StringBuilder();
-
 			for (int h = 0; h < Height; h++)
 			{
-				for (int w = 0; w < Width; w++)
+				for (int l = 0; l < picture.Count; l++)
 				{
-					sb.Append(result[w, h] switch
+					result[w, h] = (result[w, h], picture[l][w, h]) switch
 					{
-						0 => ' ',
-						1 => '*',
-						_ => '?',
-					});
+						(null, 2) => null,
+						(null, var value) => value,
+						(var value, _) => value,
+					};
 				}
-
-				sb.AppendLine();
 			}
-
-			return sb.ToString();
 		}
 
-		public static List<int[,]> DecodePicture(ReadOnlySpan<char> input, int width, int height)
+		var sb = new StringBuilder();
+
+		for (int h = 0; h < Height; h++)
 		{
-			var picture = new List<int[,]>();
-
-			while (!input.IsEmpty)
+			for (int w = 0; w < Width; w++)
 			{
-				var layer = new int[width, height];
-
-				for (int h = 0; h < height; h++)
+				sb.Append(result[w, h] switch
 				{
-					for (int w = 0; w < width; w++)
-					{
-						layer[w, h] = input[(width * h) + w] - '0';
-					}
-				}
-
-				picture.Add(layer);
-				input = input.Slice(width * height);
+					0 => ' ',
+					1 => '*',
+					_ => '?',
+				});
 			}
 
-			return picture;
+			sb.AppendLine();
 		}
+
+		return sb.ToString();
+	}
+
+	public static List<int[,]> DecodePicture(ReadOnlySpan<char> input, int width, int height)
+	{
+		var picture = new List<int[,]>();
+
+		while (!input.IsEmpty)
+		{
+			var layer = new int[width, height];
+
+			for (int h = 0; h < height; h++)
+			{
+				for (int w = 0; w < width; w++)
+				{
+					layer[w, h] = input[(width * h) + w] - '0';
+				}
+			}
+
+			picture.Add(layer);
+			input = input[(width * height)..];
+		}
+
+		return picture;
 	}
 }

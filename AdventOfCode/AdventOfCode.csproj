@@ -15,4 +15,8 @@
     <PackageReference Include="System.Interactive" Version="5.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Using Include="System.Text.RegularExpressions" />
+  </ItemGroup>
+
 </Project>

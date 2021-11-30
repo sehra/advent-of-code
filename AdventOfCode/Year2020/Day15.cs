@@ -1,62 +1,57 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
+namespace AdventOfCode.Year2020;
 
-namespace AdventOfCode.Year2020
+public class Day15
 {
-	public class Day15
+	private readonly int[] _input;
+
+	public Day15(string input)
 	{
-		private readonly int[] _input;
+		_input = input.Split(',').Select(Int32.Parse).ToArray();
+	}
 
-		public Day15(string input)
+	public int Part1()
+	{
+		return Solve(2020);
+	}
+
+	public int Part2()
+	{
+		return Solve(30_000_000);
+	}
+
+	private int Solve(int turns)
+	{
+		var numbers = new Dictionary<int, (int Last, int Prev)>();
+		var last = _input.Last();
+
+		for (int turn = 0; turn < _input.Length; turn++)
 		{
-			_input = input.Split(',').Select(Int32.Parse).ToArray();
+			numbers.Add(_input[turn], (turn, -1));
 		}
 
-		public int Part1()
+		for (int turn = _input.Length; turn < turns; turn++)
 		{
-			return Solve(2020);
-		}
+			var number = numbers[last];
 
-		public int Part2()
-		{
-			return Solve(30_000_000);
-		}
-
-		private int Solve(int turns)
-		{
-			var numbers = new Dictionary<int, (int Last, int Prev)>();
-			var last = _input.Last();
-
-			for (int turn = 0; turn < _input.Length; turn++)
+			if (number.Prev == -1)
 			{
-				numbers.Add(_input[turn], (turn, -1));
+				last = 0;
+			}
+			else
+			{
+				last = number.Last - number.Prev;
 			}
 
-			for (int turn = _input.Length; turn < turns; turn++)
+			if (numbers.TryGetValue(last, out number))
 			{
-				var number = numbers[last];
-
-				if (number.Prev == -1)
-				{
-					last = 0;
-				}
-				else
-				{
-					last = number.Last - number.Prev;
-				}
-
-				if (numbers.TryGetValue(last, out number))
-				{
-					numbers[last] = (turn, number.Last);
-				}
-				else
-				{
-					numbers[last] = (turn, -1);
-				}
+				numbers[last] = (turn, number.Last);
 			}
-
-			return last;
+			else
+			{
+				numbers[last] = (turn, -1);
+			}
 		}
+
+		return last;
 	}
 }

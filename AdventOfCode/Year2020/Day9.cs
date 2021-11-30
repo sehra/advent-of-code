@@ -1,76 +1,72 @@
-using System;
-using System.Linq;
+namespace AdventOfCode.Year2020;
 
-namespace AdventOfCode.Year2020
+public class Day9
 {
-	public class Day9
+	private readonly long[] _input;
+
+	public Day9(string input)
 	{
-		private readonly long[] _input;
+		_input = input.ToLines().Select(Int64.Parse).ToArray();
+	}
 
-		public Day9(string input)
+	public long Part1(int size = 25)
+	{
+		foreach (var window in _input.Window(size + 1))
 		{
-			_input = input.ToLines().Select(Int64.Parse).ToArray();
-		}
+			var target = window.Last();
 
-		public long Part1(int size = 25)
-		{
-			foreach (var window in _input.Window(size + 1))
+			if (!HasSum(target))
 			{
-				var target = window.Last();
+				return target;
+			}
 
-				if (!HasSum(target))
+			bool HasSum(long sum)
+			{
+				for (int i = 0; i < size; i++)
 				{
-					return target;
-				}
-
-				bool HasSum(long sum)
-				{
-					for (int i = 0; i < size; i++)
+					for (int j = 0; j < size; j++)
 					{
-						for (int j = 0; j < size; j++)
-						{
-							var a = window[i];
-							var b = window[j];
+						var a = window[i];
+						var b = window[j];
 
-							if (a != b && (a + b == sum))
-							{
-								return true;
-							}
+						if (a != b && (a + b == sum))
+						{
+							return true;
 						}
 					}
-
-					return false;
 				}
-			}
 
-			throw new Exception("not found");
+				return false;
+			}
 		}
 
-		public long Part2(int size = 25)
+		throw new Exception("not found");
+	}
+
+	public long Part2(int size = 25)
+	{
+		var target = Part1(size);
+
+		for (int i = 0; i < _input.Length; i++)
 		{
-			var target = Part1(size);
+			var sum = _input[i];
 
-			for (int i = 0; i < _input.Length; i++)
+			for (int j = i + 1; j < _input.Length; j++)
 			{
-				var sum = _input[i];
+				sum += _input[j];
 
-				for (int j = i + 1; j < _input.Length; j++)
+				if (sum > target)
 				{
-					sum += _input[j];
-
-					if (sum > target)
-					{
-						break;
-					}
-					else if (sum == target)
-					{
-						var slice = _input.Skip(i).Take(j - i);
-						return slice.Min() + slice.Max();
-					}
+					break;
+				}
+				else if (sum == target)
+				{
+					var slice = _input.Skip(i).Take(j - i);
+					return slice.Min() + slice.Max();
 				}
 			}
-
-			throw new Exception("not found");
 		}
+
+		throw new Exception("not found");
 	}
 }

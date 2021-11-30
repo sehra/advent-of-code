@@ -1,59 +1,54 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
+namespace AdventOfCode.Year2020;
 
-namespace AdventOfCode.Year2020
+public class Day10
 {
-	public class Day10
+	private readonly int[] _input;
+
+	public Day10(string input)
 	{
-		private readonly int[] _input;
+		_input = input.ToLines().Select(Int32.Parse).OrderBy(x => x).ToArray();
+	}
 
-		public Day10(string input)
+	public int Part1()
+	{
+		var joltage = 0;
+		var diffs1 = 0;
+		var diffs3 = 0;
+
+		for (int i = 0; i < _input.Length; i++)
 		{
-			_input = input.ToLines().Select(Int32.Parse).OrderBy(x => x).ToArray();
-		}
+			var diff = _input[i] - joltage;
 
-		public int Part1()
-		{
-			var joltage = 0;
-			var diffs1 = 0;
-			var diffs3 = 0;
-
-			for (int i = 0; i < _input.Length; i++)
+			if (diff == 1)
 			{
-				var diff = _input[i] - joltage;
-
-				if (diff == 1)
-				{
-					diffs1++;
-				}
-				else if (diff == 3)
-				{
-					diffs3++;
-				}
-
-				joltage = _input[i];
+				diffs1++;
+			}
+			else if (diff == 3)
+			{
+				diffs3++;
 			}
 
-			return diffs1 * (diffs3 + 1);
+			joltage = _input[i];
 		}
 
-		public long Part2()
+		return diffs1 * (diffs3 + 1);
+	}
+
+	public long Part2()
+	{
+		var joltages = new int[_input.Length + 1];
+		_input.CopyTo(joltages, 1);
+
+		var routes = new Dictionary<int, long> { [joltages.Max() + 3] = 1 };
+
+		foreach (var joltage in joltages.Reverse())
 		{
-			var joltages = new int[_input.Length + 1];
-			_input.CopyTo(joltages, 1);
-
-			var routes = new Dictionary<int, long> { [joltages.Max() + 3] = 1 };
-
-			foreach (var joltage in joltages.Reverse())
-			{
-				routes.TryGetValue(joltage + 1, out var count1);
-				routes.TryGetValue(joltage + 2, out var count2);
-				routes.TryGetValue(joltage + 3, out var count3);
-				routes.Add(joltage, count1 + count2 + count3);
-			}
-
-			return routes[0];
+			routes.TryGetValue(joltage + 1, out var count1);
+			routes.TryGetValue(joltage + 2, out var count2);
+			routes.TryGetValue(joltage + 3, out var count3);
+			routes.Add(joltage, count1 + count2 + count3);
 		}
+
+		return routes[0];
 	}
 }

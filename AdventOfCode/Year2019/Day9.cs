@@ -1,42 +1,39 @@
-﻿using System.Collections.Generic;
-using System.Numerics;
-using System.Threading.Tasks;
+﻿using System.Numerics;
 
-namespace AdventOfCode.Year2019
+namespace AdventOfCode.Year2019;
+
+public class Day9
 {
-	public class Day9
+	private readonly string _input;
+
+	public Day9(string input)
 	{
-		private readonly string _input;
+		_input = input;
+	}
 
-		public Day9(string input)
+	public async Task<BigInteger> Part1()
+	{
+		var results = new List<BigInteger>();
+		var intcode = new IntcodeComputer(_input)
 		{
-			_input = input;
-		}
+			Input = () => Task.FromResult((BigInteger)1),
+			Output = value => { results.Add(value); return Task.CompletedTask; },
+		};
+		await intcode.RunAsync();
 
-		public async Task<BigInteger> Part1()
+		return results[^1];
+	}
+
+	public async Task<BigInteger> Part2()
+	{
+		var results = new List<BigInteger>();
+		var intcode = new IntcodeComputer(_input)
 		{
-			var results = new List<BigInteger>();
-			var intcode = new IntcodeComputer(_input)
-			{
-				Input = () => Task.FromResult((BigInteger)1),
-				Output = value => { results.Add(value); return Task.CompletedTask; },
-			};
-			await intcode.RunAsync();
+			Input = () => Task.FromResult((BigInteger)2),
+			Output = value => { results.Add(value); return Task.CompletedTask; },
+		};
+		await intcode.RunAsync();
 
-			return results[^1];
-		}
-
-		public async Task<BigInteger> Part2()
-		{
-			var results = new List<BigInteger>();
-			var intcode = new IntcodeComputer(_input)
-			{
-				Input = () => Task.FromResult((BigInteger)2),
-				Output = value => { results.Add(value); return Task.CompletedTask; },
-			};
-			await intcode.RunAsync();
-
-			return results[^1];
-		}
+		return results[^1];
 	}
 }

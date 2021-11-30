@@ -1,87 +1,83 @@
-using System.Collections.Generic;
-using System.Text.RegularExpressions;
+namespace AdventOfCode.Year2020;
 
-namespace AdventOfCode.Year2020
+public class Day7
 {
-	public class Day7
+	private readonly string[] _input;
+
+	public Day7(string input)
 	{
-		private readonly string[] _input;
+		_input = input.ToLines();
+	}
 
-		public Day7(string input)
+	public int Part1()
+	{
+		var rules = new Dictionary<string, HashSet<string>>();
+
+		foreach (var rule in _input)
 		{
-			_input = input.ToLines();
+			var nameMatch = Regex.Match(rule, @"^(?<name>\w+ \w+) bags contain (?<rest>.*)$");
+			var name = nameMatch.Groups["name"].Value;
+			var rest = nameMatch.Groups["rest"].Value;
+
+			foreach (Match match in Regex.Matches(rest, @"(?:\d+) (?<name>\w+ \w+) bags?[,\.]"))
+			{
+				rules.Upsert(match.Groups["name"].Value, hs => hs.Add(name), () => new() { name });
+			}
 		}
 
-		public int Part1()
+		var hasgold = new HashSet<string>();
+		Check("shiny gold");
+
+		void Check(string name)
 		{
-			var rules = new Dictionary<string, HashSet<string>>();
-
-			foreach (var rule in _input)
+			if (rules.TryGetValue(name, out var bags))
 			{
-				var nameMatch = Regex.Match(rule, @"^(?<name>\w+ \w+) bags contain (?<rest>.*)$");
-				var name = nameMatch.Groups["name"].Value;
-				var rest = nameMatch.Groups["rest"].Value;
-
-				foreach (Match match in Regex.Matches(rest, @"(?:\d+) (?<name>\w+ \w+) bags?[,\.]"))
+				foreach (var bag in bags)
 				{
-					rules.Upsert(match.Groups["name"].Value, hs => hs.Add(name), () => new() { name });
+					hasgold.Add(bag);
+					Check(bag);
 				}
 			}
-
-			var hasgold = new HashSet<string>();
-			Check("shiny gold");
-
-			void Check(string name)
-			{
-				if (rules.TryGetValue(name, out var bags))
-				{
-					foreach (var bag in bags)
-					{
-						hasgold.Add(bag);
-						Check(bag);
-					}
-				}
-			}
-
-			return hasgold.Count;
 		}
 
-		public int Part2()
+		return hasgold.Count;
+	}
+
+	public int Part2()
+	{
+		var rules = new Dictionary<string, Dictionary<string, int>>();
+
+		foreach (var rule in _input)
 		{
-			var rules = new Dictionary<string, Dictionary<string, int>>();
+			var bags = new Dictionary<string, int>();
+			var nameMatch = Regex.Match(rule, @"^(?<name>\w+ \w+) bags contain (?<rest>.*)$");
+			var name = nameMatch.Groups["name"].Value;
+			var rest = nameMatch.Groups["rest"].Value;
 
-			foreach (var rule in _input)
+			foreach (Match match in Regex.Matches(rest, @"(?<count>\d+) (?<name>\w+ \w+) bags?[,\.]"))
 			{
-				var bags = new Dictionary<string, int>();
-				var nameMatch = Regex.Match(rule, @"^(?<name>\w+ \w+) bags contain (?<rest>.*)$");
-				var name = nameMatch.Groups["name"].Value;
-				var rest = nameMatch.Groups["rest"].Value;
-
-				foreach (Match match in Regex.Matches(rest, @"(?<count>\d+) (?<name>\w+ \w+) bags?[,\.]"))
-				{
-					bags.Add(match.Groups["name"].Value, match.Groups["count"].Value.ToInt32());
-				}
-
-				rules.Add(name, bags);
+				bags.Add(match.Groups["name"].Value, match.Groups["count"].Value.ToInt32());
 			}
 
-			return Count("shiny gold");
+			rules.Add(name, bags);
+		}
 
-			int Count(string name)
+		return Count("shiny gold");
+
+		int Count(string name)
+		{
+			var total = 0;
+
+			if (rules.TryGetValue(name, out var bags))
 			{
-				var total = 0;
-
-				if (rules.TryGetValue(name, out var bags))
+				foreach (var bag in bags)
 				{
-					foreach (var bag in bags)
-					{
-						total += bag.Value;
-						total += bag.Value * Count(bag.Key);
-					}
+					total += bag.Value;
+					total += bag.Value * Count(bag.Key);
 				}
-
-				return total;
 			}
+
+			return total;
 		}
 	}
 }

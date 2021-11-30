@@ -1,47 +1,43 @@
-﻿using System;
-using System.Linq;
+﻿namespace AdventOfCode.Year2019;
 
-namespace AdventOfCode.Year2019
+public class Day1
 {
-	public class Day1
+	private readonly int[] _input;
+
+	public Day1(string input)
 	{
-		private readonly int[] _input;
+		_input = input.Split('\n').Select(Int32.Parse).ToArray();
+	}
 
-		public Day1(string input)
+	public int Part1()
+	{
+		return _input.Select(NeededFuelPart1).Sum();
+	}
+
+	private static int NeededFuelPart1(int mass)
+	{
+		return mass / 3 - 2;
+	}
+
+	public int Part2()
+	{
+		return _input.Select(NeededFuelPart2).Sum();
+	}
+
+	private static int NeededFuelPart2(int mass)
+	{
+		var fuel = NeededFuelPart1(mass);
+
+		if (fuel > 0)
 		{
-			_input = input.Split('\n').Select(Int32.Parse).ToArray();
-		}
+			var extra = NeededFuelPart2(fuel);
 
-		public int Part1()
-		{
-			return _input.Select(NeededFuelPart1).Sum();
-		}
-
-		private static int NeededFuelPart1(int mass)
-		{
-			return mass / 3 - 2;
-		}
-
-		public int Part2()
-		{
-			return _input.Select(NeededFuelPart2).Sum();
-		}
-
-		private static int NeededFuelPart2(int mass)
-		{
-			var fuel = NeededFuelPart1(mass);
-
-			if (fuel > 0)
+			if (extra > 0)
 			{
-				var extra = NeededFuelPart2(fuel);
-
-				if (extra > 0)
-				{
-					fuel += extra;
-				}
+				fuel += extra;
 			}
-
-			return fuel;
 		}
+
+		return fuel;
 	}
 }

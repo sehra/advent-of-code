@@ -1,84 +1,80 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Numerics;
+﻿using System.Numerics;
 using System.Text;
-using System.Threading.Tasks;
 
-namespace AdventOfCode.Year2019
+namespace AdventOfCode.Year2019;
+
+public class Day21
 {
-	public class Day21
+	private readonly string _input;
+
+	public Day21(string input)
 	{
-		private readonly string _input;
+		_input = input;
+	}
 
-		public Day21(string input)
+	public Task<BigInteger> Part1()
+	{
+		var script = new[]
 		{
-			_input = input;
-		}
+			"OR A J",
+			"AND B J",
+			"AND C J",
+			"NOT J J",
+			"AND D J",
+			"WALK",
+		};
 
-		public Task<BigInteger> Part1()
+		return RunScriptAsync(script);
+	}
+
+	public Task<BigInteger> Part2()
+	{
+		var script = new[]
 		{
-			var script = new[]
-			{
-				"OR A J",
-				"AND B J",
-				"AND C J",
-				"NOT J J",
-				"AND D J",
-				"WALK",
-			};
+			"OR A J",
+			"AND B J",
+			"AND C J",
+			"NOT J J",
+			"AND D J",
+			"OR E T",
+			"OR H T",
+			"AND T J",
+			"RUN",
+		};
 
-			return RunScriptAsync(script);
-		}
+		return RunScriptAsync(script);
+	}
 
-		public Task<BigInteger> Part2()
+	private async Task<BigInteger> RunScriptAsync(string[] lines, bool debug = false)
+	{
+		var input = new Queue<BigInteger>();
+		var output = new List<BigInteger>();
+		var intcode = new IntcodeComputer(_input)
 		{
-			var script = new[]
-			{
-				"OR A J",
-				"AND B J",
-				"AND C J",
-				"NOT J J",
-				"AND D J",
-				"OR E T",
-				"OR H T",
-				"AND T J",
-				"RUN",
-			};
+			Input = () => Task.FromResult(input.Dequeue()),
+			Output = value => { output.Add(value); return Task.CompletedTask; },
+		};
 
-			return RunScriptAsync(script);
-		}
-
-		private async Task<BigInteger> RunScriptAsync(string[] lines, bool debug = false)
+		foreach (var line in lines)
 		{
-			var input = new Queue<BigInteger>();
-			var output = new List<BigInteger>();
-			var intcode = new IntcodeComputer(_input)
+			foreach (var c in Encoding.ASCII.GetBytes(line))
 			{
-				Input = () => Task.FromResult(input.Dequeue()),
-				Output = value => { output.Add(value); return Task.CompletedTask; },
-			};
-
-			foreach (var line in lines)
-			{
-				foreach (var c in Encoding.ASCII.GetBytes(line))
-				{
-					input.Enqueue(c);
-				}
-
-				input.Enqueue((byte)'\n');
+				input.Enqueue(c);
 			}
 
-			await intcode.RunAsync();
-
-			if (debug)
-			{
-				foreach (var c in output)
-				{
-					Console.Write((char)c);
-				}
-			}
-
-			return output[^1];
+			input.Enqueue((byte)'\n');
 		}
+
+		await intcode.RunAsync();
+
+		if (debug)
+		{
+			foreach (var c in output)
+			{
+				Console.Write((char)c);
+			}
+		}
+
+		return output[^1];
 	}
 }

@@ -1,71 +1,65 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Numerics;
+﻿using System.Numerics;
 using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading;
 using System.Threading.Channels;
-using System.Threading.Tasks;
 
-namespace AdventOfCode.Year2019
+namespace AdventOfCode.Year2019;
+
+public class Day25
 {
-	public class Day25
+	private readonly string _input;
+
+	public Day25(string input)
 	{
-		private readonly string _input;
+		_input = input;
+	}
 
-		public Day25(string input)
+	public async Task<int> Part1()
+	{
+		var signal = new SemaphoreSlim(0);
+		var input = Channel.CreateUnbounded<BigInteger>();
+		var output = new List<char>();
+		var intcode = new IntcodeComputer(_input)
 		{
-			_input = input;
-		}
+			Input = () => input.Reader.ReadAsync().AsTask(),
+			Output = value => { output.Add((char)value); return Task.CompletedTask; },
+		};
 
-		public async Task<int> Part1()
+		var commands = new[]
 		{
-			var signal = new SemaphoreSlim(0);
-			var input = Channel.CreateUnbounded<BigInteger>();
-			var output = new List<char>();
-			var intcode = new IntcodeComputer(_input)
-			{
-				Input = () => input.Reader.ReadAsync().AsTask(),
-				Output = value => { output.Add((char)value); return Task.CompletedTask; },
-			};
+			"east",
+			"take whirled peas",
+			"north",
+			"west",
+			"south",
+			"take antenna",
+			"north",
+			"east",
+			"south",
+			"east",
+			"north",
+			"take prime number",
+			"south",
+			"west",
+			"west",
+			"north",
+			"take fixed point",
+			"north",
+			"east",
+			"south",
+		};
 
-			var commands = new[]
+		foreach (var command in commands)
+		{
+			foreach (var c in Encoding.ASCII.GetBytes(command))
 			{
-				"east",
-				"take whirled peas",
-				"north",
-				"west",
-				"south",
-				"take antenna",
-				"north",
-				"east",
-				"south",
-				"east",
-				"north",
-				"take prime number",
-				"south",
-				"west",
-				"west",
-				"north",
-				"take fixed point",
-				"north",
-				"east",
-				"south",
-			};
-
-			foreach (var command in commands)
-			{
-				foreach (var c in Encoding.ASCII.GetBytes(command))
-				{
-					input.Writer.TryWrite(c);
-				}
-
-				input.Writer.TryWrite('\n');
+				input.Writer.TryWrite(c);
 			}
 
-			await intcode.RunAsync();
-
-			return Int32.Parse(Regex.Match(new string(output.ToArray()), @"(\d{7})").Value);
+			input.Writer.TryWrite('\n');
 		}
+
+		await intcode.RunAsync();
+
+		return Int32.Parse(Regex.Match(new string(output.ToArray()), @"(\d{7})").Value);
 	}
 }
