@@ -11,59 +11,43 @@ public class Day2
 
 	public int Part1()
 	{
-		var position = 0;
-		var depth = 0;
+		var (horiz, depth) = _input
+			.Select(line => line.Split())
+			.Select(line => (Command: line[0][0], Units: line[1].ToInt32()))
+			.Aggregate(
+				(Horiz: 0, Depth: 0),
+				(acc, cmd) => cmd.Command switch
+				{
+					'f' => acc with { Horiz = acc.Horiz + cmd.Units },
+					'd' => acc with { Depth = acc.Depth + cmd.Units },
+					'u' => acc with { Depth = acc.Depth - cmd.Units },
+					_ => throw new InvalidOperationException(),
+				}
+			);
 
-		foreach (var line in _input)
-		{
-			var value = line.AsSpan(line.IndexOf(' ')).ToInt32();
-
-			switch (line[0])
-			{
-				case 'f':
-					position += value;
-					break;
-
-				case 'd':
-					depth += value;
-					break;
-
-				case 'u':
-					depth -= value;
-					break;
-			}
-		}
-
-		return position * depth;
+		return horiz * depth;
 	}
 
 	public int Part2()
 	{
-		var position = 0;
-		var depth = 0;
-		var aim = 0;
+		var (horiz, depth, _) = _input
+			.Select(line => line.Split())
+			.Select(line => (Command: line[0][0], Units: line[1].ToInt32()))
+			.Aggregate(
+				(Horiz: 0, Depth: 0, Aim: 0),
+				(acc, cmd) => cmd.Command switch
+				{
+					'f' => acc with
+					{
+						Horiz = acc.Horiz + cmd.Units,
+						Depth = acc.Depth + acc.Aim * cmd.Units,
+					},
+					'd' => acc with { Aim = acc.Aim + cmd.Units },
+					'u' => acc with { Aim = acc.Aim - cmd.Units },
+					_ => throw new InvalidOperationException(),
+				}
+			);
 
-		foreach (var line in _input)
-		{
-			var value = line.AsSpan(line.IndexOf(' ')).ToInt32();
-
-			switch (line[0])
-			{
-				case 'f':
-					position += value;
-					depth += aim * value;
-					break;
-
-				case 'd':
-					aim += value;
-					break;
-
-				case 'u':
-					aim -= value;
-					break;
-			}
-		}
-
-		return position * depth;
+		return horiz * depth;
 	}
 }
