@@ -1,16 +1,27 @@
 param (
-    $year = (Get-Date).Year,
-    $day = (Get-Date).Day
+    $Year = (Get-Date).Year,
+    $Day = (Get-Date).Day
 )
 
-$code = @"
-namespace AdventOfCode.Year${year};
+function WriteFile {
+	param (
+		[string]$File,
+		[string]$Text
+	)
+	
+	$File = $PSScriptRoot | Join-Path -ChildPath $File
+	New-Item ($File | Split-Path -Parent) -ItemType Directory -Force
+	Out-File -FilePath $File -InputObject $Text -Encoding UTF8 -NoClobber
+}
 
-public class Day${day}
+WriteFile -File "AdventOfCode\Year${Year}\Day${Day}.cs" -Text @"
+namespace AdventOfCode.Year${Year};
+
+public class Day${Day}
 {
 	private readonly string _input;
 
-	public Day${day}(string input)
+	public Day${Day}(string input)
 	{
 		_input = input;
 	}
@@ -25,65 +36,67 @@ public class Day${day}
 		throw new NotImplementedException();
 	}
 }
-"@;
+"@
 
-$test = @"
-namespace AdventOfCode.Year${year};
+WriteFile -File "AdventOfCode.Tests\Year${Year}\Day${Day}Tests.cs" -Text @"
+namespace AdventOfCode.Year${Year};
 
 [TestClass]
-public class Day${day}Tests
+public class Day${Day}Tests
 {
 	[DataTestMethod]
 	[DataRow(0, "")]
 	public void Part1(int expected, string input)
 	{
-		Assert.AreEqual(expected, new Day${day}(input).Part1());
+		Assert.AreEqual(expected, new Day${Day}(input).Part1());
 	}
 
 	[DataTestMethod]
 	[DataRow(0, "")]
 	public void Part2(int expected, string input)
 	{
-		Assert.AreEqual(expected, new Day${day}(input).Part2());
+		Assert.AreEqual(expected, new Day${Day}(input).Part2());
 	}
 }
-"@;
+"@
 
-$perf = @"
-namespace AdventOfCode.Year${year};
+WriteFile -File "AdventOfCode.Bench\Year${Year}\Day${day}Bench.cs" -Text @"
+namespace AdventOfCode.Year${Year};
 
 [MemoryDiagnoser]
-public class Day${day}Bench
+public class Day${Day}Bench
 {
 	private string _input;
 
 	[GlobalSetup]
 	public void Setup()
 	{
-		using var stream = typeof(Day${day}).Assembly
-			.GetManifestResourceStream("AdventOfCode.Year${year}.Inputs.Day${day}.txt");
+		using var stream = typeof(Day${Day}).Assembly
+			.GetManifestResourceStream("AdventOfCode.Year${Year}.Inputs.Day${Day}.txt");
 		using var reader = new StreamReader(stream);
 		_input = reader.ReadToEnd();
 	}
 
 	[Benchmark]
-	public int Part1() => new Day${day}(_input).Part1();
+	public int Part1() => new Day${Day}(_input).Part1();
 
 	[Benchmark]
-	public int Part2() => new Day${day}(_input).Part2();
+	public int Part2() => new Day${Day}(_input).Part2();
 }
 "@;
 
-Out-File "${PSScriptRoot}/AdventOfCode/Year${year}/Day${day}.cs" -InputObject $code -Encoding UTF8 -NoClobber
-Out-File "${PSScriptRoot}/AdventOfCode.Tests/Year${year}/Day${day}Tests.cs" -InputObject $test -Encoding UTF8 -NoClobber
-Out-File "${PSScriptRoot}/AdventOfCode.Bench/Year${year}/Day${day}Bench.cs" -InputObject $perf -Encoding UTF8 -NoClobber
+$InputFile = $PSScriptRoot | Join-Path -ChildPath "AdventOfCode\Year${Year}\Inputs\Day${Day}.txt"
+New-Item ($InputFile | Split-Path -Parent) -ItemType Directory -Force
 
-$cookie = New-Object System.Net.Cookie
-$cookie.Domain = ".adventofcode.com"
-$cookie.Name = "session"
-$cookie.Value = $env:ADVENTOFCODE_SESSION
+if (-not(Test-Path $InputFile -PathType Leaf))
+{
+	$Cookie = New-Object System.Net.Cookie
+	$Cookie.Domain = ".adventofcode.com"
+	$Cookie.Name = "session"
+	$Cookie.Value = $Env:ADVENTOFCODE_SESSION
 
-$session = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-$session.Cookies.Add($cookie)
+	$Session = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+	$Session.Cookies.Add($Cookie)
 
-Invoke-WebRequest "https://adventofcode.com/${year}/day/${day}/input" -WebSession $session -OutFile "${PSScriptRoot}/AdventOfCode/Year${year}/Inputs/Day${day}.txt"
+	Invoke-WebRequest "https://adventofcode.com/${Year}/day/${Day}/input" -WebSession $Session -OutFile $InputFile
+}
