@@ -11,13 +11,12 @@ public class Day3
 
 	public int Part1()
 	{
-		var count = BitCount(_input);
-		var gammaBuf = new char[count.Length];
-		var epsilonBuf = new char[count.Length];
+		var gammaBuf = new char[_input[0].Length];
+		var epsilonBuf = new char[_input[0].Length];
 
-		for (int i = 0; i < count.Length; i++)
+		for (int i = 0; i < _input[0].Length; i++)
 		{
-			if (count[i] < 0)
+			if (BitCount(_input, i) < 0)
 			{
 				gammaBuf[i] = '1';
 				epsilonBuf[i] = '0';
@@ -46,35 +45,28 @@ public class Day3
 		{
 			var haystack = _input;
 			var needle = "";
-			var count = BitCount(haystack);
 			var index = 0;
 
 			while (true)
 			{
-				needle += comparer(count[index]) ? '0' : '1';
+				needle += comparer(BitCount(haystack, index++)) ? '0' : '1';
 				haystack = haystack.Where(x => x.StartsWith(needle)).ToArray();
 
 				if (haystack.Length is 1)
 				{
 					return haystack[0];
 				}
-
-				count = BitCount(haystack);
-				index++;
 			}
 		}
 	}
 
-	private static int[] BitCount(string[] values)
+	private static int BitCount(string[] values, int index)
 	{
-		var count = new int[values[0].Length];
+		var count = 0;
 
 		foreach (var value in values)
 		{
-			for (int i = 0; i < value.Length; i++)
-			{
-				count[i] += value[i] is '0' ? -1 : 1;
-			}
+			count += value[index] is '0' ? -1 : 1;
 		}
 
 		return count;
