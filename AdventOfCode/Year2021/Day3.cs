@@ -30,9 +30,9 @@ public class Day3
 		}
 
 		var gamma = Convert.ToInt32(new string(gammaBuf), 2);
-		var eplison = Convert.ToInt32(new string(epsilonBuf), 2);
+		var epsilon = Convert.ToInt32(new string(epsilonBuf), 2);
 
-		return gamma * eplison;
+		return gamma * epsilon;
 	}
 
 	public int Part2()
