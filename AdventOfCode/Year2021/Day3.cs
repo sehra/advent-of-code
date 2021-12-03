@@ -37,12 +37,12 @@ public class Day3
 
 	public int Part2()
 	{
-		var generator = Convert.ToInt32(Find(c => c.Z > c.O ? '0' : '1'), 2);
-		var scrubber = Convert.ToInt32(Find(c => c.Z <= c.O ? '0' : '1'), 2);
+		var generator = Convert.ToInt32(Find(c => c.Z > c.O), 2);
+		var scrubber = Convert.ToInt32(Find(c => c.Z <= c.O), 2);
 
 		return generator * scrubber;
 
-		string Find(Func<Count, char> comparer)
+		string Find(Func<Count, bool> comparer)
 		{
 			var haystack = _input;
 			var needle = "";
@@ -51,7 +51,7 @@ public class Day3
 
 			while (true)
 			{
-				needle += comparer(count[index]);
+				needle += comparer(count[index]) ? '0' : '1';
 				haystack = haystack.Where(x => x.StartsWith(needle)).ToArray();
 
 				if (haystack.Length is 1)
