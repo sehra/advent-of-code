@@ -17,7 +17,7 @@ public class Day3
 
 		for (int i = 0; i < count.Length; i++)
 		{
-			if (count[i].Z < count[i].O)
+			if (count[i] < 0)
 			{
 				gammaBuf[i] = '1';
 				epsilonBuf[i] = '0';
@@ -37,12 +37,12 @@ public class Day3
 
 	public int Part2()
 	{
-		var generator = Convert.ToInt32(Find(c => c.Z > c.O), 2);
-		var scrubber = Convert.ToInt32(Find(c => c.Z <= c.O), 2);
+		var generator = Convert.ToInt32(Find(c => c < 0), 2);
+		var scrubber = Convert.ToInt32(Find(c => c >= 0), 2);
 
 		return generator * scrubber;
 
-		string Find(Func<Count, bool> comparer)
+		string Find(Func<int, bool> comparer)
 		{
 			var haystack = _input;
 			var needle = "";
@@ -65,27 +65,18 @@ public class Day3
 		}
 	}
 
-	private static Count[] BitCount(string[] values)
+	private static int[] BitCount(string[] values)
 	{
-		var count = new Count[values[0].Length];
+		var count = new int[values[0].Length];
 
 		foreach (var value in values)
 		{
 			for (int i = 0; i < value.Length; i++)
 			{
-				if (value[i] is '0')
-				{
-					count[i].Z++;
-				}
-				else
-				{
-					count[i].O++;
-				}
+				count[i] += value[i] is '0' ? -1 : 1;
 			}
 		}
 
 		return count;
 	}
-
-	private record struct Count(int Z, int O);
 }
