@@ -169,4 +169,15 @@ public static class Extensions
 
 		return source.Except(new[] { value });
 	}
+
+	public static IEnumerable<(int Index0, int Index1, T Value)> AsEnumerable<T>(this T[,] array)
+	{
+		for (int i0 = 0; i0 < array.GetLength(0); i0++)
+		{
+			for (int i1 = 0; i1 < array.GetLength(1); i1++)
+			{
+				yield return (i0, i1, array[i0, i1]);
+			}
+		}
+	}
 }
