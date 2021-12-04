@@ -3,8 +3,7 @@ namespace AdventOfCode.Year2021;
 [TestClass]
 public class Day1Tests
 {
-	[DataTestMethod]
-	[DataRow(7,
+	private const string Input =
 		"199\n" +
 		"200\n" +
 		"208\n" +
@@ -14,26 +13,17 @@ public class Day1Tests
 		"240\n" +
 		"269\n" +
 		"260\n" +
-		"263\n")]
-	public void Part1(int expected, string input)
+		"263\n";
+
+	[TestMethod]
+	public void Part1()
 	{
-		Assert.AreEqual(expected, new Day1(input).Part1());
+		Assert.AreEqual(7, new Day1(Input).Part1());
 	}
 
-	[DataTestMethod]
-	[DataRow(5,
-		"199\n" +
-		"200\n" +
-		"208\n" +
-		"210\n" +
-		"200\n" +
-		"207\n" +
-		"240\n" +
-		"269\n" +
-		"260\n" +
-		"263\n")]
-	public void Part2(int expected, string input)
+	[TestMethod]
+	public void Part2()
 	{
-		Assert.AreEqual(expected, new Day1(input).Part2());
+		Assert.AreEqual(5, new Day1(Input).Part2());
 	}
 }
