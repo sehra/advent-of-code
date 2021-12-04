@@ -12,18 +12,18 @@ public class Day4
 	public int Part1()
 	{
 		var (calls, boards) = Parse();
-		var called = new HashSet<int>();
+		var drawn = new HashSet<int>();
 
 		foreach (var call in calls)
 		{
-			called.Add(call);
+			drawn.Add(call);
 
 			foreach (var board in boards)
 			{
-				if (HasBingo(board, called))
+				if (HasBingo(board, drawn))
 				{
 					var all = board.AsEnumerable().Select(x => x.Value);
-					var sum = all.Except(called).Sum();
+					var sum = all.Except(drawn).Sum();
 
 					return sum * call;
 				}
@@ -36,23 +36,23 @@ public class Day4
 	public int Part2()
 	{
 		var (calls, boards) = Parse();
-		var called = new HashSet<int>();
+		var drawn = new HashSet<int>();
 
 		foreach (var call in calls)
 		{
-			called.Add(call);
+			drawn.Add(call);
 			var bingos = new List<int[,]>();
 
 			foreach (var board in boards)
 			{
-				if (HasBingo(board, called))
+				if (HasBingo(board, drawn))
 				{
 					bingos.Add(board);
 
 					if (boards.Count is 1)
 					{
 						var all = board.AsEnumerable().Select(x => x.Value);
-						var sum = all.Except(called).Sum();
+						var sum = all.Except(drawn).Sum();
 
 						return sum * call;
 					}
@@ -68,24 +68,24 @@ public class Day4
 		throw new Exception("not found");
 	}
 
-	private static bool HasBingo(int[,] board, HashSet<int> called)
+	private static bool HasBingo(int[,] board, HashSet<int> drawn)
 	{
 		for (int i = 0; i < 5; i++)
 		{
-			if (called.Contains(board[i, 0]) &&
-				called.Contains(board[i, 1]) &&
-				called.Contains(board[i, 2]) &&
-				called.Contains(board[i, 3]) &&
-				called.Contains(board[i, 4]))
+			if (drawn.Contains(board[i, 0]) &&
+				drawn.Contains(board[i, 1]) &&
+				drawn.Contains(board[i, 2]) &&
+				drawn.Contains(board[i, 3]) &&
+				drawn.Contains(board[i, 4]))
 			{
 				return true;
 			}
 
-			if (called.Contains(board[0, i]) &&
-				called.Contains(board[1, i]) &&
-				called.Contains(board[2, i]) &&
-				called.Contains(board[3, i]) &&
-				called.Contains(board[4, i]))
+			if (drawn.Contains(board[0, i]) &&
+				drawn.Contains(board[1, i]) &&
+				drawn.Contains(board[2, i]) &&
+				drawn.Contains(board[3, i]) &&
+				drawn.Contains(board[4, i]))
 			{
 				return true;
 			}
