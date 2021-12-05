@@ -20,12 +20,12 @@ public class Day3Tests
 	[TestMethod]
 	public void Part1()
 	{
-		Assert.AreEqual(198, new Day3(Input).Part1());
+		Assert.AreEqual(198, new Day3(Input.ToLines()).Part1());
 	}
 
 	[TestMethod]
 	public void Part2()
 	{
-		Assert.AreEqual(230, new Day3(Input).Part2());
+		Assert.AreEqual(230, new Day3(Input.ToLines()).Part2());
 	}
 }

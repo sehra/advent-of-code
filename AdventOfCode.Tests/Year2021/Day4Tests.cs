@@ -27,12 +27,12 @@ public class Day4Tests
 	[TestMethod]
 	public void Part1()
 	{
-		Assert.AreEqual(188 * 24, new Day4(Input).Part1());
+		Assert.AreEqual(188 * 24, new Day4(Input.ToLines()).Part1());
 	}
 
 	[TestMethod]
 	public void Part2()
 	{
-		Assert.AreEqual(148 * 13, new Day4(Input).Part2());
+		Assert.AreEqual(148 * 13, new Day4(Input.ToLines()).Part2());
 	}
 }

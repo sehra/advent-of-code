@@ -4,9 +4,9 @@ public class Day1
 {
 	private readonly int[] _input;
 
-	public Day1(string input)
+	public Day1(string[] input)
 	{
-		_input = input.ToLines().Select(Int32.Parse).ToArray();
+		_input = input.Select(Int32.Parse).ToArray();
 	}
 
 	public int Part1()

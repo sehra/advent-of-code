@@ -18,12 +18,12 @@ public class Day5Tests
 	[TestMethod]
 	public void Part1()
 	{
-		Assert.AreEqual(5, new Day5(Input).Part1());
+		Assert.AreEqual(5, new Day5(Input.ToLines()).Part1());
 	}
 
 	[TestMethod]
 	public void Part2()
 	{
-		Assert.AreEqual(12, new Day5(Input).Part2());
+		Assert.AreEqual(12, new Day5(Input.ToLines()).Part2());
 	}
 }

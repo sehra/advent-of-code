@@ -14,12 +14,12 @@ public class Day2Tests
 	[TestMethod]
 	public void Part1()
 	{
-		Assert.AreEqual(150, new Day2(Input).Part1());
+		Assert.AreEqual(150, new Day2(Input.ToLines()).Part1());
 	}
 
 	[TestMethod]
 	public void Part2()
 	{
-		Assert.AreEqual(900, new Day2(Input).Part2());
+		Assert.AreEqual(900, new Day2(Input.ToLines()).Part2());
 	}
 }

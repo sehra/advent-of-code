@@ -3,7 +3,7 @@ namespace AdventOfCode.Year2021;
 [MemoryDiagnoser]
 public class Day2Bench
 {
-	private string _input;
+	private string[] _input;
 
 	[GlobalSetup]
 	public void Setup()
@@ -11,7 +11,7 @@ public class Day2Bench
 		using var stream = typeof(Day2).Assembly
 			.GetManifestResourceStream("AdventOfCode.Year2021.Inputs.Day2.txt");
 		using var reader = new StreamReader(stream);
-		_input = reader.ReadToEnd();
+		_input = reader.ReadToEnd().ToLines();
 	}
 
 	[Benchmark]

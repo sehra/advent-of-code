@@ -44,6 +44,11 @@ public static class Program
 
 	private static (TimeSpan Elapsed, string Result) RunPart(Type type, object[] args, int part)
 	{
+		if (type.GetConstructor(new[] { typeof(string[]) }) is not null)
+		{
+			args = new[] { (args[0] as string).ToLines() };
+		}
+
 		var instance = Activator.CreateInstance(type, args);
 		var method = type.GetMethod($"Part{part}");
 		var parameters = method.GetParameters().Select(p => p.RawDefaultValue).ToArray();
