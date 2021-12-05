@@ -33,20 +33,7 @@ public class Day5
 
 		foreach (var (a, b) in _input)
 		{
-			if (a.X == b.X || a.Y == b.Y)
-			{
-				AddLine(grid, a, b);
-			}
-			else
-			{
-				var (xmin, xmax, ymin) = a.X < b.X ? (a.X, b.X, a.Y) : (b.X, a.X, b.Y);
-				var ydelta = a.Y < b.Y ? (ymin == a.Y ? 1 : -1) : (ymin == a.Y ? -1 : 1);
-
-				for (int x = xmin, y = ymin; x <= xmax; x++, y += ydelta)
-				{
-					grid.Upsert(new(x, y), v => v + 1, 1);
-				}
-			}
+			AddLine(grid, a, b);
 		}
 
 		return grid.Values.Count(v => v > 1);
@@ -54,15 +41,15 @@ public class Day5
 
 	private static void AddLine(Dictionary<Point, int> grid, Point a, Point b)
 	{
-		var (xmin, xmax) = a.X < b.X ? (a.X, b.X) : (b.X, a.X);
-		var (ymin, ymax) = a.Y < b.Y ? (a.Y, b.Y) : (b.Y, a.Y);
+		var xlen = Math.Abs(b.X - a.X);
+		var ylen = Math.Abs(b.Y - a.Y);
+		var xsign = Math.Sign(b.X - a.X);
+		var ysign = Math.Sign(b.Y - a.Y);
 
-		for (int x = xmin; x <= xmax; x++)
+		for (int i = 0; i <= Math.Max(xlen, ylen); i++)
 		{
-			for (int y = ymin; y <= ymax; y++)
-			{
-				grid.Upsert(new(x, y), v => v + 1, 1);
-			}
+			var point = new Point(a.X + xsign * i, a.Y + ysign * i);
+			grid.Upsert(point, v => v + 1, 1);
 		}
 	}
 
