@@ -180,25 +180,4 @@ public static class Extensions
 			}
 		}
 	}
-
-	public static T[] ToArray<T>(this IEnumerable<string> values)
-		where T : IParseable<T>
-	{
-		if (values.TryGetNonEnumeratedCount(out var count))
-		{
-			var result = new T[count];
-			var index = 0;
-
-			foreach (var value in values)
-			{
-				result[index++] = T.Parse(value, CultureInfo.InvariantCulture);
-			}
-
-			return result;
-		}
-		else
-		{
-			return values.Select(x => T.Parse(x, CultureInfo.InvariantCulture)).ToArray();
-		}
-	}
 }

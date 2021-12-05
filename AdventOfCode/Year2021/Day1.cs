@@ -6,7 +6,7 @@ public class Day1
 
 	public Day1(string[] input)
 	{
-		_input = input.ToArray<int>();
+		_input = input.Select(Int32.Parse).ToArray();
 	}
 
 	public int Part1()
