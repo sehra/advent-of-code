@@ -21,7 +21,8 @@ public class Day6
 
 	private static long[] Simulate(int[] input, int days)
 	{
-		var curr = new long[9];
+		Span<long> curr = stackalloc long[9];
+		Span<long> next = stackalloc long[9];
 
 		foreach (var item in input)
 		{
@@ -30,19 +31,12 @@ public class Day6
 
 		for (int day = 0; day < days; day++)
 		{
-			var next = new long[9];
-
-			for (int i = 1; i < curr.Length; i++)
-			{
-				next[i - 1] = curr[i];
-			}
-
+			curr[1..].CopyTo(next);
 			next[6] = curr[0] + curr[7];
 			next[8] = curr[0];
-
-			curr = next;
+			next.CopyTo(curr);
 		}
 
-		return curr;
+		return curr.ToArray();
 	}
 }
