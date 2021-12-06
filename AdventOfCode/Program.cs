@@ -12,24 +12,34 @@ public static class Program
 	{
 		var command = new RootCommand()
 		{
-			new Option<int>(new[] { "-y", "--year" }, () => DateTime.Now.Year),
-			new Option<int>(new[] { "-d", "--day" }, () => DateTime.Now.Day),
-			new Option<FileInfo>(new[] { "-i", "--input" }).ExistingOnly(),
+			new Option<int>(new[] { "-y", "--year" }, () => DateTime.Now.Year, "Year to run"),
+			new Option<int>(new[] { "-d", "--day" }, () => DateTime.Now.Day, "Day to run"),
+			new Option<FileInfo>(new[] { "-f", "--file" }, "Input file").ExistingOnly(),
+			new Option<bool>(new[] { "--stdin" }, "Read input from standard input"),
 		};
 		command.Handler = CommandHandler.Create(Handler);
 
 		return command.Invoke(args);
 	}
 
-	private static void Handler(InvocationContext context, int year, int day, int part, FileInfo file)
+	private static void Handler(InvocationContext context, int year, int day, int part, bool stdin, FileInfo file)
 	{
 		var console = context.Console;
 		console.Out.WriteLine($"Advent of Code: Year {year}, Day {day}");
 
 		var type = Type.GetType($"AdventOfCode.Year{year}.Day{day}");
-		var args = file is not null
-			? new[] { File.ReadAllText(file.FullName) }
-			: new[] { GetEmbeddedInput(year, day) };
+		object[] args;
+
+		if (stdin)
+		{
+			args = new[] { Console.In.ReadToEnd() };
+		}
+		else
+		{
+			args = file is not null
+				? new[] { File.ReadAllText(file.FullName) }
+				: new[] { GetEmbeddedInput(year, day) };
+		}
 
 		console.Out.WriteLine("Part 1");
 		var part1 = RunPart(type, args, 1);
