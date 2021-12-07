@@ -14,14 +14,11 @@ public class Day23
 	public string Part1(int moves = 100)
 	{
 		var cups = RunGame(_input, moves);
-		var first = cups.GetNode(1);
-		var node = first.Next;
 		var result = new StringBuilder();
 
-		while (node != first)
+		for (int i = 0, x = 1; i < 8; i++)
 		{
-			result.Append(node.Value);
-			node = node.Next;
+			result.Append(x = cups[x]);
 		}
 
 		return result.ToString();
@@ -29,96 +26,58 @@ public class Day23
 
 	public long Part2()
 	{
-		var rest = Enumerable.Range(_input.Length + 1, 1_000_000 - _input.Length);
-		var cups = RunGame(_input.Concat(rest), 10_000_000);
-		var first = cups.GetNode(1);
+		var cups = RunGame(_input, 10_000_000, 1_000_000);
+		long a = cups[1];
+		long b = cups[a];
 
-		return (long)first.Next.Value * first.Next.Next.Value;
+		return a * b;
 	}
 
-	private static CircularHashedLinkedList RunGame(IEnumerable<int> items, int moves)
+	private static int[] RunGame(int[] input, int moves, int? size = null)
 	{
-		var cups = new CircularHashedLinkedList(items);
-		var pick = cups.GetNode(items.First());
+		size ??= input.Length;
+		var cups = new int[size.Value + 1];
+
+		for (int i = 0; i < cups.Length; i++)
+		{
+			cups[i] = i + 1;
+		}
+
+		for (int i = 0; i < input.Length - 1; i++)
+		{
+			cups[input[i]] = input[i + 1];
+		}
+
+		cups[0] = input[0];
+		cups[input[^1]] = input.Length == size
+			? input[0]
+			: input.Length + 1;
+
+		if (cups.Length > input.Length + 1)
+		{
+			cups[^1] = input[0];
+		}
 
 		for (int i = 0; i < moves; i++)
 		{
-			var value = pick.Value;
-			var next1 = pick.Next.Value;
-			var next2 = pick.Next.Next.Value;
-			var next3 = pick.Next.Next.Next.Value;
+			var value = cups[0];
+			var next1 = cups[value];
+			var next2 = cups[next1];
+			var next3 = cups[next2];
+			cups[value] = cups[next3];
+			cups[0] = cups[next3];
+			var x = value - 1;
 
-			do
+			while (x == next1 || x == next2 || x == next3 || x == 0)
 			{
-				if (--value is 0)
-				{
-					value = cups.Count;
-				}
-			} while (next1 == value || next2 == value || next3 == value);
+				x = x == 0 ? size.Value : x - 1;
+			}
 
-			cups.Move(next3, value);
-			cups.Move(next2, value);
-			cups.Move(next1, value);
-
-			pick = pick.Next;
+			var cut = cups[x];
+			cups[x] = next1;
+			cups[next3] = cut;
 		}
 
 		return cups;
-	}
-
-	private class CircularHashedLinkedList
-	{
-		private readonly Dictionary<int, Node> _nodes = new();
-
-		public CircularHashedLinkedList(IEnumerable<int> values)
-		{
-			Node head = null;
-			Node prev = null;
-
-			foreach (var value in values)
-			{
-				var node = new Node { Value = value };
-
-				if (head is null)
-				{
-					head = node;
-				}
-
-				if (prev is not null)
-				{
-					prev.Next = node;
-					node.Prev = prev;
-				}
-
-				_nodes[value] = prev = node;
-			}
-
-			head.Prev = prev;
-			prev.Next = head;
-		}
-
-		public int Count => _nodes.Count;
-
-		public Node GetNode(int value) => _nodes[value];
-
-		public void Move(int source, int target)
-		{
-			var sourceNode = _nodes[source];
-			var targetNode = _nodes[target];
-			var targetNext = targetNode.Next;
-			sourceNode.Prev.Next = sourceNode.Next;
-			sourceNode.Next.Prev = sourceNode.Prev;
-			targetNode.Next.Prev = sourceNode;
-			targetNode.Next = sourceNode;
-			sourceNode.Prev = targetNode;
-			sourceNode.Next = targetNext;
-		}
-
-		public class Node
-		{
-			public Node Prev { get; set; }
-			public Node Next { get; set; }
-			public int Value { get; set; }
-		}
 	}
 }
