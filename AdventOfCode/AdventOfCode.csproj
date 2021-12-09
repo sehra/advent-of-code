@@ -13,7 +13,7 @@
 
   <ItemGroup>
     <PackageReference Include="System.CommandLine" Version="2.0.0-beta1.21308.1" />
-    <PackageReference Include="System.Interactive" Version="5.0.0" />
+    <PackageReference Include="System.Interactive" Version="5.1.0" />
   </ItemGroup>
 
   <ItemGroup>
