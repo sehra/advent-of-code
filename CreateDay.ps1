@@ -71,10 +71,7 @@ public class Day${Day}Bench
 	[GlobalSetup]
 	public void Setup()
 	{
-		using var stream = typeof(Day${Day}).Assembly
-			.GetManifestResourceStream("AdventOfCode.Year${Year}.Inputs.Day${Day}.txt");
-		using var reader = new StreamReader(stream);
-		_input = reader.ReadToEnd();
+		_input = Program.GetEmbeddedInput(${Year}, ${Day});
 	}
 
 	[Benchmark]

@@ -32,12 +32,12 @@ public static class Program
 
 		if (stdin)
 		{
-			args = new[] { Console.In.ReadToEnd() };
+			args = new[] { Console.In.ReadToEnd().Trim() };
 		}
 		else
 		{
 			args = file is not null
-				? new[] { File.ReadAllText(file.FullName) }
+				? new[] { File.ReadAllText(file.FullName).Trim() }
 				: new[] { GetEmbeddedInput(year, day) };
 		}
 
@@ -74,12 +74,12 @@ public static class Program
 		return (stopwatch.Elapsed, result.ToString());
 	}
 
-	private static string GetEmbeddedInput(int year, int day)
+	public  static string GetEmbeddedInput(int year, int day)
 	{
 		using var stream = Assembly.GetExecutingAssembly()
 			.GetManifestResourceStream($"AdventOfCode.Year{year}.Inputs.Day{day}.txt");
 		using var reader = new StreamReader(stream);
 
-		return reader.ReadToEnd();
+		return reader.ReadToEnd().Trim();
 	}
 }

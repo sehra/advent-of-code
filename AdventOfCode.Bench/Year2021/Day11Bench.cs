@@ -8,10 +8,7 @@ public class Day11Bench
 	[GlobalSetup]
 	public void Setup()
 	{
-		using var stream = typeof(Day11).Assembly
-			.GetManifestResourceStream("AdventOfCode.Year2021.Inputs.Day11.txt");
-		using var reader = new StreamReader(stream);
-		_input = reader.ReadToEnd().ToLines();
+		_input = Program.GetEmbeddedInput(2021, 11).ToLines();
 	}
 
 	[Benchmark]

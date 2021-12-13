@@ -8,10 +8,7 @@ public class Day3Bench
 	[GlobalSetup]
 	public void Setup()
 	{
-		using var stream = typeof(Day3).Assembly
-			.GetManifestResourceStream("AdventOfCode.Year2021.Inputs.Day3.txt");
-		using var reader = new StreamReader(stream);
-		_input = reader.ReadToEnd().ToLines();
+		_input = Program.GetEmbeddedInput(2021, 3).ToLines();
 	}
 
 	[Benchmark]

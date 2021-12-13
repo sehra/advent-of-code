@@ -8,10 +8,7 @@ public class Day19Bench
 	[GlobalSetup]
 	public void Setup()
 	{
-		using var stream = typeof(Day19).Assembly
-			.GetManifestResourceStream("AdventOfCode.Year2020.Inputs.Day19.txt");
-		using var reader = new StreamReader(stream);
-		_input = reader.ReadToEnd();
+		_input = Program.GetEmbeddedInput(2020, 19);
 	}
 
 	[Benchmark]

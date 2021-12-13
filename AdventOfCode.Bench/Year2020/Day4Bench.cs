@@ -8,10 +8,7 @@ public class Day4Bench
 	[GlobalSetup]
 	public void Setup()
 	{
-		using var stream = typeof(Day4).Assembly
-			.GetManifestResourceStream("AdventOfCode.Year2020.Inputs.Day4.txt");
-		using var reader = new StreamReader(stream);
-		_input = reader.ReadToEnd();
+		_input = Program.GetEmbeddedInput(2020, 4);
 	}
 
 	[Benchmark]
