@@ -21,35 +21,20 @@ public class Day15
 
 	private int Solve(int turns)
 	{
-		var numbers = new Dictionary<int, (int Last, int Prev)>();
-		var last = _input.Last();
+		var numbers = new int[turns];
 
 		for (int turn = 0; turn < _input.Length; turn++)
 		{
-			numbers.Add(_input[turn], (turn, -1));
+			numbers[_input[turn]] = turn + 1;
 		}
+		
+		var last = _input[^1];
 
-		for (int turn = _input.Length; turn < turns; turn++)
+		for (int turn = _input.Length - 1; turn < turns - 1; turn++)
 		{
-			var number = numbers[last];
-
-			if (number.Prev == -1)
-			{
-				last = 0;
-			}
-			else
-			{
-				last = number.Last - number.Prev;
-			}
-
-			if (numbers.TryGetValue(last, out number))
-			{
-				numbers[last] = (turn, number.Last);
-			}
-			else
-			{
-				numbers[last] = (turn, -1);
-			}
+			var spoken = numbers[last];
+			numbers[last] = turn + 1;
+			last = spoken is 0 ? 0 : turn + 1 - spoken;
 		}
 
 		return last;
