@@ -41,19 +41,14 @@ public static class Program
 				: new[] { GetEmbeddedInput(year, day) };
 		}
 
-		console.Out.WriteLine("Part 1");
-		var part1 = RunPart(type, args, 1);
-		console.Out.WriteLine(part1.Elapsed.ToString());
-		console.Out.WriteLine(part1.Result);
-
-		console.Out.WriteLine("Part 2");
-		var part2 = RunPart(type, args, 2);
-		console.Out.WriteLine(part2.Elapsed.ToString());
-		console.Out.WriteLine(part2.Result);
+		RunPart(console, type, args, 1);
+		RunPart(console, type, args, 2);
 	}
 
-	private static (TimeSpan Elapsed, string Result) RunPart(Type type, object[] args, int part)
+	private static void RunPart(IConsole console, Type type, object[] args, int part)
 	{
+		console.Out.WriteLine($"-- Part {part} --");
+
 		if (type.GetConstructor(new[] { typeof(string[]) }) is not null)
 		{
 			args = new[] { (args[0] as string).ToLines() };
@@ -71,7 +66,8 @@ public static class Program
 			result = result.GetType().GetMethod("GetResult").Invoke(result, Type.EmptyTypes);
 		}
 
-		return (stopwatch.Elapsed, result.ToString());
+		console.Out.WriteLine(stopwatch.Elapsed.ToString());
+		console.Out.WriteLine(result.ToString());
 	}
 
 	public  static string GetEmbeddedInput(int year, int day)
