@@ -22,13 +22,19 @@ public class Day17
 	private (int Ytop, int Hits) Solve()
 	{
 		var target = Target.Parse(_input);
+		var xvelmin = 0;
+
+		for (int i = 0; i < target.Xmin; i += xvelmin)
+		{
+			xvelmin++;
+		}
 
 		var ytop = 0;
 		var hits = 0;
 
 		for (int yvel = target.Ymin; yvel <= -target.Ymin; yvel++)
 		{
-			for (int xvel = 0; xvel <= target.Xmax; xvel++)
+			for (int xvel = xvelmin; xvel <= target.Xmax; xvel++)
 			{
 				var probe = new Probe(xvel, yvel);
 
@@ -49,7 +55,7 @@ public class Day17
 		return (ytop, hits);
 	}
 
-	private record struct Probe(int Xvel, int Yvel, int X = 0, int Y = 0, int Ytop = Int32.MinValue)
+	private record struct Probe(int Xvel, int Yvel, int X = 0, int Y = 0, int Ytop = 0)
 	{
 		public bool CanHit(Target target) =>
 			X <= target.Xmax && target.Ymin <= Y;
