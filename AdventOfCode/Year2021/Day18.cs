@@ -1,5 +1,3 @@
-using System.Text.Json;
-
 namespace AdventOfCode.Year2021;
 
 public class Day18
@@ -13,290 +11,173 @@ public class Day18
 
 	public int Part1()
 	{
-		return Number.Sum(Parse()).Magnitude;
+		return Sum(Parse()).Magnitude();
 	}
 
 	public int Part2()
 	{
+		var numbers = Parse();
 		var largest = 0;
 
-		for (int i = 0; i < _input.Length; i++)
+		for (int i = 0; i < numbers.Length; i++)
 		{
-			for (int j = 0; j < _input.Length; j++)
+			for (int j = 0; j < numbers.Length; j++)
 			{
 				if (i == j)
 				{
 					continue;
 				}
 
-				var l = Number.Parse(_input[i]);
-				var r = Number.Parse(_input[j]);
-
-				largest = Math.Max(largest, l.Add(r).Magnitude);
+				var magnitude = (numbers[i] + numbers[j]).Magnitude();
+				largest = Math.Max(largest, magnitude);
 			}
 		}
 
 		return largest;
 	}
 
-	private Number[] Parse() => Number.Parse(_input);
+	public static Number Sum(IEnumerable<Number> numbers) =>
+		numbers.Aggregate((a, b) => a + b);
 
-	public abstract class Number
+	public static Number[] Parse(string[] lines) =>
+		lines.Select(Number.Parse).ToArray();
+
+	private Number[] Parse() => Parse(_input);
+
+	public class Number : IEquatable<Number>
 	{
-		public Number(ArrNumber parent)
-		{
-			Parent = parent;
-		}
+		private readonly List<Node> _nodes = new();
 
-		public int Depth
+		public static Number Parse(string line)
 		{
-			get
+			var number = new Number();
+			var depth = 0;
+
+			for (int i = 0; i < line.Length; i++)
 			{
-				var parent = Parent;
-				var depth = 0;
+				var c = line[i];
 
-				while (parent is not null)
+				if (c is '[')
 				{
 					depth++;
-					parent = parent.Parent;
 				}
+				else if (c is ']')
+				{
+					depth--;
+				}
+				else if (Char.IsDigit(c))
+				{
+					var value = 0;
 
-				return depth;
+					for (; i < line.Length && Char.IsDigit(line[i]); i++)
+					{
+						value = value * 10 + line[i] - '0';
+					}
+
+					number._nodes.Add(new(depth, value));
+					i--;
+				}
 			}
+
+			return number;
 		}
 
-		public abstract int Magnitude { get; }
-		public ArrNumber Parent { get; set; }
-
-		public Number Add(Number other)
+		public int Magnitude()
 		{
-			var number = new ArrNumber(null, this, other);
-			Parent = number;
-			other.Parent = number;
+			var number = new List<Node>(_nodes);
+
+			while (number.Count != 1)
+			{
+				for (int i = 0; i < number.Count - 1; i++)
+				{
+					if (number[i].Depth == number[i + 1].Depth)
+					{
+						var node = number[i];
+						var magnitude = 3 * node.Value + 2 * number[i + 1].Value;
+						number[i] = new(node.Depth - 1, magnitude);
+						number.RemoveAt(i + 1);
+						break;
+					}
+				}
+			}
+
+			return number[0].Value;
+		}
+
+		public static Number operator +(Number a, Number b)
+		{
+			var number = new Number();
+			number._nodes.AddRange(a._nodes.Select(n => n with { Depth = n.Depth + 1 }));
+			number._nodes.AddRange(b._nodes.Select(n => n with { Depth = n.Depth + 1 }));
 
 			return number.Reduce();
 		}
 
-		public static Number Sum(IEnumerable<Number> numbers) =>
-			numbers.Aggregate((l, r) => l.Add(r));
-
 		public Number Reduce()
 		{
-			while (true)
+			while (Explode() || Split())
 			{
-				if (Explode() || Split())
-				{
-					continue;
-				}
-
-				return this;
 			}
+
+			return this;
 		}
 
 		public bool Explode()
 		{
-			if (this is not ArrNumber number)
+			for (int i = 0; i < _nodes.Count - 1; i++)
 			{
-				return false;
-			}
-
-			if (number is { Depth: >= 4, Left: LitNumber left, Right: LitNumber right })
-			{
-				MoveUpLeft(number, left.Value);
-				MoveUpRight(number, right.Value);
-
-				var zero = new LitNumber(number.Parent, 0);
-
-				if (number.Parent.Left == number)
+				if (_nodes[i].Depth > 4 && _nodes[i].Depth == _nodes[i + 1].Depth)
 				{
-					number.Parent.Left = zero;
-				}
-				else
-				{
-					number.Parent.Right = zero;
-				}
+					var first = _nodes[i];
+					var second = _nodes[i + 1];
 
-				return true;
-			}
-			else
-			{
-				return number.Left.Explode() || number.Right.Explode();
-			}
-
-			static void MoveUpLeft(ArrNumber number, int value)
-			{
-				var parent = number.Parent;
-
-				if (parent is null)
-				{
-					return;
-				}
-
-				if (parent.Right == number)
-				{
-					if (parent.Left is LitNumber left)
+					if (i > 0)
 					{
-						left.Value += value;
+						var node = _nodes[i - 1];
+						_nodes[i - 1] = node with { Value = node.Value + first.Value };
 					}
-					else
+
+					if (i < _nodes.Count - 2)
 					{
-						MoveDownLeft(parent.Left as ArrNumber, value);
+						var node = _nodes[i + 2];
+						_nodes[i + 2] = node with { Value = node.Value + second.Value };
 					}
-				}
-				else
-				{
-					MoveUpLeft(parent, value);
+
+					_nodes[i] = new(first.Depth - 1, 0);
+					_nodes.RemoveAt(i + 1);
+
+					return true;
 				}
 			}
 
-			static void MoveDownLeft(ArrNumber number, int value)
-			{
-				if (number.Right is LitNumber right)
-				{
-					right.Value += value;
-				}
-				else
-				{
-					MoveDownLeft(number.Right as ArrNumber, value);
-				}
-			}
-
-			static void MoveUpRight(ArrNumber number, int value)
-			{
-				var parent = number.Parent;
-
-				if (parent is null)
-				{
-					return;
-				}
-
-				if (parent.Left == number)
-				{
-					if (parent.Right is LitNumber right)
-					{
-						right.Value += value;
-					}
-					else
-					{
-						MoveDownRight(parent.Right as ArrNumber, value);
-					}
-				}
-				else
-				{
-					MoveUpRight(parent, value);
-				}
-			}
-
-			static void MoveDownRight(ArrNumber number, int value)
-			{
-				if (number.Left is LitNumber left)
-				{
-					left.Value += value;
-				}
-				else
-				{
-					MoveDownRight(number.Left as ArrNumber, value);
-				}
-			}
+			return false;
 		}
 
 		public bool Split()
 		{
-			if (this is not ArrNumber number)
+			for (int i = 0; i < _nodes.Count; i++)
 			{
-				return false;
-			}
-
-			if (number.Left is LitNumber { Value: > 9 } left)
-			{
-				return Split(number, left);
-			}
-
-			if (number.Left.Split())
-			{
-				return true;
-			}
-
-			if (number.Right is LitNumber { Value: > 9 } right)
-			{
-				return Split(number, right);
-			}
-
-			return number.Right.Split();
-
-			static bool Split(ArrNumber parent, LitNumber number)
-			{
-				var (quotient, remainder) = Math.DivRem(number.Value, 2);
-				var inserted = new ArrNumber(parent);
-				inserted.Left = new LitNumber(inserted, quotient);
-				inserted.Right = new LitNumber(inserted, quotient + remainder);
-
-				if (parent.Left == number)
+				if (_nodes[i].Value > 9)
 				{
-					parent.Left = inserted;
+					var node = _nodes[i];
+					var (quotient, remainder) = Math.DivRem(node.Value, 2);
+					_nodes[i] = new(node.Depth + 1, quotient);
+					_nodes.Insert(i + 1, new(node.Depth + 1, quotient + remainder));
+
+					return true;
 				}
-				else
-				{
-					parent.Right = inserted;
-				}
-
-				return true;
-			}
-		}
-
-		public static Number Parse(string line) =>
-			Parse(null, JsonSerializer.Deserialize<JsonElement>(line));
-
-		public static Number[] Parse(string[] lines) =>
-			lines.Select(Parse).ToArray();
-
-		private static Number Parse(ArrNumber parent, JsonElement element)
-		{
-			if (element.ValueKind is JsonValueKind.Number)
-			{
-				return new LitNumber(parent, element.GetInt32());
-			}
-			else if (element.ValueKind is JsonValueKind.Array)
-			{
-				var children = element.EnumerateArray().ToArray();
-				var number = new ArrNumber(parent);
-				number.Left = Parse(number, children[0]);
-				number.Right = Parse(number, children[1]);
-
-				return number;
 			}
 
-			throw new Exception("kind?");
-		}
-	}
-
-	public class LitNumber : Number
-	{
-		public LitNumber(ArrNumber parent, int value)
-			: base(parent)
-		{
-			Value = value;
+			return false;
 		}
 
-		public override int Magnitude => Value;
-		public int Value { get; set; }
+		public bool Equals(Number other) => _nodes.SequenceEqual(other._nodes);
+		
+		public override bool Equals(object obj) => Equals(obj as Number);
 
-		public override string ToString() => Value.ToString();
-	}
+		public override int GetHashCode() =>
+			_nodes.Aggregate(0, (a, b) => HashCode.Combine(a, b));
 
-	public class ArrNumber : Number
-	{
-		public ArrNumber(ArrNumber parent, Number left = null, Number right = null)
-			: base(parent)
-		{
-			Left = left;
-			Right = right;
-		}
-
-		public override int Magnitude => 3 * Left.Magnitude + 2 * Right.Magnitude;
-		public Number Left { get; set; }
-		public Number Right { get; set; }
-
-		public override string ToString() => $"[{Left},{Right}]";
+		private readonly record struct Node(int Depth, int Value);
 	}
 }

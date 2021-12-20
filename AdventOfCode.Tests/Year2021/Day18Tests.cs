@@ -35,32 +35,30 @@ public class Day18Tests
 	[DataRow("[[6,[5,[7,0]]],3]", "[[6,[5,[4,[3,2]]]],1]")]
 	[DataRow("[[3,[2,[8,0]]],[9,[5,[4,[3,2]]]]]", "[[3,[2,[1,[7,3]]]],[6,[5,[4,[3,2]]]]]")]
 	[DataRow("[[3,[2,[8,0]]],[9,[5,[7,0]]]]", "[[3,[2,[8,0]]],[9,[5,[4,[3,2]]]]]")]
-	public void Explode(string expected, string input)
+	public void ExplodeTest(string expected, string input)
 	{
 		var number = Number.Parse(input);
 		Assert.IsTrue(number.Explode());
-		Assert.AreEqual(expected, number.ToString());
+		Assert.AreEqual(Number.Parse(expected), number);
 	}
 
 	[DataTestMethod]
-	[DataRow("[[5,5],0]", "[10,0]")]
-	[DataRow("[[5,6],0]", "[11,0]")]
-	[DataRow("[[6,6],0]", "[12,0]")]
-	[DataRow("[0,[5,5]]", "[0,10]")]
-	[DataRow("[0,[5,6]]", "[0,11]")]
-	[DataRow("[0,[6,6]]", "[0,12]")]
-	public void Split(string expected, string input)
+	[DataRow("[5,5]", "10")]
+	[DataRow("[5,6]", "11")]
+	[DataRow("[6,6]", "12")]
+	public void SplitTest(string expected, string input)
 	{
 		var number = Number.Parse(input);
 		Assert.IsTrue(number.Split());
-		Assert.AreEqual(expected, number.ToString());
+		Assert.AreEqual(Number.Parse(expected), number);
 	}
 
-	[TestMethod]
-	public void Reduce()
+	[DataTestMethod]
+	[DataRow("[[[[0,7],4],[[7,8],[6,0]]],[8,1]]", "[[[[[4,3],4],4],[7,[[8,4],9]]],[1,1]]")]
+	public void ReduceTest(string expected, string input)
 	{
-		var number = Number.Parse("[[[[[4,3],4],4],[7,[[8,4],9]]],[1,1]]").Reduce();
-		Assert.AreEqual("[[[[0,7],4],[[7,8],[6,0]]],[8,1]]", number.ToString());
+		var number = Number.Parse(input).Reduce();
+		Assert.AreEqual(Number.Parse(expected), number);
 	}
 
 	private const string Sum1 =
@@ -101,10 +99,10 @@ public class Day18Tests
 	[DataRow("[[[[3,0],[5,3]],[4,4]],[5,5]]", Sum2)]
 	[DataRow("[[[[5,0],[7,4]],[5,5]],[6,6]]", Sum3)]
 	[DataRow("[[[[8,7],[7,7]],[[8,6],[7,7]]],[[[0,7],[6,6]],[8,7]]]", Sum4)]
-	public void Sum(string expected, string input)
+	public void SumTest(string expected, string input)
 	{
-		var numbers = Number.Parse(input.ToLines());
-		Assert.AreEqual(expected, Number.Sum(numbers).ToString());
+		var numbers = Parse(input.ToLines());
+		Assert.AreEqual(Number.Parse(expected), Sum(numbers));
 	}
 
 	[DataTestMethod]
@@ -114,8 +112,8 @@ public class Day18Tests
 	[DataRow(791, "[[[[3,0],[5,3]],[4,4]],[5,5]]")]
 	[DataRow(1137, "[[[[5,0],[7,4]],[5,5]],[6,6]]")]
 	[DataRow(3488, "[[[[8,7],[7,7]],[[8,6],[7,7]]],[[[0,7],[6,6]],[8,7]]]")]
-	public void Magnitude(int expected, string input)
+	public void MagnitudeTest(int expected, string input)
 	{
-		Assert.AreEqual(expected, Number.Parse(input).Magnitude);
+		Assert.AreEqual(expected, Number.Parse(input).Magnitude());
 	}
 }
