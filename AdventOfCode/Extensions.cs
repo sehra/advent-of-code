@@ -182,4 +182,16 @@ public static class Extensions
 			}
 		}
 	}
+
+	public static T Next<T>(this IEnumerator<T> enumerator)
+	{
+		ArgumentNullException.ThrowIfNull(enumerator);
+
+		if (!enumerator.MoveNext())
+		{
+			throw new InvalidOperationException("empty sequence");
+		}
+
+		return enumerator.Current;
+	}
 }
