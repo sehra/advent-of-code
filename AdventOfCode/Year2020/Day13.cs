@@ -30,8 +30,8 @@ public class Day13
 			.Select(bus => (id: bus.id.ToInt32(), delta: bus.i))
 			.ToArray();
 
-		var time = 0L;
-		var jump = busses[0].id;
+		long time = 0;
+		long jump = busses[0].id;
 
 		foreach (var (id, delta) in busses.Skip(1))
 		{

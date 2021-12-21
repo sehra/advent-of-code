@@ -1,6 +1,7 @@
 using System.CommandLine;
 using System.CommandLine.Invocation;
 using System.CommandLine.IO;
+using System.CommandLine.NamingConventionBinder;
 using System.Diagnostics;
 using System.Reflection;
 
@@ -70,7 +71,7 @@ public static class Program
 		console.Out.WriteLine(result.ToString());
 	}
 
-	public  static string GetEmbeddedInput(int year, int day)
+	public static string GetEmbeddedInput(int year, int day)
 	{
 		using var stream = Assembly.GetExecutingAssembly()
 			.GetManifestResourceStream($"AdventOfCode.Year{year}.Inputs.Day{day}.txt");
