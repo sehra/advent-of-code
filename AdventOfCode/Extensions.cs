@@ -57,7 +57,7 @@ public static class Extensions
 	public static string[] ToLines(this string input,
 		StringSplitOptions options = StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
 	{
-		return input.Split(new[] { "\r", "\n", "\r\n" }, options);
+		return input.Split(new[] { "\r\n", "\r", "\n" }, options);
 	}
 
 	public static int ToInt32(this string value) => Int32.Parse(value, CultureInfo.InvariantCulture);
