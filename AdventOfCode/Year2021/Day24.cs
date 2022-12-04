@@ -95,6 +95,7 @@ public class Day24
 				('y', _) => regs.Y,
 				('z', _) => regs.Z,
 				('i', long imm) => imm,
+				_ => throw new Exception("operand?"),
 			};
 
 			Registers Set(Registers regs, Operand oper, long value) => oper.Register switch
