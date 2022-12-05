@@ -29,17 +29,18 @@ public static class Program
 		console.Out.WriteLine($"Advent of Code: Year {year}, Day {day}");
 
 		var type = Type.GetType($"AdventOfCode.Year{year}.Day{day}");
+		var trim = type.GetCustomAttribute<SkipInputTrimAttribute>() is null;
 		object[] args;
 
 		if (stdin)
 		{
-			args = new[] { Console.In.ReadToEnd().Trim() };
+			args = new[] { MaybeTrim(Console.In.ReadToEnd(), trim) };
 		}
 		else
 		{
 			args = file is not null
-				? new[] { File.ReadAllText(file.FullName).Trim() }
-				: new[] { GetEmbeddedInput(year, day) };
+				? new[] { MaybeTrim(File.ReadAllText(file.FullName), trim) }
+				: new[] { GetEmbeddedInput(year, day, trim) };
 		}
 
 		RunPart(console, type, args, 1);
@@ -71,12 +72,19 @@ public static class Program
 		console.Out.WriteLine(result.ToString());
 	}
 
-	public static string GetEmbeddedInput(int year, int day)
+	public static string GetEmbeddedInput(int year, int day, bool trim = true)
 	{
 		using var stream = Assembly.GetExecutingAssembly()
 			.GetManifestResourceStream($"AdventOfCode.Year{year}.Inputs.Day{day}.txt");
 		using var reader = new StreamReader(stream);
 
-		return reader.ReadToEnd().Trim();
+		return MaybeTrim(reader.ReadToEnd(), trim);
 	}
+
+	private static string MaybeTrim(string value, bool trim) => trim ? value.Trim() : value;
+}
+
+[AttributeUsage(AttributeTargets.Class)]
+public class SkipInputTrimAttribute : Attribute
+{
 }
