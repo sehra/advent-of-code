@@ -24,7 +24,7 @@ public class Day11
 
 	private static long Run(List<Monkey> monkeys, int rounds, Func<long, long> divide)
 	{
-		var inspects = new DefaultDictionary<int, int>();
+		var inspects = new DefaultDictionary<int, long>();
 
 		foreach (var _ in Enumerable.Range(1, rounds))
 		{
