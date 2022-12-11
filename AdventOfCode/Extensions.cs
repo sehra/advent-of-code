@@ -208,6 +208,6 @@ public static class Extensions
 	{
 		ArgumentNullException.ThrowIfNull(source);
 
-		return source.Aggregate(T.MultiplicativeIdentity, (a, b) => a * b, x => x);
+		return source.Aggregate(T.MultiplicativeIdentity, (acc, value) => acc * value);
 	}
 }
