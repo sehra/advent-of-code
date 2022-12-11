@@ -194,4 +194,11 @@ public static class Extensions
 
 		return enumerator.Current;
 	}
+
+	public static IEnumerable<KeyValuePair<int, T>> Index<T>(this IEnumerable<T> source)
+	{
+		ArgumentNullException.ThrowIfNull(source);
+		
+		return source.Select((item, index) => new KeyValuePair<int, T>(index, item));
+	}
 }
