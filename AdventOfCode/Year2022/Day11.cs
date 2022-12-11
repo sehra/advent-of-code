@@ -17,8 +17,7 @@ public class Day11
 	public long Part2()
 	{
 		var monkeys = Parse();
-		var divisor = monkeys.Select(x => x.Divisor)
-			.Aggregate(1, (a, b) => a * b, x => x);
+		var divisor = monkeys.Select(x => x.Divisor).Multiply();
 
 		return Run(monkeys, 10_000, item => item % divisor);
 	}
@@ -43,8 +42,7 @@ public class Day11
 			}
 		}
 
-		return inspects.Values.OrderDescending().Take(2)
-			.Aggregate(1L, (a, b) => a * b, x => x);
+		return inspects.Values.OrderDescending().Take(2).Multiply();
 	}
 
 	private List<Monkey> Parse()

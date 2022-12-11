@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using System.Numerics;
 
 namespace AdventOfCode;
 
@@ -200,5 +201,13 @@ public static class Extensions
 		ArgumentNullException.ThrowIfNull(source);
 		
 		return source.Select((item, index) => new KeyValuePair<int, T>(index, item));
+	}
+
+	public static T Multiply<T>(this IEnumerable<T> source)
+		where T : INumber<T>
+	{
+		ArgumentNullException.ThrowIfNull(source);
+
+		return source.Aggregate(T.MultiplicativeIdentity, (a, b) => a * b, x => x);
 	}
 }
