@@ -1,5 +1,6 @@
 ﻿using System.Globalization;
 using System.Numerics;
+using System.Text;
 
 namespace AdventOfCode;
 
@@ -204,10 +205,20 @@ public static class Extensions
 	}
 
 	public static T Multiply<T>(this IEnumerable<T> source)
-		where T : INumber<T>
+		where T : IMultiplyOperators<T, T, T>
 	{
 		ArgumentNullException.ThrowIfNull(source);
 
-		return source.Aggregate(T.MultiplicativeIdentity, (acc, value) => acc * value);
+		return source.Aggregate((acc, value) => acc * value);
+	}
+
+	public static string ToString<T>(this IEnumerable<T> source, Action<StringBuilder, T> action)
+	{
+		ArgumentNullException.ThrowIfNull(source);
+
+		return source.Aggregate(
+			new StringBuilder(), 
+			(sb, item) => { action(sb, item); return sb; }, 
+			sb => sb.ToString());
 	}
 }
