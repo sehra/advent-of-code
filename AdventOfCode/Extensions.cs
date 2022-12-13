@@ -197,11 +197,13 @@ public static class Extensions
 		return enumerator.Current;
 	}
 
-	public static IEnumerable<KeyValuePair<int, T>> Index<T>(this IEnumerable<T> source)
+	public static IEnumerable<KeyValuePair<int, T>> Index<T>(this IEnumerable<T> source) => Index(source, 0);
+
+	public static IEnumerable<KeyValuePair<int, T>> Index<T>(this IEnumerable<T> source, int startIndex)
 	{
 		ArgumentNullException.ThrowIfNull(source);
 		
-		return source.Select((item, index) => new KeyValuePair<int, T>(index, item));
+		return source.Select((item, index) => new KeyValuePair<int, T>(startIndex + index, item));
 	}
 
 	public static T Multiply<T>(this IEnumerable<T> source)
