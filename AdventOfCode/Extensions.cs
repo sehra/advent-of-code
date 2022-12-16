@@ -223,4 +223,17 @@ public static class Extensions
 			(sb, item) => { action(sb, item); return sb; }, 
 			sb => sb.ToString());
 	}
+
+	public static IEnumerable<IEnumerable<T>> Combinations<T>(this IEnumerable<T> source, int count)
+	{
+		ArgumentNullException.ThrowIfNull(source);
+
+		return count is 0
+			? EnumerableEx.Return(Enumerable.Empty<T>())
+			: source.SelectMany(
+				(item, index) => source
+					.Skip(index + 1)
+					.Combinations(count - 1)
+					.Select(rest => EnumerableEx.Return(item).Concat(rest)));
+	}
 }
