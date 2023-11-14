@@ -16,7 +16,7 @@ public class Day15Tests
 		Assert.AreEqual(expected, new Day15(input).Part1());
 	}
 
-	[Ignore]
+	[Ignore("LongRunning")]
 	[DataTestMethod]
 	[DataRow(175594, "0,3,6")]
 	[DataRow(2578, "1,3,2")]

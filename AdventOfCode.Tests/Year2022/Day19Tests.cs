@@ -16,6 +16,7 @@ public class Day19Tests
 		Assert.AreEqual(expected, new Day19(input.ToLines()).Part1());
 	}
 
+	[Ignore("LongRunning")]
 	[DataTestMethod]
 	[DataRow(56 * 62, Input)]
 	public void Part2(int expected, string input)

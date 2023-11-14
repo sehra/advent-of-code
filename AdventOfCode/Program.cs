@@ -23,7 +23,7 @@ public static class Program
 		return command.Invoke(args);
 	}
 
-	private static void Handler(InvocationContext context, int year, int day, int part, bool stdin, FileInfo file)
+	private static void Handler(InvocationContext context, int year, int day, bool stdin, FileInfo file)
 	{
 		var console = context.Console;
 		console.Out.WriteLine($"Advent of Code: Year {year}, Day {day}");
