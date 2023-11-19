@@ -39,7 +39,7 @@ public class Day16
 
 		public abstract long Value { get; }
 		public int Version { get; }
-		public List<Packet> SubPackets { get; } = new();
+		public List<Packet> SubPackets { get; } = [];
 
 		public static Packet Parse(ReadOnlySpan<char> bits) =>
 			ReadPacket(bits, out _);

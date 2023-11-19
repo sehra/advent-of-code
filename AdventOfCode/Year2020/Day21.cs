@@ -48,7 +48,7 @@ public class Day21
 
 		foreach (var allergen in foods.SelectMany(f => f.Allergens).Distinct())
 		{
-			matches.Add(allergen, new());
+			matches.Add(allergen, []);
 
 			foreach (var ingredient in foods.First(f => f.Allergens.Contains(allergen)).Ingredients)
 			{

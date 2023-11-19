@@ -23,7 +23,7 @@ public class Day3
 			.Min(x => x.Value.Steps.Sum() ?? throw new Exception("not found"));
 	}
 
-	private IDictionary<(int X, int Y), PointState> GetPoints()
+	private Dictionary<(int X, int Y), PointState> GetPoints()
 	{
 		var points = new Dictionary<(int X, int Y), PointState>();
 

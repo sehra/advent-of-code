@@ -150,8 +150,8 @@ public class Day19
 	}
 
 	// https://www.euclideanspace.com/maths/algebra/matrix/transforms/examples/index.htm
-	private static readonly Matrix[] Rotations = new Matrix[24]
-	{
+	private static readonly Matrix[] Rotations =
+	[
 		new(1, 0, 0, 0, 1, 0, 0, 0, 1),
 		new(1, 0, 0, 0, 0, -1, 0, 1, 0),
 		new(1, 0, 0, 0, -1, 0, 0, 0, -1),
@@ -181,7 +181,7 @@ public class Day19
 		new(0, -1, 0, 0, 0, 1, -1, 0, 0),
 		new(0, 0, 1, 0, 1, 0, -1, 0, 0),
 		new(0, 1, 0, 0, 0, -1, -1, 0, 0),
-	};
+	];
 
 	private readonly record struct Matrix(int M11, int M12, int M13, int M21, int M22, int M23, int M31, int M32, int M33)
 	{
@@ -208,10 +208,10 @@ public class Day19
 
 	private class Scanner
 	{
-		private readonly HashSet<int> _distances = new();
+		private readonly HashSet<int> _distances = [];
 
 		public int Number { get; init; }
-		public List<Vector> Beacons { get; } = new();
+		public List<Vector> Beacons { get; } = [];
 		public Vector Position { get; set; }
 		public Matrix Alignment { get; set; } = Matrix.Identity;
 

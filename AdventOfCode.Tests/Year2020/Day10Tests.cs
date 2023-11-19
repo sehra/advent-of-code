@@ -10,7 +10,7 @@ public class Day10Tests
 		"38\n39\n11\n1\n32\n25\n35\n8\n17\n7\n9\n4\n2\n34\n10\n3\n")]
 	public void Part1(int expected, string input)
 	{
-		Assert.AreEqual(expected, new Day10(input).Part1());
+		Assert.AreEqual(expected, new Day10(input.ToLines()).Part1());
 	}
 
 	[DataTestMethod]
@@ -20,6 +20,6 @@ public class Day10Tests
 		"38\n39\n11\n1\n32\n25\n35\n8\n17\n7\n9\n4\n2\n34\n10\n3\n")]
 	public void Part2(int expected, string input)
 	{
-		Assert.AreEqual(expected, new Day10(input).Part2());
+		Assert.AreEqual(expected, new Day10(input.ToLines()).Part2());
 	}
 }

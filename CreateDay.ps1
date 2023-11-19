@@ -17,15 +17,8 @@ function WriteFile {
 WriteFile -File "AdventOfCode\Year${Year}\Day${Day}.cs" -Text @"
 namespace AdventOfCode.Year${Year};
 
-public class Day${Day}
+public class Day${Day}(string input)
 {
-	private readonly string _input;
-
-	public Day${Day}(string input)
-	{
-		_input = input;
-	}
-
 	public int Part1()
 	{
 		throw new NotImplementedException();

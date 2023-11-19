@@ -27,7 +27,7 @@ public class Day12
 		var count = 0;
 
 		var work = new Queue<(string Node, HashSet<string> Seen, string Once)>();
-		work.Enqueue(("start", new() { "start" }, null));
+		work.Enqueue(("start", ["start"], null));
 
 		while (work.TryDequeue(out var item))
 		{
@@ -90,7 +90,7 @@ public class Day12
 			}
 			else
 			{
-				caves.Add(a, new() { b });
+				caves.Add(a, [b]);
 			}
 
 			if (caves.TryGetValue(b, out links))
@@ -99,7 +99,7 @@ public class Day12
 			}
 			else
 			{
-				caves.Add(b, new() { a });
+				caves.Add(b, [a]);
 			}
 		}
 

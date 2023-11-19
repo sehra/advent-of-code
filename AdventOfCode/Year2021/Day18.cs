@@ -46,7 +46,7 @@ public class Day18
 
 	public class Number : IEquatable<Number>
 	{
-		private readonly List<Node> _nodes = new();
+		private readonly List<Node> _nodes = [];
 
 		public static Number Parse(string line)
 		{

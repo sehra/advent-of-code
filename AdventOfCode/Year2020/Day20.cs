@@ -234,12 +234,12 @@ public class Day20
 		for (int i = 0; i < tiles.Count; i++)
 		{
 			var tile1 = tiles[i];
-			sides.TryAdd(tile1, new());
+			sides.TryAdd(tile1, []);
 
 			for (int j = i + 1; j < tiles.Count; j++)
 			{
 				var tile2 = tiles[j];
-				sides.TryAdd(tile2, new());
+				sides.TryAdd(tile2, []);
 
 				if (tile1.Matches(tile2))
 				{

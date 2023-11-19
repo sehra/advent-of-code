@@ -57,10 +57,10 @@ public class Day17
 
 	private record struct Probe(int Xvel, int Yvel, int X = 0, int Y = 0, int Ytop = 0)
 	{
-		public bool CanHit(Target target) =>
+		public readonly bool CanHit(Target target) =>
 			X <= target.Xmax && target.Ymin <= Y;
 
-		public bool IsHit(Target target) =>
+		public readonly bool IsHit(Target target) =>
 			target.Xmin <= X && X <= target.Xmax &&
 			target.Ymin <= Y && Y <= target.Ymax;
 

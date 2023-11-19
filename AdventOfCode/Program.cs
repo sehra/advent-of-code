@@ -13,10 +13,10 @@ public static class Program
 	{
 		var command = new RootCommand()
 		{
-			new Option<int>(new[] { "-y", "--year" }, () => DateTime.Now.Year, "Year to run"),
-			new Option<int>(new[] { "-d", "--day" }, () => DateTime.Now.Day, "Day to run"),
-			new Option<FileInfo>(new[] { "-f", "--file" }, "Input file").ExistingOnly(),
-			new Option<bool>(new[] { "--stdin" }, "Read input from standard input"),
+			new Option<int>(["-y", "--year"], () => DateTime.Now.Year, "Year to run"),
+			new Option<int>(["-d", "--day"], () => DateTime.Now.Day, "Day to run"),
+			new Option<FileInfo>(["-f", "--file"], "Input file").ExistingOnly(),
+			new Option<bool>(["--stdin"], "Read input from standard input"),
 		};
 		command.Handler = CommandHandler.Create(Handler);
 
@@ -34,13 +34,13 @@ public static class Program
 
 		if (stdin)
 		{
-			args = new[] { MaybeTrim(Console.In.ReadToEnd(), trim) };
+			args = [MaybeTrim(Console.In.ReadToEnd(), trim)];
 		}
 		else
 		{
 			args = file is not null
-				? new[] { MaybeTrim(File.ReadAllText(file.FullName), trim) }
-				: new[] { GetEmbeddedInput(year, day, trim) };
+				? [MaybeTrim(File.ReadAllText(file.FullName), trim)]
+				: [GetEmbeddedInput(year, day, trim)];
 		}
 
 		RunPart(console, type, args, 1);
@@ -51,9 +51,9 @@ public static class Program
 	{
 		console.Out.WriteLine($"-- Part {part} --");
 
-		if (type.GetConstructor(new[] { typeof(string[]) }) is not null)
+		if (type.GetConstructor([typeof(string[])]) is not null)
 		{
-			args = new[] { (args[0] as string).ToLines() };
+			args = [(args[0] as string).ToLines()];
 		}
 
 		var instance = Activator.CreateInstance(type, args);

@@ -52,8 +52,8 @@ public class Day6
 
 	public static int CountTransfers(Dictionary<string, HashSet<string>> orbits, string src, string dst)
 	{
-		var srcPath = GetPathToRoot(orbits, src, new List<string>());
-		var dstPath = GetPathToRoot(orbits, dst, new List<string>());
+		var srcPath = GetPathToRoot(orbits, src, []);
+		var dstPath = GetPathToRoot(orbits, dst, []);
 		var common = srcPath.Intersect(dstPath, StringComparer.Ordinal).First();
 
 		return srcPath.IndexOf(common) + dstPath.IndexOf(common);

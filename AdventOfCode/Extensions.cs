@@ -19,7 +19,7 @@ public static class Extensions
 			if (!condition(prev, item))
 			{
 				yield return list;
-				list = new List<T>();
+				list = [];
 			}
 
 			list.Add(item);
@@ -59,7 +59,7 @@ public static class Extensions
 	public static string[] ToLines(this string input,
 		StringSplitOptions options = StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
 	{
-		return input.Split(new[] { "\r\n", "\r", "\n" }, options);
+		return input.Split(["\r\n", "\r", "\n"], options);
 	}
 
 	public static int ToInt32(this string value) => Int32.Parse(value, CultureInfo.InvariantCulture);
@@ -126,11 +126,7 @@ public static class Extensions
 	public static IEnumerable<T[]> Window<T>(this IEnumerable<T> source, int size)
 	{
 		ArgumentNullException.ThrowIfNull(source);
-
-		if (size <= 0)
-		{
-			throw new ArgumentOutOfRangeException(nameof(size));
-		}
+		ArgumentOutOfRangeException.ThrowIfNegativeOrZero(size);
 
 		return WindowImpl(source, size);
 

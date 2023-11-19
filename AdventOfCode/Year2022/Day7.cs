@@ -119,7 +119,7 @@ public class Day7
 
 		public string Name { get; set; }
 		public int Size { get; set; }
-		public Dictionary<string, Entry> Entries { get; set; } = new();
+		public Dictionary<string, Entry> Entries { get; set; } = [];
 
 		public int TotalSize()
 		{

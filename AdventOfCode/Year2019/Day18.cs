@@ -40,7 +40,7 @@ public class Day18
 
 		foreach (var (src, key) in allkeys)
 		{
-			keys.Add(key, new List<(char, string, int)>());
+			keys.Add(key, []);
 
 			var done = new HashSet<(int, int)> { src };
 			var next = new Queue<((int, int) pos, string need, int dist)>();

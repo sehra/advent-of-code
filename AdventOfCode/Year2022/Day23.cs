@@ -16,12 +16,12 @@ public class Day23
 	private int Solve(int? rounds = null)
 	{
 		var world = Parse();
-		var tests = new[]
+		var tests = new string[][]
 		{
-			new[] { "N", "NE", "NW" },
-			new[] { "S", "SE", "SW" },
-			new[] { "W", "NW", "SW" },
-			new[] { "E", "NE", "SE" },
+			["N", "NE", "NW"],
+			["S", "SE", "SW"],
+			["W", "NW", "SW"],
+			["E", "NE", "SE"],
 		};
 
 		foreach (var (round, moves) in new[] { 0, 1, 2, 3 }.Repeat().Select(n => tests.Repeat().Skip(n).Take(4)).Index(1))
@@ -47,7 +47,7 @@ public class Day23
 						}
 						else
 						{
-							wants.Add(pos, new() { elf });
+							wants.Add(pos, [elf]);
 						}
 
 						break;

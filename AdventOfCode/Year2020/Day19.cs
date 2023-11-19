@@ -43,8 +43,8 @@ public class Day19
 
 	private class Rules
 	{
-		private readonly Dictionary<int, Func<string>> _rules = new();
-		private readonly Dictionary<int, string> _cache = new();
+		private readonly Dictionary<int, Func<string>> _rules = [];
+		private readonly Dictionary<int, string> _cache = [];
 		private readonly bool _part2;
 
 		public Rules(bool part2)

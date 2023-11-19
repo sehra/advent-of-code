@@ -91,12 +91,12 @@ public class Day22
 		{
 			if (b.Contains(a))
 			{
-				return Array.Empty<Cube>();
+				return [];
 			}
 
 			if (!a.Intersects(b))
 			{
-				return new[] { a };
+				return [a];
 			}
 
 			var xs = new List<int>() { a.A.X };

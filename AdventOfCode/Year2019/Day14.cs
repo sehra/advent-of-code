@@ -57,7 +57,7 @@ public class Day14
 
 	private long NeededOre(string name, long amount)
 	{
-		return NeededOre(name, amount, new Dictionary<string, long>());
+		return NeededOre(name, amount, []);
 
 		long NeededOre(string name, long amount, Dictionary<string, long> surplus)
 		{

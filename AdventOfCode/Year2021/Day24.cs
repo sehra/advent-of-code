@@ -11,12 +11,12 @@ public class Day24
 
 	public long Part1()
 	{
-		return Solve(new long[] { 9, 8, 7, 6, 5, 4, 3, 2, 1 });
+		return Solve([9, 8, 7, 6, 5, 4, 3, 2, 1]);
 	}
 
 	public long Part2()
 	{
-		return Solve(new long[] { 1, 2, 3, 4, 5, 6, 7, 8, 9 });
+		return Solve([1, 2, 3, 4, 5, 6, 7, 8, 9]);
 	}
 
 	private long Solve(long[] numbers)

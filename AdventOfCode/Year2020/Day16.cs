@@ -26,7 +26,7 @@ public class Day16
 
 		foreach (var (name, rules) in input.FieldRules)
 		{
-			matches.Add(name, new());
+			matches.Add(name, []);
 
 			for (int i = 0; i < input.YourTicket.Count; i++)
 			{
@@ -65,9 +65,9 @@ public class Day16
 
 	private class ParseResult
 	{
-		public Dictionary<string, List<Rule>> FieldRules { get; } = new();
-		public List<int> YourTicket { get; } = new();
-		public List<List<int>> NearbyTickets { get; } = new();
+		public Dictionary<string, List<Rule>> FieldRules { get; } = [];
+		public List<int> YourTicket { get; } = [];
+		public List<List<int>> NearbyTickets { get; } = [];
 	}
 
 	private static ParseResult Parse(string input, bool onlyValid)

@@ -4,9 +4,9 @@ public class Day10
 {
 	private readonly int[] _input;
 
-	public Day10(string input)
+	public Day10(string[] input)
 	{
-		_input = input.ToLines().Select(Int32.Parse).OrderBy(x => x).ToArray();
+		_input = [.. input.Select(Int32.Parse).OrderBy(x => x)];
 	}
 
 	public int Part1()
