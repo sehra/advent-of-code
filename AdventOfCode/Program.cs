@@ -30,30 +30,32 @@ public static class Program
 
 		var type = Type.GetType($"AdventOfCode.Year{year}.Day{day}");
 		var trim = type.GetCustomAttribute<SkipInputTrimAttribute>() is null;
-		object[] args;
+		var input = stdin
+			? MaybeTrim(Console.In.ReadToEnd(), trim)
+			: file is not null
+				? MaybeTrim(File.ReadAllText(file.FullName), trim)
+				: GetEmbeddedInput(year, day, trim);
 
-		if (stdin)
-		{
-			args = [MaybeTrim(Console.In.ReadToEnd(), trim)];
-		}
-		else
-		{
-			args = file is not null
-				? [MaybeTrim(File.ReadAllText(file.FullName), trim)]
-				: [GetEmbeddedInput(year, day, trim)];
-		}
-
-		RunPart(console, type, args, 1);
-		RunPart(console, type, args, 2);
+		RunPart(console, type, input, 1);
+		RunPart(console, type, input, 2);
 	}
 
-	private static void RunPart(IConsole console, Type type, object[] args, int part)
+	private static void RunPart(IConsole console, Type type, string input, int part)
 	{
 		console.Out.WriteLine($"-- Part {part} --");
+		object[] args = [input];
 
 		if (type.GetConstructor([typeof(string[])]) is not null)
 		{
-			args = [(args[0] as string).ToLines()];
+			args = [input.ToLines()];
+		}
+		else if (type.GetConstructor([typeof(int[])]) is not null)
+		{
+			args = [input.ToLines().ToInt32()];
+		}
+		else if (type.GetConstructor([typeof(long[])]) is not null)
+		{
+			args = [input.ToLines().ToInt64()];
 		}
 
 		var instance = Activator.CreateInstance(type, args);
@@ -64,8 +66,8 @@ public static class Program
 
 		if (method.ReturnType.IsGenericType && method.ReturnType.GetGenericTypeDefinition() == typeof(Task<>))
 		{
-			result = result.GetType().GetMethod("GetAwaiter").Invoke(result, Type.EmptyTypes);
-			result = result.GetType().GetMethod("GetResult").Invoke(result, Type.EmptyTypes);
+			result = result.GetType().GetMethod("GetAwaiter").Invoke(result, []);
+			result = result.GetType().GetMethod("GetResult").Invoke(result, []);
 		}
 
 		console.Out.WriteLine(stopwatch.Elapsed.ToString());
