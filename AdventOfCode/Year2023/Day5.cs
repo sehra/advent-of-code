@@ -19,7 +19,7 @@ public class Day5(string[] input)
 			.Min(seed => maps.Aggregate(seed, MapForward));
 	}
 
-	private static long MapForward(long value, List<(long Dst, long Src, long Len)> map)
+	private static long MapForward(long value, List<Range> map)
 	{
 		foreach (var (dst, src, len) in map)
 		{
@@ -32,7 +32,7 @@ public class Day5(string[] input)
 		return value;
 	}
 
-	private static long MapReverse(long value, List<(long Dst, long Src, long Len)> map)
+	private static long MapReverse(long value, List<Range> map)
 	{
 		foreach (var (dst, src, len) in map)
 		{
@@ -45,10 +45,12 @@ public class Day5(string[] input)
 		return value;
 	}
 
-	private (List<long> Seeds, List<List<(long Dst, long Src, long Len)>> Maps) Parse()
+	private readonly record struct Range(long Dst, long Src, long Len);
+
+	private (List<long> Seeds, List<List<Range>> Maps) Parse()
 	{
 		var seeds = input[0].Split(' ').Skip(1).Select(x => x.ToInt64()).ToList();
-		var maps = new List<List<(long, long, long)>>();
+		var maps = new List<List<Range>>();
 
 		foreach (var line in input.Skip(1))
 		{
@@ -63,7 +65,7 @@ public class Day5(string[] input)
 			else
 			{
 				var vals = line.Split(' ').ToInt64();
-				maps[^1].Add((vals[0], vals[1], vals[2]));
+				maps[^1].Add(new(vals[0], vals[1], vals[2]));
 			}
 		}
 
