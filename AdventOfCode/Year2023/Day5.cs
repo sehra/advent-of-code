@@ -19,55 +19,33 @@ public class Day5(string[] input)
 			.Min(seed => maps.Aggregate(seed, MapForward));
 	}
 
-	private static long MapForward(long value, List<Range> map)
+	private static long MapForward(long value, List<Range> map) => map
+		.Where(r => r.Src <= value && value < r.Src + r.Len)
+		.Select(r => r.Dst - r.Src + value)
+		.SingleOrDefault(value);
+
+	private static long MapReverse(long value, List<Range> map) => map
+		.Where(r => r.Dst <= value && value < r.Dst + r.Len)
+		.Select(r => r.Src - r.Dst + value)
+		.SingleOrDefault(value);
+
+	private readonly record struct Range(long Dst, long Src, long Len)
 	{
-		foreach (var (dst, src, len) in map)
+		public static Range Parse(string value)
 		{
-			if (src <= value && value < src + len)
-			{
-				return dst - src + value;
-			}
+			var vals = value.Split(' ').ToInt64();
+			return new(vals[0], vals[1], vals[2]);
 		}
-
-		return value;
 	}
-
-	private static long MapReverse(long value, List<Range> map)
-	{
-		foreach (var (dst, src, len) in map)
-		{
-			if (dst <= value && value < dst + len)
-			{
-				return src - dst + value;
-			}
-		}
-
-		return value;
-	}
-
-	private readonly record struct Range(long Dst, long Src, long Len);
 
 	private (List<long> Seeds, List<List<Range>> Maps) Parse()
 	{
-		var seeds = input[0].Split(' ').Skip(1).Select(x => x.ToInt64()).ToList();
-		var maps = new List<List<Range>>();
-
-		foreach (var line in input.Skip(1))
-		{
-			if (line.Length is 0)
-			{
-				continue;
-			}
-			else if (line.EndsWith(':'))
-			{
-				maps.Add([]);
-			}
-			else
-			{
-				var vals = line.Split(' ').ToInt64();
-				maps[^1].Add(new(vals[0], vals[1], vals[2]));
-			}
-		}
+		var seeds = input[0].Split(' ').Skip(1).Parse<long>().ToList();
+		var maps = input.Skip(1)
+			.Where(line => line.Length > 0)
+			.GroupWhile((_, line) => !line.EndsWith(':'))
+			.Select(lines => lines.Skip(1).Select(Range.Parse).ToList())
+			.ToList();
 
 		return (seeds, maps);
 	}
