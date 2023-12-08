@@ -18,22 +18,7 @@ public class Day8(string[] input)
 		return map.Keys
 			.Where(pos => pos[^1] is 'A')
 			.Select(pos => Steps(dirs, map, pos, pos => pos[^1] is 'Z'))
-			.Aggregate(Lcm);
-
-		static long Lcm(long a, long b)
-		{
-			(a, b) = a > b ? (a, b) : (b, a);
-
-			for (long i = 1; i < b; i++)
-			{
-				if (a * i % b is 0)
-				{
-					return i * a;
-				}
-			}
-
-			return a * b;
-		}
+			.Aggregate(MathFunc.Lcm);
 	}
 
 	private static long Steps(string dirs, Map map, string pos, Func<string, bool> done)
