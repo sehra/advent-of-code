@@ -63,18 +63,21 @@ public static class Extensions
 	}
 
 	public static int ToInt32(this string value) => Int32.Parse(value, CultureInfo.InvariantCulture);
-	public static int ToInt32(this ReadOnlySpan<char> value) => Int32.Parse(value, provider: CultureInfo.InvariantCulture);
+	public static int ToInt32(this ReadOnlySpan<char> value) => Int32.Parse(value, CultureInfo.InvariantCulture);
 	public static long ToInt64(this string value) => Int64.Parse(value, CultureInfo.InvariantCulture);
-	public static long ToInt64(this ReadOnlySpan<char> value) => Int64.Parse(value, provider: CultureInfo.InvariantCulture);
+	public static long ToInt64(this ReadOnlySpan<char> value) => Int64.Parse(value, CultureInfo.InvariantCulture);
 	public static uint ToUInt32(this string value) => UInt32.Parse(value, CultureInfo.InvariantCulture);
-	public static uint ToUInt32(this ReadOnlySpan<char> value) => UInt32.Parse(value, provider: CultureInfo.InvariantCulture);
+	public static uint ToUInt32(this ReadOnlySpan<char> value) => UInt32.Parse(value, CultureInfo.InvariantCulture);
 	public static ulong ToUInt64(this string value) => UInt64.Parse(value, CultureInfo.InvariantCulture);
-	public static ulong ToUInt64(this ReadOnlySpan<char> value) => UInt64.Parse(value, provider: CultureInfo.InvariantCulture);
+	public static ulong ToUInt64(this ReadOnlySpan<char> value) => UInt64.Parse(value, CultureInfo.InvariantCulture);
 
-	public static int[] ToInt32(this string[] values) => [.. values.Select(value => value.ToInt32())];
-	public static long[] ToInt64(this string[] values) => [.. values.Select(value => value.ToInt64())];
-	public static uint[] ToUInt32(this string[] values) => [.. values.Select(value => value.ToUInt32())];
-	public static ulong[] ToUInt64(this string[] values) => [.. values.Select(value => value.ToUInt64())];
+	public static int[] ToInt32(this string[] values) => [.. values.Parse<int>()];
+	public static long[] ToInt64(this string[] values) => [.. values.Parse<long>()];
+	public static uint[] ToUInt32(this string[] values) => [.. values.Parse<uint>()];
+	public static ulong[] ToUInt64(this string[] values) => [.. values.Parse<ulong>()];
+
+	public static IEnumerable<T> Parse<T>(this IEnumerable<string> values) where T : ISpanParsable<T> =>
+		values.Select(x => T.Parse(x, CultureInfo.InvariantCulture));
 
 	public static void Upsert<TKey, TValue>(this IDictionary<TKey, TValue> dictionary,
 		TKey key, Func<TValue, TValue> updateValue, TValue insertValue)
@@ -203,7 +206,7 @@ public static class Extensions
 	public static IEnumerable<KeyValuePair<int, T>> Index<T>(this IEnumerable<T> source, int startIndex)
 	{
 		ArgumentNullException.ThrowIfNull(source);
-		
+
 		return source.Select((item, index) => new KeyValuePair<int, T>(startIndex + index, item));
 	}
 
@@ -220,8 +223,8 @@ public static class Extensions
 		ArgumentNullException.ThrowIfNull(source);
 
 		return source.Aggregate(
-			new StringBuilder(), 
-			(sb, item) => { action(sb, item); return sb; }, 
+			new StringBuilder(),
+			(sb, item) => { action(sb, item); return sb; },
 			sb => sb.ToString());
 	}
 
