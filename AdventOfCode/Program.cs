@@ -36,8 +36,15 @@ public static class Program
 				? MaybeTrim(File.ReadAllText(file.FullName), trim)
 				: GetEmbeddedInput(year, day, trim);
 
-		RunPart(console, type, input, 1);
-		RunPart(console, type, input, 2);
+		if (input is null)
+		{
+			console.Out.WriteLine("Missing puzzle input.");
+		}
+		else
+		{
+			RunPart(console, type, input, 1);
+			RunPart(console, type, input, 2);
+		}
 	}
 
 	private static void RunPart(IConsole console, Type type, string input, int part)
@@ -78,6 +85,12 @@ public static class Program
 	{
 		using var stream = Assembly.GetExecutingAssembly()
 			.GetManifestResourceStream($"AdventOfCode.Year{year}.Inputs.Day{day}.txt");
+
+		if (stream is null)
+		{
+			return null;
+		}
+
 		using var reader = new StreamReader(stream);
 
 		return MaybeTrim(reader.ReadToEnd(), trim);
