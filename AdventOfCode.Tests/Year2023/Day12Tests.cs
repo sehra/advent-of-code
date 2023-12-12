@@ -12,7 +12,7 @@ public class Day12Tests
 	[DataRow(10, "?###???????? 3,2,1")]
 	public void Part1(int expected, string input)
 	{
-		Assert.AreEqual(expected, new Day12(input.ToLines()).Part1());
+		Assert.AreEqual(expected, new Day12([input]).Part1());
 	}
 
 	[DataTestMethod]
@@ -24,6 +24,6 @@ public class Day12Tests
 	[DataRow(506250, "?###???????? 3,2,1")]
 	public void Part2(int expected, string input)
 	{
-		Assert.AreEqual(expected, new Day12(input.ToLines()).Part2());
+		Assert.AreEqual(expected, new Day12([input]).Part2());
 	}
 }
