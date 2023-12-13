@@ -8,7 +8,7 @@ public class Day12(string[] input)
 
 	private long Count(char[] record, int[] expect)
 	{
-		var cache = new Dictionary<(char[], int[]), long>(new Comparer());
+		var cache = new Dictionary<int, long>();
 
 		return Solve(record, expect);
 
@@ -24,7 +24,7 @@ public class Day12(string[] input)
 				return 0;
 			}
 
-			if (cache.TryGetValue((record, expect), out var value))
+			if (cache.TryGetValue(CacheKey(), out var value))
 			{
 				return value;
 			}
@@ -69,25 +69,8 @@ public class Day12(string[] input)
 
 			throw new Exception("char?");
 
-			long Cache(long value)
-			{
-				cache.Add((record, expect), value);
-				return value;
-			}
-		}
-	}
-
-	private class Comparer : IEqualityComparer<(char[], int[])>
-	{
-		public bool Equals((char[], int[]) x, (char[], int[]) y) =>
-			x.Item1.SequenceEqual(y.Item1) && x.Item2.SequenceEqual(y.Item2);
-
-		public int GetHashCode((char[], int[]) obj)
-		{
-			var hash1 = obj.Item1.Aggregate(0, HashCode.Combine);
-			var hash2 = obj.Item2.Aggregate(0, HashCode.Combine);
-
-			return HashCode.Combine(hash1, hash2);
+			int CacheKey() => (record.Length << 16) | expect.Length;
+			long Cache(long value) => cache[CacheKey()] = value;
 		}
 	}
 
