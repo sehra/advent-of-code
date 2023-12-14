@@ -1,30 +1,14 @@
 namespace AdventOfCode.Year2023;
 
+using Dish = char[][];
+
 public class Day14(string[] input)
 {
 	public int Part1()
 	{
 		var dish = Parse();
 
-		for (int c = 0; c < dish[0].Length; c++)
-		{
-			var cont = true;
-
-			while (cont)
-			{
-				cont = false;
-
-				for (int r = 0; r < dish.Length - 1; r++)
-				{
-					if ((dish[r][c], dish[r + 1][c]) is ('.', 'O'))
-					{
-						dish[r][c] = 'O';
-						dish[r + 1][c] = '.';
-						cont = true;
-					}
-				}
-			}
-		}
+		TiltNorth(dish);
 
 		return Load(dish);
 	}
@@ -38,7 +22,7 @@ public class Day14(string[] input)
 
 		for (int i = 0; i < n; i++)
 		{
-			var key = dish.ToString((sb, r) => sb.Append(r));
+			var key = dish.ToString((sb, row) => sb.Append(row));
 
 			if (cache.TryGetValue(key, out var j))
 			{
@@ -49,113 +33,68 @@ public class Day14(string[] input)
 				cache.Add(key, i);
 			}
 
-			// north
-			for (int c = 0; c < dish[0].Length; c++)
-			{
-				var cont = true;
-
-				while (cont)
-				{
-					cont = false;
-
-					for (int r = 0; r < dish.Length - 1; r++)
-					{
-						if ((dish[r][c], dish[r + 1][c]) is ('.', 'O'))
-						{
-							dish[r][c] = 'O';
-							dish[r + 1][c] = '.';
-							cont = true;
-						}
-					}
-				}
-			}
-
-			// west
-			for (int r = 0; r < dish.Length; r++)
-			{
-				var cont = true;
-
-				while (cont)
-				{
-					cont = false;
-
-					for (int c = 0; c < dish[0].Length - 1; c++)
-					{
-						if ((dish[r][c], dish[r][c + 1]) is ('.', 'O'))
-						{
-							dish[r][c] = 'O';
-							dish[r][c + 1] = '.';
-							cont = true;
-						}
-					}
-				}
-			}
-
-			// south
-			for (int c = 0; c < dish[0].Length; c++)
-			{
-				var cont = true;
-
-				while (cont)
-				{
-					cont = false;
-
-					for (int r = 0; r < dish.Length - 1; r++)
-					{
-						if ((dish[r][c], dish[r + 1][c]) is ('O', '.'))
-						{
-							dish[r][c] = '.';
-							dish[r + 1][c] = 'O';
-							cont = true;
-						}
-					}
-				}
-			}
-
-			// east
-			for (int r = 0; r < dish.Length; r++)
-			{
-				var cont = true;
-
-				while (cont)
-				{
-					cont = false;
-
-					for (int c = 0; c < dish[0].Length - 1; c++)
-					{
-						if ((dish[r][c], dish[r][c + 1]) is ('O', '.'))
-						{
-							dish[r][c] = '.';
-							dish[r][c + 1] = 'O';
-							cont = true;
-						}
-					}
-				}
-			}
+			TiltNorth(dish);
+			TiltWest(dish);
+			TiltSouth(dish);
+			TiltEast(dish);
 		}
 
 		return Load(dish);
 	}
 
-	private static int Load(char[][] dish)
-	{
-		var load = 0;
+	static void TiltNorth(Dish dish) => SlideCols(dish, (a, b) => b - a);
+	static void TiltSouth(Dish dish) => SlideCols(dish, (a, b) => a - b);
+	static void TiltEast(Dish dish) => SlideRows(dish, (a, b) => a - b);
+	static void TiltWest(Dish dish) => SlideRows(dish, (a, b) => b - a);
 
-		for (int r = 0; r < dish.Length; r++)
+	private static void SlideCols(Dish dish, Comparison<char> comp)
+	{
+		for (int col = 0; col < dish[0].Length; col++)
 		{
-			for (int c = 0; c < dish[r].Length; c++)
-			{
-				if (dish[r][c] is 'O')
-				{
-					load += dish.Length - r;
-				}
-			}
+			SlideCol(dish, col, comp);
 		}
 
-		return load;
+		static void SlideCol(Dish dish, int col, Comparison<char> comp)
+		{
+			Span<char> data = stackalloc char[dish.Length];
+
+			for (int row = 0; row < dish.Length; row++)
+			{
+				data[row] = dish[row][col];
+			}
+
+			Slide(data, comp);
+
+			for (int row = 0; row < dish.Length; row++)
+			{
+				dish[row][col] = data[row];
+			}
+		}
 	}
 
-	private char[][] Parse() => input
-		.Select(line => line.ToArray())
+	private static void SlideRows(Dish dish, Comparison<char> comp)
+	{
+		for (int row = 0; row < dish.Length; row++)
+		{
+			Slide(dish[row], comp);
+		}
+	}
+
+	private static void Slide(Span<char> line, Comparison<char> comp)
+	{
+		while (!line.IsEmpty)
+		{
+			var hash = line.IndexOf('#');
+			line[..(hash is -1 ? line.Length : hash)].Sort(comp);
+			line = line[(hash is -1 ? line.Length : hash + 1)..];
+		}
+	}
+
+	private static int Load(Dish dish) => dish
+		.Index()
+		.Sum(row => row.Value.Count(c => c is 'O') * (dish.Length - row.Key));
+	
+	private Dish Parse() => input
+		.Select(line => line.ToCharArray())
 		.ToArray();
 }
