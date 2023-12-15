@@ -221,6 +221,7 @@ public static class Extensions
 	public static string ToString<T>(this IEnumerable<T> source, Action<StringBuilder, T> action)
 	{
 		ArgumentNullException.ThrowIfNull(source);
+		ArgumentNullException.ThrowIfNull(action);
 
 		return source.Aggregate(
 			new StringBuilder(),
@@ -231,6 +232,7 @@ public static class Extensions
 	public static IEnumerable<IEnumerable<T>> Combinations<T>(this IEnumerable<T> source, int count)
 	{
 		ArgumentNullException.ThrowIfNull(source);
+		ArgumentOutOfRangeException.ThrowIfNegative(count);
 
 		return count is 0
 			? EnumerableEx.Return(Enumerable.Empty<T>())
@@ -239,5 +241,16 @@ public static class Extensions
 					.Skip(index + 1)
 					.Combinations(count - 1)
 					.Select(rest => EnumerableEx.Return(item).Concat(rest)));
+	}
+
+	public static U Sum<T, U>(this IEnumerable<T> source, Func<T, int, U> selector)
+		where U : IAdditionOperators<U, U, U>, IAdditiveIdentity<U, U>
+	{
+		ArgumentNullException.ThrowIfNull(source);
+		ArgumentNullException.ThrowIfNull(selector);
+
+		return source
+			.Index()
+			.Aggregate(U.AdditiveIdentity, (acc, item) => acc + selector(item.Value, item.Key));
 	}
 }
