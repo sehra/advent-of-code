@@ -40,7 +40,10 @@ public class Day15(string input)
 			}
 		}
 
-		return boxes.Sum(box => box.Value.Sum((lens, pos) => (box.Key + 1) * (pos + 1) * lens.Focal));
+		return boxes.Sum(box => box.Value.Sum((lens, pos) => Power(box.Key, pos, lens.Focal)));
+
+		static int Power(int box, int pos, int focal) =>
+			(box + 1) * (pos + 1) * focal;
 	}
 
 	private static int Hash(string data) => data
