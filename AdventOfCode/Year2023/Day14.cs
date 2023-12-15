@@ -18,11 +18,13 @@ public class Day14(string[] input)
 		const int n = 1_000_000_000;
 
 		var dish = Parse();
-		var cache = new Dictionary<string, int>();
+		var cache = new Dictionary<int, int>();
 
 		for (int i = 0; i < n; i++)
 		{
-			var key = dish.ToString((sb, row) => sb.Append(row));
+			var key = dish
+				.SelectMany(row => row)
+				.Aggregate(0, HashCode.Combine);
 
 			if (cache.TryGetValue(key, out var j))
 			{
@@ -42,19 +44,19 @@ public class Day14(string[] input)
 		return Load(dish);
 	}
 
-	static void TiltNorth(Dish dish) => SlideCols(dish, (a, b) => b - a);
-	static void TiltSouth(Dish dish) => SlideCols(dish, (a, b) => a - b);
-	static void TiltEast(Dish dish) => SlideRows(dish, (a, b) => a - b);
-	static void TiltWest(Dish dish) => SlideRows(dish, (a, b) => b - a);
+	static void TiltNorth(Dish dish) => SlideCols(dish, 'O', '.');
+	static void TiltSouth(Dish dish) => SlideCols(dish, '.', 'O');
+	static void TiltEast(Dish dish) => SlideRows(dish, '.', 'O');
+	static void TiltWest(Dish dish) => SlideRows(dish, 'O', '.');
 
-	private static void SlideCols(Dish dish, Comparison<char> comp)
+	private static void SlideCols(Dish dish, char fst, char lst)
 	{
 		for (int col = 0; col < dish[0].Length; col++)
 		{
-			SlideCol(dish, col, comp);
+			SlideCol(dish, col, fst, lst);
 		}
 
-		static void SlideCol(Dish dish, int col, Comparison<char> comp)
+		static void SlideCol(Dish dish, int col, char fst, char lst)
 		{
 			Span<char> data = stackalloc char[dish.Length];
 
@@ -63,7 +65,7 @@ public class Day14(string[] input)
 				data[row] = dish[row][col];
 			}
 
-			Slide(data, comp);
+			Slide(data, fst, lst);
 
 			for (int row = 0; row < dish.Length; row++)
 			{
@@ -72,21 +74,25 @@ public class Day14(string[] input)
 		}
 	}
 
-	private static void SlideRows(Dish dish, Comparison<char> comp)
+	private static void SlideRows(Dish dish, char fst, char lst)
 	{
 		for (int row = 0; row < dish.Length; row++)
 		{
-			Slide(dish[row], comp);
+			Slide(dish[row], fst, lst);
 		}
 	}
 
-	private static void Slide(Span<char> line, Comparison<char> comp)
+	private static void Slide(Span<char> line, char fst, char lst)
 	{
 		while (!line.IsEmpty)
 		{
 			var hash = line.IndexOf('#');
-			line[..(hash is -1 ? line.Length : hash)].Sort(comp);
-			line = line[(hash is -1 ? line.Length : hash + 1)..];
+			hash = hash is -1 ? line.Length : hash;
+			var span = line[..hash];
+			var edge = span.Count(fst);
+			span[..edge].Fill(fst);
+			span[edge..].Fill(lst);
+			line = line[span.Length..].TrimStart('#');
 		}
 	}
 
