@@ -6,23 +6,23 @@ public class Day16(string[] input)
 
 	public int Part2()
 	{
-		var tests = new List<int>();
+		var max = 0;
 		var rows = input.Length;
 		var cols = input[0].Length;
 
 		for (int row = 0; row < rows; row++)
 		{
-			tests.Add(Solve(new(row, -1, 'R')));
-			tests.Add(Solve(new(row, cols, 'L')));
+			max = Math.Max(max, Solve(new(row, -1, 'R')));
+			max = Math.Max(max, Solve(new(row, cols, 'L')));
 		}
 
 		for (int col = 0; col < cols; col++)
 		{
-			tests.Add(Solve(new(-1, col, 'D')));
-			tests.Add(Solve(new(rows, col, 'U')));
+			max = Math.Max(max, Solve(new(-1, col, 'D')));
+			max = Math.Max(max, Solve(new(rows, col, 'U')));
 		}
 
-		return tests.Max();
+		return max;
 	}
 
 	private int Solve(Beam start)
