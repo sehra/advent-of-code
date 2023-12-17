@@ -8,7 +8,7 @@ public class Day2Tests
 	[DataRow(43, "1x1x10")]
 	public void Part1(int expected, string input)
 	{
-		Assert.AreEqual(expected, new Day2(input.ToLines()).Part1());
+		Assert.AreEqual(expected, new Day2([input]).Part1());
 	}
 
 	[DataTestMethod]
@@ -16,6 +16,6 @@ public class Day2Tests
 	[DataRow(14, "1x1x10")]
 	public void Part2(int expected, string input)
 	{
-		Assert.AreEqual(expected, new Day2(input.ToLines()).Part2());
+		Assert.AreEqual(expected, new Day2([input]).Part2());
 	}
 }
