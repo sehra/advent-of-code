@@ -32,7 +32,7 @@ public class Day18(string[] input)
 			area += pos.y * dx;
 		}
 
-		return area + perim / 2 + 1;
+		return Math.Abs(area) + perim / 2 + 1;
 	}
 
 	private IEnumerable<(char Dir, int Len)> Parse(bool part2) => input
