@@ -20,8 +20,8 @@ public class Day18(string[] input)
 		{
 			var (dx, dy) = dir switch
 			{
-				'U' or '3' => (0, -len),
-				'D' or '1' => (0, +len),
+				'U' or '3' => (0, +len),
+				'D' or '1' => (0, -len),
 				'L' or '2' => (-len, 0),
 				'R' or '0' => (+len, 0),
 				_ => throw new Exception("dir?"),
@@ -29,20 +29,15 @@ public class Day18(string[] input)
 
 			pos = (pos.x + dx, pos.y + dy);
 			perim += len;
-			area += pos.x * dy;
+			area += pos.y * dx;
 		}
 
 		return area + perim / 2 + 1;
 	}
 
-	private (char Dir, int Len)[] Parse(bool part2) => input
-		.Select(line =>
-		{
-			var s = line.Split(' ');
-
-			return part2
-				? (s[2][^2], s[2][2..^2].ToInt32(NumberStyles.HexNumber))
-				: (s[0][0], s[1].ToInt32());
-		})
-		.ToArray();
+	private IEnumerable<(char Dir, int Len)> Parse(bool part2) => input
+		.Select(line => line.Split())
+		.Select(line => part2
+			? (line[2][^2], line[2][2..^2].ToInt32(NumberStyles.HexNumber))
+			: (line[0][0], line[1].ToInt32()));
 }
