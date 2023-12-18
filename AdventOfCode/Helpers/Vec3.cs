@@ -45,6 +45,9 @@ public readonly record struct Vec3<T>(T X, T Y, T Z) : IComparable<Vec3<T>>
 
 	public T Norm() => Dot(this);
 
+	public double Proj(Vec3<T> vec) =>
+		Double.CreateChecked(Dot(vec)) / vec.Abs();
+
 	public static Vec3<T> operator +(Vec3<T> a, Vec3<T> b) =>
 		new(a.X + b.X, a.Y + b.Y, a.Z + b.Z);
 
