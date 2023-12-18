@@ -38,6 +38,8 @@ public readonly record struct Vec2<T>(T X, T Y) : IComparable<Vec2<T>>
 	public T Dot(Vec2<T> vec) =>
 		X * vec.X + Y * vec.Y;
 
+	public T Norm() => Dot(this);
+
 	public static Vec2<T> operator +(Vec2<T> a, Vec2<T> b) =>
 		new(a.X + b.X, a.Y + b.Y);
 
