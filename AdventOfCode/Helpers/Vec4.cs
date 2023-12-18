@@ -43,6 +43,9 @@ public readonly record struct Vec4<T>(T X, T Y, T Z, T W) : IComparable<Vec4<T>>
 {
 	public double Abs() => Math.Sqrt(Double.CreateChecked(Norm()));
 
+	public double Angle(Vec4<T> vec) =>
+		Math.Acos(Double.CreateChecked(Dot(vec)) / Abs() / vec.Abs());
+
 	public T Dot(Vec4<T> vec) =>
 		X * vec.X + Y * vec.Y + Z * vec.Z + W * vec.W;
 
