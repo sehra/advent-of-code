@@ -33,6 +33,17 @@ public static class Vec3
 		vec = Create(span);
 		return true;
 	}
+
+	public static Vec3<T> Intersect<T>(Vec3<T> a1, Vec3<T> d1, Vec3<T> a2, Vec3<T> d2, Vec3<T> a3, Vec3<T> d3)
+		where T : INumber<T>
+	{
+		var x = Create(d1.X, d2.X, d3.X);
+		var y = Create(d1.Y, d2.Y, d3.Y);
+		var z = Create(d1.Z, d2.Z, d3.Z);
+		var d = Create(a1.Dot(d1), a2.Dot(d2), a3.Dot(d3));
+
+		return Create(d.Triple(y, z), x.Triple(d, z), x.Triple(y, d)) / d1.Triple(d2, d3);
+	}
 }
 
 public readonly record struct Vec3<T>(T X, T Y, T Z) : IComparable<Vec3<T>>
