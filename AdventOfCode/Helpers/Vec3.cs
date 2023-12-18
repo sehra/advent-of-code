@@ -76,6 +76,9 @@ public readonly record struct Vec3<T>(T X, T Y, T Z) : IComparable<Vec3<T>>
 	public static Vec3<T> operator *(Vec3<T> vec, T val) =>
 		new(vec.X * val, vec.Y * val, vec.Z * val);
 
+	public static Vec3<T> operator *(T val, Vec3<T> vec) =>
+		vec * val;
+
 	public static Vec3<T> operator /(Vec3<T> vec, T val) =>
 		new(vec.X / val, vec.Y / val, vec.Z / val);
 

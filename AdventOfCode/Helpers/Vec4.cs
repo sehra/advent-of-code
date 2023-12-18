@@ -63,6 +63,9 @@ public readonly record struct Vec4<T>(T X, T Y, T Z, T W) : IComparable<Vec4<T>>
 	public static Vec4<T> operator *(Vec4<T> vec, T val) =>
 		new(vec.X * val, vec.Y * val, vec.Z * val, vec.W * val);
 
+	public static Vec4<T> operator *(T val, Vec4<T> vec) =>
+		vec * val;
+
 	public static Vec4<T> operator /(Vec4<T> vec, T val) =>
 		new(vec.X / val, vec.Y / val, vec.Z / val, vec.W / val);
 

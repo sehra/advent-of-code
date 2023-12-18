@@ -30,6 +30,10 @@ public static class Vec2
 		vec = Create(span);
 		return true;
 	}
+
+	public static Vec2<T> Intersect<T>(Vec2<T> a1, Vec2<T> d1, Vec2<T> a2, Vec2<T> d2)
+		where T : INumber<T> =>
+		a1 + (a2 - a1).Cross(d2) / d1.Cross(d2) * d1;
 }
 
 public readonly record struct Vec2<T>(T X, T Y) : IComparable<Vec2<T>>
@@ -39,6 +43,9 @@ public readonly record struct Vec2<T>(T X, T Y) : IComparable<Vec2<T>>
 
 	public double Angle(Vec2<T> vec) =>
 		Math.Acos(Double.CreateChecked(Dot(vec)) / Abs() / vec.Abs());
+
+	public T Cross(Vec2<T> vec) =>
+		X * vec.Y - Y * vec.X;
 
 	public T Dot(Vec2<T> vec) =>
 		X * vec.X + Y * vec.Y;
@@ -56,6 +63,9 @@ public readonly record struct Vec2<T>(T X, T Y) : IComparable<Vec2<T>>
 
 	public static Vec2<T> operator *(Vec2<T> vec, T val) =>
 		new(vec.X * val, vec.Y * val);
+
+	public static Vec2<T> operator *(T val, Vec2<T> vec) => 
+		vec * val;
 
 	public static Vec2<T> operator /(Vec2<T> vec, T val) =>
 		new(vec.X / val, vec.Y / val);
