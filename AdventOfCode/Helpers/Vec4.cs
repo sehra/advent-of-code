@@ -41,6 +41,9 @@ public static class Vec4
 public readonly record struct Vec4<T>(T X, T Y, T Z, T W) : IComparable<Vec4<T>>
 	where T : INumber<T>
 {
+	public T Dot(Vec4<T> vec) =>
+		X * vec.X + Y * vec.Y + Z * vec.Z + W * vec.W;
+	
 	public static Vec4<T> operator +(Vec4<T> a, Vec4<T> b) =>
 		new(a.X + b.X, a.Y + b.Y, a.Z + b.Z, a.W + b.W);
 

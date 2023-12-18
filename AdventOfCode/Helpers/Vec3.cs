@@ -38,6 +38,9 @@ public static class Vec3
 public readonly record struct Vec3<T>(T X, T Y, T Z) : IComparable<Vec3<T>>
 	where T : INumber<T>
 {
+	public T Dot(Vec3<T> vec) =>
+		X * vec.X + Y * vec.Y + Z * vec.Z;
+
 	public static Vec3<T> operator +(Vec3<T> a, Vec3<T> b) =>
 		new(a.X + b.X, a.Y + b.Y, a.Z + b.Z);
 
