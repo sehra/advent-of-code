@@ -4,13 +4,16 @@ namespace AdventOfCode;
 
 public static class Vec3
 {
-	public static Vec3<T> Create<T>(T x, T y, T z) where T : INumber<T> =>
+	public static Vec3<T> Create<T>(T x, T y, T z)
+		where T : INumber<T> =>
 		new(x, y, z);
 
-	public static Vec3<T> Create<T>((T, T, T) vec) where T : INumber<T> =>
+	public static Vec3<T> Create<T>((T, T, T) vec)
+		where T : INumber<T> =>
 		new(vec.Item1, vec.Item2, vec.Item3);
 
-	public static Vec3<T> Create<T>(Vec2<T> vec, T z) where T : INumber<T> =>
+	public static Vec3<T> Create<T>(Vec2<T> vec, T z)
+		where T : INumber<T> =>
 		new(vec.X, vec.Y, z);
 
 	public static Vec3<T> Create<T>(ReadOnlySpan<T> span)
@@ -49,7 +52,8 @@ public static class Vec3
 public readonly record struct Vec3<T>(T X, T Y, T Z) : IComparable<Vec3<T>>
 	where T : INumber<T>
 {
-	public double Abs() => Math.Sqrt(Double.CreateChecked(Norm()));
+	public double Abs() =>
+		Math.Sqrt(Double.CreateChecked(Norm()));
 
 	public double Angle(Vec3<T> vec) =>
 		Math.Acos(Double.CreateChecked(Dot(vec)) / Abs() / vec.Abs());

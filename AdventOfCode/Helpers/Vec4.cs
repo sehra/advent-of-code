@@ -4,16 +4,20 @@ namespace AdventOfCode;
 
 public static class Vec4
 {
-	public static Vec4<T> Create<T>(T x, T y, T z, T w) where T : INumber<T> =>
+	public static Vec4<T> Create<T>(T x, T y, T z, T w)
+		where T : INumber<T> =>
 		new(x, y, z, w);
 
-	public static Vec4<T> Create<T>((T, T, T, T) vec) where T : INumber<T> =>
+	public static Vec4<T> Create<T>((T, T, T, T) vec)
+		where T : INumber<T> =>
 		new(vec.Item1, vec.Item2, vec.Item3, vec.Item4);
 
-	public static Vec4<T> Create<T>(Vec2<T> xy, T z, T w) where T : INumber<T> =>
+	public static Vec4<T> Create<T>(Vec2<T> xy, T z, T w)
+		where T : INumber<T> =>
 		new(xy.X, xy.Y, z, w);
 
-	public static Vec4<T> Create<T>(Vec3<T> xyz, T w) where T : INumber<T> =>
+	public static Vec4<T> Create<T>(Vec3<T> xyz, T w)
+		where T : INumber<T> =>
 		new(xyz.X, xyz.Y, xyz.Z, w);
 
 	public static Vec4<T> Create<T>(ReadOnlySpan<T> span)
@@ -41,7 +45,8 @@ public static class Vec4
 public readonly record struct Vec4<T>(T X, T Y, T Z, T W) : IComparable<Vec4<T>>
 	where T : INumber<T>
 {
-	public double Abs() => Math.Sqrt(Double.CreateChecked(Norm()));
+	public double Abs() =>
+		Math.Sqrt(Double.CreateChecked(Norm()));
 
 	public double Angle(Vec4<T> vec) =>
 		Math.Acos(Double.CreateChecked(Dot(vec)) / Abs() / vec.Abs());
