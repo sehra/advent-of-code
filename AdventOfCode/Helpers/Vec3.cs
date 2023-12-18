@@ -43,6 +43,9 @@ public readonly record struct Vec3<T>(T X, T Y, T Z) : IComparable<Vec3<T>>
 	public double Angle(Vec3<T> vec) =>
 		Math.Acos(Double.CreateChecked(Dot(vec)) / Abs() / vec.Abs());
 
+	public Vec3<T> Cross(Vec3<T> vec) =>
+		new(Y * vec.Z - Z * vec.Y, Z * vec.X - X * vec.Z, X * vec.Y - Y - vec.X);
+
 	public T Dot(Vec3<T> vec) =>
 		X * vec.X + Y * vec.Y + Z * vec.Z;
 
@@ -50,6 +53,8 @@ public readonly record struct Vec3<T>(T X, T Y, T Z) : IComparable<Vec3<T>>
 
 	public double Proj(Vec3<T> vec) =>
 		Double.CreateChecked(Dot(vec)) / vec.Abs();
+
+	public T Triple(Vec3<T> b, Vec3<T> c) => Dot(b.Cross(c));
 
 	public static Vec3<T> operator +(Vec3<T> a, Vec3<T> b) =>
 		new(a.X + b.X, a.Y + b.Y, a.Z + b.Z);
