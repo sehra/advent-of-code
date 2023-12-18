@@ -35,6 +35,8 @@ public static class Vec2
 public readonly record struct Vec2<T>(T X, T Y) : IComparable<Vec2<T>>
 	where T : INumber<T>
 {
+	public double Abs() => Math.Sqrt(Double.CreateChecked(Norm()));
+
 	public T Dot(Vec2<T> vec) =>
 		X * vec.X + Y * vec.Y;
 
