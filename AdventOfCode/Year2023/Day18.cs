@@ -1,3 +1,5 @@
+using System.Globalization;
+
 namespace AdventOfCode.Year2023;
 
 public class Day18(string[] input)
@@ -39,7 +41,7 @@ public class Day18(string[] input)
 			var s = line.Split(' ');
 
 			return part2
-				? (s[2][^2], Convert.ToInt32(s[2][2..^2], 16))
+				? (s[2][^2], s[2][2..^2].ToInt32(NumberStyles.HexNumber))
 				: (s[0][0], s[1].ToInt32());
 		})
 		.ToArray();

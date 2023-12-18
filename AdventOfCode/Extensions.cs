@@ -62,14 +62,22 @@ public static class Extensions
 		return input.Split(["\r\n", "\r", "\n"], options);
 	}
 
-	public static int ToInt32(this string value) => Int32.Parse(value, CultureInfo.InvariantCulture);
-	public static int ToInt32(this ReadOnlySpan<char> value) => Int32.Parse(value, CultureInfo.InvariantCulture);
-	public static long ToInt64(this string value) => Int64.Parse(value, CultureInfo.InvariantCulture);
-	public static long ToInt64(this ReadOnlySpan<char> value) => Int64.Parse(value, CultureInfo.InvariantCulture);
-	public static uint ToUInt32(this string value) => UInt32.Parse(value, CultureInfo.InvariantCulture);
-	public static uint ToUInt32(this ReadOnlySpan<char> value) => UInt32.Parse(value, CultureInfo.InvariantCulture);
-	public static ulong ToUInt64(this string value) => UInt64.Parse(value, CultureInfo.InvariantCulture);
-	public static ulong ToUInt64(this ReadOnlySpan<char> value) => UInt64.Parse(value, CultureInfo.InvariantCulture);
+	public static int ToInt32(this string value, NumberStyles style = NumberStyles.Integer) =>
+		Int32.Parse(value, style, CultureInfo.InvariantCulture);
+	public static int ToInt32(this ReadOnlySpan<char> value, NumberStyles style = NumberStyles.Integer) =>
+		Int32.Parse(value, style, CultureInfo.InvariantCulture);
+	public static long ToInt64(this string value, NumberStyles style = NumberStyles.Integer) =>
+		Int64.Parse(value, style, CultureInfo.InvariantCulture);
+	public static long ToInt64(this ReadOnlySpan<char> value, NumberStyles style = NumberStyles.Integer) =>
+		Int64.Parse(value, style, CultureInfo.InvariantCulture);
+	public static uint ToUInt32(this string value, NumberStyles style = NumberStyles.Integer) =>
+		UInt32.Parse(value, style, CultureInfo.InvariantCulture);
+	public static uint ToUInt32(this ReadOnlySpan<char> value, NumberStyles style = NumberStyles.Integer) =>
+		UInt32.Parse(value, style, CultureInfo.InvariantCulture);
+	public static ulong ToUInt64(this string value, NumberStyles style = NumberStyles.Integer) =>
+		UInt64.Parse(value, style, CultureInfo.InvariantCulture);
+	public static ulong ToUInt64(this ReadOnlySpan<char> value, NumberStyles style = NumberStyles.Integer) =>
+		UInt64.Parse(value, style, CultureInfo.InvariantCulture);
 
 	public static int[] ToInt32(this string[] values) => [.. values.Parse<int>()];
 	public static long[] ToInt64(this string[] values) => [.. values.Parse<long>()];
