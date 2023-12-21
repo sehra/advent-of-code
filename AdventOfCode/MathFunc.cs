@@ -20,4 +20,12 @@ public static class MathFunc
 
 		return a;
 	}
+
+	public static T Mod<T>(T n, T m)
+		where T : INumber<T>
+	{
+		var r = n % m;
+
+		return r < T.Zero ? r + m : r;
+	}
 }
