@@ -1,5 +1,4 @@
-﻿using System.Numerics;
-using System.Threading.Channels;
+﻿using System.Threading.Channels;
 
 namespace AdventOfCode.Year2019;
 

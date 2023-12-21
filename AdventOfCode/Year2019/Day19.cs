@@ -1,7 +1,4 @@
-﻿using System.Diagnostics;
-using System.Numerics;
-
-namespace AdventOfCode.Year2019;
+﻿namespace AdventOfCode.Year2019;
 
 public class Day19
 {

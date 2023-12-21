@@ -1,5 +1,3 @@
-using System.Numerics;
-
 namespace AdventOfCode;
 
 public static class Vec4
