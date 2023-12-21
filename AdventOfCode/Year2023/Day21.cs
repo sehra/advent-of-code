@@ -1,5 +1,3 @@
-using System.Diagnostics;
-
 namespace AdventOfCode.Year2023;
 
 using Point = (int X, int Y);
@@ -15,25 +13,32 @@ public class Day21(string[] input)
 
 	public long Part2(int steps = 26_501_365)
 	{
-		// TODO: works on input, not example
+		// TODO: need an actual generic solution
 
 		var (map, start, size) = Parse();
 
-		var (n, d) = Math.DivRem(steps, size);
-		var y0 = Count(map, start, size, d + size * 0);
-		var y1 = Count(map, start, size, d + size * 1);
-		var y2 = Count(map, start, size, d + size * 2);
+		if (size is 131)
+		{
+			var (n, d) = Math.DivRem(steps, size);
+			var y0 = Count(map, start, size, d + size * 0);
+			var y1 = Count(map, start, size, d + size * 1);
+			var y2 = Count(map, start, size, d + size * 2);
 
-		var a = (y2 + y0 - 2 * y1) / 2;
-		var b = y1 - y0 - a;
-		var c = y0;
+			var a = (y2 + y0 - 2 * y1) / 2;
+			var b = y1 - y0 - a;
+			var c = y0;
 
-		return a * n * n + b * n + c;
+			return a * n * n + b * n + c;
+		}
+		else
+		{
+			return Count(map, start, size, steps);
+		}
 	}
 
 	private static long Count(HashSet<Point> map, Point start, int size, int steps)
 	{
-		var goal = new HashSet<Point>() { start };
+		var goal = new HashSet<Point>();
 		var comp = steps % 2;
 
 		var seen = new HashSet<Point>();

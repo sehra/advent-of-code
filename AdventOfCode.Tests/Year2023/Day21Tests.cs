@@ -28,9 +28,9 @@ public class Day21Tests
 	[DataTestMethod]
 	[DataRow(16, Input, 6)]
 	[DataRow(50, Input, 10)]
-	//[DataRow(1594, Input, 50)]
-	//[DataRow(6536, Input, 100)]
-	//[DataRow(167004, Input, 500)]
+	[DataRow(1594, Input, 50)]
+	[DataRow(6536, Input, 100)]
+	[DataRow(167004, Input, 500)]
 	//[DataRow(668697, Input, 1000)]
 	//[DataRow(16733044, Input, 5000)]
 	public void Part2(int expected, string input, int steps)
