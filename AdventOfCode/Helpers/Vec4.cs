@@ -45,6 +45,9 @@ public static class Vec4
 public readonly record struct Vec4<T>(T X, T Y, T Z, T W) : IComparable<Vec4<T>>
 	where T : INumber<T>
 {
+	public static Vec4<T> Zero => default;
+	public static Vec4<T> One => new(T.One, T.One, T.One, T.One);
+
 	public double Abs() =>
 		Math.Sqrt(Double.CreateChecked(Norm()));
 
@@ -79,6 +82,9 @@ public readonly record struct Vec4<T>(T X, T Y, T Z, T W) : IComparable<Vec4<T>>
 
 	public static Vec4<T> operator -(Vec4<T> vec) =>
 		new(-vec.X, -vec.Y, -vec.Z, -vec.W);
+
+	public static implicit operator Vec4<T>((T x, T y, T z, T w) val) =>
+		new(val.x, val.y, val.z, val.w);
 
 	public int CompareTo(Vec4<T> other)
 	{

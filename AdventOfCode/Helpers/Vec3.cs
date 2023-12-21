@@ -52,6 +52,9 @@ public static class Vec3
 public readonly record struct Vec3<T>(T X, T Y, T Z) : IComparable<Vec3<T>>
 	where T : INumber<T>
 {
+	public static Vec3<T> Zero => default;
+	public static Vec3<T> One => new(T.One, T.One, T.One);
+
 	public double Abs() =>
 		Math.Sqrt(Double.CreateChecked(Norm()));
 
@@ -91,6 +94,9 @@ public readonly record struct Vec3<T>(T X, T Y, T Z) : IComparable<Vec3<T>>
 
 	public static Vec3<T> operator -(Vec3<T> vec) =>
 		new(-vec.X, -vec.Y, -vec.Z);
+
+	public static implicit operator Vec3<T>((T x, T y, T z) val) =>
+		new(val.x, val.y, val.z);
 
 	public int CompareTo(Vec3<T> other)
 	{

@@ -41,6 +41,9 @@ public static class Vec2
 public readonly record struct Vec2<T>(T X, T Y) : IComparable<Vec2<T>>
 	where T : INumber<T>
 {
+	public static Vec2<T> Zero => default;
+	public static Vec2<T> One => new(T.One, T.One);
+
 	public double Abs() =>
 		Math.Sqrt(Double.CreateChecked(Norm()));
 
@@ -78,6 +81,9 @@ public readonly record struct Vec2<T>(T X, T Y) : IComparable<Vec2<T>>
 
 	public static Vec2<T> operator -(Vec2<T> vec) =>
 		new(-vec.X, -vec.Y);
+
+	public static implicit operator Vec2<T>((T x, T y) val) =>
+		new(val.x, val.y);
 
 	public int CompareTo(Vec2<T> other)
 	{
