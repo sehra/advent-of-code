@@ -5,15 +5,13 @@ public class Day22(string[] input)
 	public int Part1()
 	{
 		var bricks = Parse();
-		var graph = Compact(bricks);
+		var graph = FallAndDeps(bricks);
 		var count = 0;
 
-		foreach (var brick in graph.Keys)
+		foreach (var brick in graph)
 		{
-			var @unsafe = graph.Values
-				.Where(ds => ds.Contains(brick))
-				.Any(ds => !ds.Except(brick).Any());
-			count += @unsafe ? 0 : 1;
+			var safe = brick.Above.All(b => b.Below.Except(brick).Any());
+			count += safe ? 1 : 0;
 		}
 
 		return count;
@@ -21,93 +19,75 @@ public class Day22(string[] input)
 
 	public int Part2()
 	{
-		// TODO: this is super slow
-
 		var bricks = Parse();
-		var graph = Compact(bricks);
+		var graph = FallAndDeps(bricks);
 		var count = 0;
 
-		foreach (var brick in graph.Keys)
+		foreach (var check in graph)
 		{
-			count += ChainReaction(brick);
-		}
-
-		return count;
-
-		int ChainReaction(Brick start)
-		{
-			var fell = new HashSet<Brick>() { start };
+			var gone = new HashSet<Brick>();
 			var work = new Queue<Brick>();
-			work.Enqueue(start);
+			work.Enqueue(check);
 
-			while (work.TryDequeue(out var check))
+			while (work.TryDequeue(out var brick))
 			{
-				var maybe = graph.Where(kv => kv.Value.Contains(check));
-
-				foreach (var (brick, deps) in maybe)
+				if (!gone.Add(brick))
 				{
-					if (deps.All(fell.Contains))
+					continue;
+				}
+
+				foreach (var above in brick.Above)
+				{
+					if (!above.Below.Except(gone).Any())
 					{
-						fell.Add(brick);
-						work.Enqueue(brick);
+						work.Enqueue(above);
 					}
 				}
 			}
 
-			return fell.Count - 1;
+			count += gone.Count - 1;
 		}
+
+		return count;
 	}
 
-	private static Dictionary<Brick, List<Brick>> Compact(List<Brick> bricks)
+	private static List<Brick> FallAndDeps(List<Brick> bricks)
 	{
-		var graph = new Dictionary<Brick, List<Brick>>();
+		var world = new List<Brick>();
 		var taken = new HashSet<Pos3>();
 
-		foreach (var brick in bricks.OrderBy(p => p.Bot.Z))
+		foreach (var place in bricks.OrderBy(p => p.Bot.Z))
 		{
-			var place = brick;
+			var brick = place;
 
-			while (!place.Drop().BotLayer().Any(taken.Contains) && place.Bot.Z > 1)
+			while (!brick.Drop().BotLayer().Any(taken.Contains) && brick.Bot.Z > 1)
 			{
-				place = place.Drop();
+				brick = brick.Drop();
 			}
 
-			var hits = graph.Keys
-				.Where(b => b.Top.Z == place.Bot.Z - 1)
-				.Where(b => b.TopLayer().Intersect(place.Drop().BotLayer()).Any())
-				.ToList();
-			graph.Add(place, hits);
-			taken.UnionWith(place.TopLayer());
+			world.Add(brick);
+			taken.UnionWith(brick.TopLayer());
+			
+			var hits = world
+				.Where(b => b.Top.Z == brick.Bot.Z - 1)
+				.Where(b => b.TopLayer().Intersect(brick.Drop().BotLayer()).Any())
+				.ToArray();
+			brick.Below.AddRange(hits);
+			hits.ForEach(hit => hit.Above.Add(brick));
 		}
 
-		return graph;
+		return world;
 	}
 
 	private readonly record struct Pos3(int X, int Y, int Z)
 	{
-		public static Pos3 Parse(string value)
-		{
-			var nums = value.Split(',').ToInt32();
-			return new(nums[0], nums[1], nums[2]);
-		}
-
 		public Pos3 Drop() => this with { Z = Z - 1 };
 	}
 
-	private readonly record struct Brick(Pos3 Bot, Pos3 Top)
+	private record class Brick(Pos3 Bot, Pos3 Top)
 	{
-		public static Brick Parse(string value)
-		{
-			var points = value.Split('~');
-			var bot = Pos3.Parse(points[0]);
-			var top = Pos3.Parse(points[1]);
-
-			Debug.Assert(bot.X <= top.X);
-			Debug.Assert(bot.Y <= top.Y);
-			Debug.Assert(bot.Z <= top.Z);
-
-			return new(bot, top);
-		}
+		public List<Brick> Above { get; } = [];
+		public List<Brick> Below { get; } = [];
 
 		public Brick Drop() => new(Bot.Drop(), Top.Drop());
 
@@ -127,6 +107,26 @@ public class Day22(string[] input)
 		}
 	}
 
-	private List<Brick> Parse() => input
-		.Select(Brick.Parse).ToList();
+	private List<Brick> Parse()
+	{
+		var bricks = new List<Brick>();
+
+		foreach (var line in input)
+		{
+			var split = line.Split('~');
+			var bnums = split[0].Split(',').ToInt32();
+			var tnums = split[1].Split(',').ToInt32();
+
+			var bot = new Pos3(bnums[0], bnums[1], bnums[2]);
+			var top = new Pos3(tnums[0], tnums[1], tnums[2]);
+
+			Debug.Assert(bot.X <= top.X);
+			Debug.Assert(bot.Y <= top.Y);
+			Debug.Assert(bot.Z <= top.Z);
+
+			bricks.Add(new(bot, top));
+		}
+
+		return bricks;
+	}
 }
