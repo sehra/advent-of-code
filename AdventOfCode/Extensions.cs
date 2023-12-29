@@ -267,4 +267,17 @@ public static class Extensions
 
 		return source.GroupBy(item => item);
 	}
+	
+	public static void Fill<T>(this T[,] array, T item)
+	{
+		ArgumentNullException.ThrowIfNull(array);
+
+		for (int r = 0; r < array.GetLength(0); r++)
+		{
+			for (int c = 0; c < array.GetLength(1); c++)
+			{
+				array[r, c] = item;
+			}
+		}
+	}
 }
