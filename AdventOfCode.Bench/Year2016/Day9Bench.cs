@@ -15,5 +15,5 @@ public class Day9Bench
 	public int Part1() => new Day9(_input).Part1();
 
 	[Benchmark]
-	public int Part2() => new Day9(_input).Part2();
+	public long Part2() => new Day9(_input).Part2();
 }
