@@ -26,4 +26,19 @@ public static class MathFunc
 
 		return r < T.Zero ? r + m : r;
 	}
+
+	public static T Fac<T>(T n)
+		where T : INumber<T>
+	{
+		ArgumentOutOfRangeException.ThrowIfNegative(n);
+
+		var a = T.One;
+
+		for (var f = T.One; f <= n; f++)
+		{
+			a *= f;
+		}
+
+		return a;
+	}
 }
