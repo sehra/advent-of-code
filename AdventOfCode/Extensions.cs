@@ -260,4 +260,11 @@ public static class Extensions
 			.Index()
 			.Aggregate(U.AdditiveIdentity, (acc, item) => acc + selector(item.Value, item.Key));
 	}
+
+	public static IEnumerable<IGrouping<T, T>> Group<T>(this IEnumerable<T> source)
+	{
+		ArgumentNullException.ThrowIfNull(source);
+
+		return source.GroupBy(item => item);
+	}
 }
