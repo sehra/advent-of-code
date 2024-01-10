@@ -60,7 +60,7 @@ public readonly record struct Vec3<T>(T X, T Y, T Z) : IComparable<Vec3<T>>
 		Math.Acos(Double.CreateChecked(Dot(vec)) / Abs() / vec.Abs());
 
 	public Vec3<T> Cross(Vec3<T> vec) =>
-		new(Y * vec.Z - Z * vec.Y, Z * vec.X - X * vec.Z, X * vec.Y - Y - vec.X);
+		new(Y * vec.Z - Z * vec.Y, Z * vec.X - X * vec.Z, X * vec.Y - Y * vec.X);
 
 	public T Dot(Vec3<T> vec) =>
 		X * vec.X + Y * vec.Y + Z * vec.Z;
