@@ -55,6 +55,9 @@ public readonly record struct Vec4<T>(T X, T Y, T Z, T W) : IComparable<Vec4<T>>
 	public T Dot(Vec4<T> vec) =>
 		X * vec.X + Y * vec.Y + Z * vec.Z + W * vec.W;
 
+	public Vec4<T> Mod(T val) =>
+		new(MathFunc.Mod(X, val), MathFunc.Mod(Y, val), MathFunc.Mod(Z, val), MathFunc.Mod(W, val));
+
 	public T Norm() => Dot(this);
 
 	public double Proj(Vec4<T> vec) =>
@@ -78,11 +81,25 @@ public readonly record struct Vec4<T>(T X, T Y, T Z, T W) : IComparable<Vec4<T>>
 	public static Vec4<T> operator %(Vec4<T> vec, T val) =>
 		new(vec.X % val, vec.Y % val, vec.Z % val, vec.W % val);
 
+	public static Vec4<T> operator +(Vec4<T> vec) => vec;
+
 	public static Vec4<T> operator -(Vec4<T> vec) =>
 		new(-vec.X, -vec.Y, -vec.Z, -vec.W);
 
-	public static implicit operator Vec4<T>((T x, T y, T z, T w) val) =>
-		new(val.x, val.y, val.z, val.w);
+	public static implicit operator Vec4<T>((T, T, T, T) val) =>
+		new(val.Item1, val.Item2, val.Item3, val.Item4);
+
+	public static bool operator <(Vec4<T> a, Vec4<T> b) =>
+		a.CompareTo(b) < 0;
+
+	public static bool operator <=(Vec4<T> a, Vec4<T> b) =>
+		a.CompareTo(b) <= 0;
+
+	public static bool operator >(Vec4<T> a, Vec4<T> b) =>
+		a.CompareTo(b) > 0;
+
+	public static bool operator >=(Vec4<T> a, Vec4<T> b) =>
+		a.CompareTo(b) >= 0;
 
 	public int CompareTo(Vec4<T> other)
 	{
