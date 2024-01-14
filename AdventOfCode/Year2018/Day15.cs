@@ -22,9 +22,9 @@ public class Day15(string[] input)
 				unit.Power = power;
 			}
 
-            var rounds = Simulate(cave, units, true);
+			var rounds = Simulate(cave, units, true);
 
-			if (rounds.HasValue && elves.All(unit => unit.Health > 0))
+			if (rounds.HasValue)
 			{
 				return rounds.Value * elves.Sum(unit => unit.Health);
 			}
@@ -151,19 +151,16 @@ public class Day15(string[] input)
 			return X.CompareTo(other.X);
 		}
 
-		public Point Step(char dir) => dir switch
+		public IEnumerable<Point> Adjacent()
 		{
-			'U' => new(X, Y - 1),
-			'D' => new(X, Y + 1),
-			'L' => new(X - 1, Y),
-			'R' => new(X + 1, Y),
-			_ => throw new Exception("dir?"),
-		};
-
-		public IEnumerable<Point> Adjacent() => "ULRD".Select(Step);
+			yield return new(X, Y - 1);
+			yield return new(X - 1, Y);
+			yield return new(X + 1, Y);
+			yield return new(X, Y + 1);
+		}
 	}
 
-	private record class Unit(int Id, char Type)
+	private record class Unit(char Type)
 	{
 		public Point Pos { get; set; }
 		public int Health { get; set; } = 200;
@@ -174,7 +171,6 @@ public class Day15(string[] input)
 	{
 		var cave = new HashSet<Point>();
 		var units = new List<Unit>();
-		var id = 1;
 
 		for (int y = 0; y < input.Length; y++)
 		{
@@ -182,13 +178,13 @@ public class Day15(string[] input)
 			{
 				var c = input[y][x];
 
-				if (c is '.' or 'E' or 'G')
+				if (c is not '#')
 				{
 					cave.Add(new(x, y));
 
 					if (c is 'E' or 'G')
 					{
-						units.Add(new(id++, c) { Pos = new(x, y) });
+						units.Add(new(c) { Pos = new(x, y) });
 					}
 				}
 			}
