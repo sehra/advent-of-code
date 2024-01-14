@@ -54,6 +54,9 @@ public readonly record struct Vec2<T>(T X, T Y) : IComparable<Vec2<T>>
 	public T Dot(Vec2<T> vec) =>
 		X * vec.X + Y * vec.Y;
 
+	public Vec2<T> Mod(T val) =>
+		new(MathFunc.Mod(X, val), MathFunc.Mod(Y, val));
+
 	public T Norm() => Dot(this);
 
 	public double Proj(Vec2<T> vec) =>
@@ -77,11 +80,25 @@ public readonly record struct Vec2<T>(T X, T Y) : IComparable<Vec2<T>>
 	public static Vec2<T> operator %(Vec2<T> vec, T val) =>
 		new(vec.X % val, vec.Y % val);
 
+	public static Vec2<T> operator +(Vec2<T> vec) => vec;
+
 	public static Vec2<T> operator -(Vec2<T> vec) =>
 		new(-vec.X, -vec.Y);
 
-	public static implicit operator Vec2<T>((T x, T y) val) =>
-		new(val.x, val.y);
+	public static implicit operator Vec2<T>((T, T) val) =>
+		new(val.Item1, val.Item2);
+
+	public static bool operator <(Vec2<T> a, Vec2<T> b) =>
+		a.CompareTo(b) < 0;
+
+	public static bool operator <=(Vec2<T> a, Vec2<T> b) =>
+		a.CompareTo(b) <= 0;
+
+	public static bool operator >(Vec2<T> a, Vec2<T> b) =>
+		a.CompareTo(b) > 0;
+
+	public static bool operator >=(Vec2<T> a, Vec2<T> b) =>
+		a.CompareTo(b) >= 0;
 
 	public int CompareTo(Vec2<T> other)
 	{
