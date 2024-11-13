@@ -40,7 +40,7 @@ public class Day12(string[] input)
 	}
 
 	private static long Sum(int start, string state) => state
-		.Index(start).Where(kv => kv.Value is '#').Sum(kv => kv.Key);
+		.Index(start).Where(kv => kv.Item is '#').Sum(kv => kv.Index);
 
 	private static (int Start, string State) Step(Rule[] rules, int start, string state)
 	{

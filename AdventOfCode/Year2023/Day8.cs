@@ -27,11 +27,11 @@ public class Day8(string[] input)
 		{
 			if (done(pos))
 			{
-				return dir.Key;
+				return dir.Index;
 			}
 
 			var (l, r) = map[pos];
-			pos = dir.Value is 'L' ? l : r;
+			pos = dir.Item is 'L' ? l : r;
 		}
 
 		throw new Exception("not found");

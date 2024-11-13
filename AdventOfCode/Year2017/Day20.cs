@@ -22,7 +22,7 @@ public class Day20(string[] input)
 			}
 		}
 
-		return distances.Index().MinBy(d => d.Value).Key;
+		return distances.Index().MinBy(d => d.Item).Index;
 	}
 
 	public int Part2()

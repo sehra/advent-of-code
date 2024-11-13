@@ -17,8 +17,8 @@ public class Day13
 			.Select(x => JsonNode.Parse(x))
 			.Buffer(2)
 			.Index(1)
-			.Where(x => Compare(x.Value[0], x.Value[1]) < 0)
-			.Sum(x => x.Key);
+			.Where(x => Compare(x.Item[0], x.Item[1]) < 0)
+			.Sum(x => x.Index);
 	}
 
 	public int Part2()

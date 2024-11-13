@@ -20,7 +20,7 @@ public class Day7(string[] input)
 
 		hands.Sort();
 
-		return hands.Index(1).Sum(x => x.Key * (int)(x.Value & uint.MaxValue));
+		return hands.Index(1).Sum(x => x.Index * (int)(x.Item & uint.MaxValue));
 	}
 
 	private long Score(ReadOnlySpan<char> hand, bool jokers)

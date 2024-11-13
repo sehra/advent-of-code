@@ -15,7 +15,7 @@ public class Day6(string input)
 				return cycle;
 			}
 
-			var (index, count) = banks.Index().MaxBy(b => b.Value);
+			var (index, count) = banks.Index().MaxBy(b => b.Item);
 			banks[index] = 0;
 
 			while (count-- > 0)
@@ -52,7 +52,7 @@ public class Day6(string input)
 				}
 			}
 
-			var (index, count) = banks.Index().MaxBy(b => b.Value);
+			var (index, count) = banks.Index().MaxBy(b => b.Item);
 			banks[index] = 0;
 
 			while (count-- > 0)
