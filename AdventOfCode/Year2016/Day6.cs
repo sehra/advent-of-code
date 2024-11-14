@@ -6,11 +6,11 @@ public class Day6(string[] input)
 	{
 		var message = input
 			.SelectMany(line => line.Index())
-			.GroupBy(x => x.Key)
+			.GroupBy(x => x.Index)
 			.Select(g => new
 			{
 				Pos = g.Key,
-				Char = g.GroupBy(c => c).OrderByDescending(c => c.Count()).First().Key.Value,
+				Char = g.GroupBy(c => c).OrderByDescending(c => c.Count()).First().Key.Item,
 			})
 			.OrderBy(g => g.Pos)
 			.Select(g => g.Char)
@@ -23,11 +23,11 @@ public class Day6(string[] input)
 	{
 		var message = input
 			.SelectMany(line => line.Index())
-			.GroupBy(x => x.Key)
+			.GroupBy(x => x.Index)
 			.Select(g => new
 			{
 				Pos = g.Key,
-				Char = g.GroupBy(c => c).OrderBy(c => c.Count()).First().Key.Value,
+				Char = g.GroupBy(c => c).OrderBy(c => c.Count()).First().Key.Item,
 			})
 			.OrderBy(g => g.Pos)
 			.Select(g => g.Char)
