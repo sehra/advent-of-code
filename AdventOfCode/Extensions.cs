@@ -180,7 +180,7 @@ public static class Extensions
 	{
 		ArgumentNullException.ThrowIfNull(source);
 
-		return source.Except(new[] { value });
+		return source.Except([value]);
 	}
 
 	public static IEnumerable<(int Index0, int Index1, T Value)> AsEnumerable<T>(this T[,] array)

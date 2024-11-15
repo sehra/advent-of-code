@@ -2,7 +2,6 @@ using System.CommandLine;
 using System.CommandLine.Invocation;
 using System.CommandLine.IO;
 using System.CommandLine.NamingConventionBinder;
-using System.Diagnostics;
 using System.Reflection;
 
 namespace AdventOfCode;
