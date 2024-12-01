@@ -25,7 +25,7 @@ public static class Program
 	private static void Handler(InvocationContext context, int year, int day, bool stdin, FileInfo file)
 	{
 		var console = context.Console;
-		console.Out.WriteLine($"Advent of Code: Year {year}, Day {day}");
+		console.WriteLine($"Advent of Code: Year {year}, Day {day}");
 
 		var type = Type.GetType($"AdventOfCode.Year{year}.Day{day}");
 		var trim = type.GetCustomAttribute<SkipInputTrimAttribute>() is null;
@@ -37,7 +37,7 @@ public static class Program
 
 		if (input is null)
 		{
-			console.Out.WriteLine("Missing puzzle input.");
+			console.WriteLine("Missing puzzle input.");
 		}
 		else
 		{
@@ -48,7 +48,7 @@ public static class Program
 
 	private static void RunPart(IConsole console, Type type, string input, int part)
 	{
-		console.Out.WriteLine($"-- Part {part} --");
+		console.WriteLine($"-- Part {part} --");
 		object[] args = [input];
 
 		if (type.GetConstructor([typeof(string[])]) is not null)
@@ -76,8 +76,8 @@ public static class Program
 			result = result.GetType().GetMethod("GetResult").Invoke(result, []);
 		}
 
-		console.Out.WriteLine(stopwatch.Elapsed.ToString());
-		console.Out.WriteLine(result.ToString());
+		console.WriteLine(stopwatch.Elapsed.ToString());
+		console.WriteLine(result.ToString());
 	}
 
 	public static string GetEmbeddedInput(int year, int day, bool trim = true)
