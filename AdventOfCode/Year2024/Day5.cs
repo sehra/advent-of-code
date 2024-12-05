@@ -1,3 +1,5 @@
+using System.Collections.Frozen;
+
 namespace AdventOfCode.Year2024;
 
 public class Day5(string[] input)
@@ -26,12 +28,12 @@ public class Day5(string[] input)
 		return answer;
 	}
 
-	private class PageComparer(List<(int, int)> rules) : IComparer<int>
+	private class PageComparer(FrozenSet<(int, int)> rules) : IComparer<int>
 	{
 		public int Compare(int x, int y) => rules.Contains((y, x)) ? -1 : 1;
 	}
 
-	private static bool IsValid(List<(int A, int B)> rules, int[] update)
+	private static bool IsValid(FrozenSet<(int, int)> rules, int[] update)
 	{
 		for (int i = 0; i < update.Length; i++)
 		{
@@ -47,7 +49,7 @@ public class Day5(string[] input)
 		return true;
 	}
 
-	private (List<(int A, int B)>, List<int[]>) Parse()
+	private (FrozenSet<(int, int)>, List<int[]>) Parse()
 	{
 		var rules = new List<(int, int)>();
 		var updates = new List<int[]>();
@@ -65,6 +67,6 @@ public class Day5(string[] input)
 			}
 		}
 
-		return (rules, updates);
+		return (rules.ToFrozenSet(), updates);
 	}
 }
