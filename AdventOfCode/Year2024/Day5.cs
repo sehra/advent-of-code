@@ -14,28 +14,21 @@ public class Day5(string[] input)
 	public int Part2()
 	{
 		var (rules, updates) = Parse();
+		var comparer = new PageComparer(rules);
 		var answer = 0;
 
 		foreach (var update in updates.Where(u => !IsValid(rules, u)))
 		{
-			while (!IsValid(rules, update))
-			{
-				for (int i = 0; i < update.Length; i++)
-				{
-					for (int j = i + 1; j < update.Length; j++)
-					{
-						if (rules.Contains((update[j], update[i])))
-						{
-							(update[j], update[i]) = (update[i], update[j]);
-						}
-					}
-				}
-			}
-
+			Array.Sort(update, comparer);
 			answer += update[update.Length / 2];
 		}
 
 		return answer;
+	}
+
+	private class PageComparer(List<(int, int)> rules) : IComparer<int>
+	{
+		public int Compare(int x, int y) => rules.Contains((y, x)) ? -1 : 1;
 	}
 
 	private static bool IsValid(List<(int A, int B)> rules, int[] update)
