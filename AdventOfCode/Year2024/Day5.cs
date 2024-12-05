@@ -30,7 +30,7 @@ public class Day5(string[] input)
 
 	private class PageComparer(FrozenSet<(int, int)> rules) : IComparer<int>
 	{
-		public int Compare(int x, int y) => rules.Contains((y, x)) ? -1 : 1;
+		public int Compare(int x, int y) => rules.Contains((y, x)) ? 1 : -1;
 	}
 
 	private static bool IsValid(FrozenSet<(int, int)> rules, int[] update)
