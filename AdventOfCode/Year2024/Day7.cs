@@ -19,6 +19,11 @@ public class Day7(string[] input)
 			return result == target;
 		}
 
+		if (result > target)
+		{
+			return false;
+		}
+
 		return Search(target, numbers, part2, index + 1, result + numbers[index]) ||
 			Search(target, numbers, part2, index + 1, result * numbers[index]) ||
 			(part2 && Search(target, numbers, part2, index + 1, Concat(result, numbers[index])));
