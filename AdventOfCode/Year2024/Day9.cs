@@ -65,7 +65,7 @@ public class Day9(string input)
 			{
 				files.Add((pos, n, id++));
 			}
-			else
+			else if (n > 0)
 			{
 				frees.Add((pos, n));
 			}
