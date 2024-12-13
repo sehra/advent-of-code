@@ -4,59 +4,51 @@ namespace AdventOfCode.Year2024;
 
 public class Day13(string[] input)
 {
-	public long Part1()
-	{
-		var tokens = 0;
+	public long Part1() => SolveFast();
 
-		foreach (var (ax, ay, bx, by, px, py) in Parse())
-		{
-			var cost = int.MaxValue;
+	public long Part2() => SolveFast(10_000_000_000_000);
 
-			for (int na = 0; na <= 100; na++)
-			{
-				for (int nb = 0; nb <= 100; nb++)
-				{
-					var x = na * ax + nb * bx;
-					var y = na * ay + nb * by;
-					var c = na * 3 + nb;	
-
-					if (x == px && y == py && c < cost)
-					{
-						cost = c;
-					}
-				}
-			}
-
-			if (cost < int.MaxValue)
-			{
-				tokens += cost;
-			}
-		}
-
-		return tokens;
-	}
-
-	public long Part2()
+	private long SolveSlow(long add = 0)
 	{
 		var tokens = 0L;
 
 		foreach (var (ax, ay, bx, by, px, py) in Parse())
 		{
 			using var c = new Context();
-			var add = c.MkInt(10_000_000_000_000);
 			var na = c.MkIntConst("na");
 			var nb = c.MkIntConst("nb");
 
 			var o = c.MkOptimize();
 			o.Add(na >= 0);
 			o.Add(nb >= 0);
-			o.Add(c.MkEq(px + add, na * ax + nb * bx));
-			o.Add(c.MkEq(py + add, na * ay + nb * by));
+			o.Add(c.MkEq(c.MkInt(px + add), na * ax + nb * bx));
+			o.Add(c.MkEq(c.MkInt(py + add), na * ay + nb * by));
 			var r = o.MkMinimize(na * 3 + nb);
 
 			if (o.Check() is Status.SATISFIABLE)
 			{
 				tokens += (r.Value as IntNum).Int64;
+			}
+		}
+
+		return tokens;
+	}
+
+	private long SolveFast(long add = 0)
+	{
+		// https://en.wikipedia.org/wiki/Cramer%27s_rule
+
+		var tokens = 0L;
+
+		foreach (var (ax, ay, bx, by, px, py) in Parse())
+		{
+			var det = ax * by - ay * bx;
+			var (naq, nar) = Math.DivRem(by * (px + add) - bx * (py + add), det);
+			var (nbq, nbr) = Math.DivRem(ax * (py + add) - ay * (px + add), det);
+
+			if (nar is 0 && nbr is 0 && naq >= 0 && nbq >= 0)
+			{
+				tokens += naq * 3 + nbq;
 			}
 		}
 
