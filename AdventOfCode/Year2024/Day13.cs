@@ -1,13 +1,15 @@
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.Z3;
 
 namespace AdventOfCode.Year2024;
 
-public class Day13(string[] input)
+public partial class Day13(string[] input)
 {
 	public long Part1() => SolveFast();
 
 	public long Part2() => SolveFast(10_000_000_000_000);
 
+	[SuppressMessage("CodeQuality", "IDE0051")]
 	private long SolveSlow(long add = 0)
 	{
 		var tokens = 0L;
@@ -59,15 +61,18 @@ public class Day13(string[] input)
 	{
 		foreach (var lines in input.Chunk(3))
 		{
-			var a = Regex.Match(lines[0], @"X\+(\d+), Y\+(\d+)");
-			var b = Regex.Match(lines[1], @"X\+(\d+), Y\+(\d+)");
-			var p = Regex.Match(lines[2], @"X=(\d+), Y=(\d+)");
+			var a = IntRegex.Matches(lines[0]);
+			var b = IntRegex.Matches(lines[1]);
+			var p = IntRegex.Matches(lines[2]);
 
 			yield return (
-				a.Groups[1].ValueSpan.ToInt32(), a.Groups[2].ValueSpan.ToInt32(),
-				b.Groups[1].ValueSpan.ToInt32(), b.Groups[2].ValueSpan.ToInt32(),
-				p.Groups[1].ValueSpan.ToInt32(), p.Groups[2].ValueSpan.ToInt32()
+				a[0].ValueSpan.ToInt32(), a[1].ValueSpan.ToInt32(),
+				b[0].ValueSpan.ToInt32(), b[1].ValueSpan.ToInt32(),
+				p[0].ValueSpan.ToInt32(), p[1].ValueSpan.ToInt32()
 			);
 		}
 	}
+
+	[GeneratedRegex(@"\d+")]
+	private partial Regex IntRegex { get; }
 }
