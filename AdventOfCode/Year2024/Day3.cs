@@ -6,7 +6,7 @@ public partial class Day3(string input)
 	{
 		var result = 0;
 
-		foreach (Match match in MulRegex().Matches(input))
+		foreach (Match match in MulRegex.Matches(input))
 		{
 			var a = match.Groups["a"].ValueSpan.ToInt32();
 			var b = match.Groups["b"].ValueSpan.ToInt32();
@@ -21,7 +21,7 @@ public partial class Day3(string input)
 		var result = 0;
 		var enabled = true;
 
-		foreach (Match match in InsRegex().Matches(input))
+		foreach (Match match in InsRegex.Matches(input))
 		{
 			if (enabled && match.Groups["m"].Success)
 			{
@@ -43,8 +43,8 @@ public partial class Day3(string input)
 	}
 
 	[GeneratedRegex(@"mul\((?<a>\d{1,3}),(?<b>\d{1,3})\)")]
-	private static partial Regex MulRegex();
+	private static partial Regex MulRegex { get; }
 
 	[GeneratedRegex(@"(?<m>mul\((?<a>\d{1,3}),(?<b>\d{1,3})\))|(?<e>do\(\))|(?<d>don't\(\))")]
-	private static partial Regex InsRegex();
+	private static partial Regex InsRegex { get; }
 }
