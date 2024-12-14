@@ -88,6 +88,6 @@ public partial class Day14(string[] input)
 		return rs;
 	}
 
-	[GeneratedRegex(@"^p=(?<px>-?\d+),(?<py>-?\d+) v=(?<vx>-?\d+),(?<vy>-?\d+)$")]
+	[GeneratedRegex(@"^p=(?<px>\d+),(?<py>\d+) v=(?<vx>-?\d+),(?<vy>-?\d+)$")]
 	private static partial Regex RobotRegex { get; }
 }
