@@ -4,14 +4,6 @@ public partial class Day14(string[] input)
 {
 	public int Part1(int w = 101, int h = 103)
 	{
-		var rs = Parse();
-
-		for (int i = 0; i < rs.Count; i++)
-		{
-			var (px, py, vx, vy) = rs[i];
-			rs[i] = (MathFunc.Mod(px + vx * 100, w), MathFunc.Mod(py + vy * 100, h), vx, vy);
-		}
-
 		var ul = 0;
 		var ur = 0;
 		var dl = 0;
@@ -19,26 +11,29 @@ public partial class Day14(string[] input)
 		var hw = w / 2;
 		var hh = h / 2;
 
-		foreach (var (px, py, _, _) in rs)
+		foreach (var (px, py, vx, vy) in Parse())
 		{
-			if (px < hw)
+			var x = MathFunc.Mod(px + vx * 100, w);
+			var y = MathFunc.Mod(py + vy * 100, h);
+
+			if (x < hw)
 			{
-				if (py < hh)
+				if (y < hh)
 				{
 					ul++;
 				}
-				else if (py > hh)
+				else if (y > hh)
 				{
 					dl++;
 				}
 			}
-			else if (px > hw)
+			else if (x > hw)
 			{
-				if (py < hh)
+				if (y < hh)
 				{
 					ur++;
 				}
-				else if (py > hh)
+				else if (y > hh)
 				{
 					dr++;
 				}
@@ -53,28 +48,22 @@ public partial class Day14(string[] input)
 		const int w = 101;
 		const int h = 103;
 
-		var rs = Parse();
+		var robots = Parse();
+		var floor = new bool[w * h].AsSpan();
+		var match = Enumerable.Repeat(true, 16).ToArray();
 
 		for (int t = 0; t < 10000; t++)
 		{
-			for (int i = 0; i < rs.Count; i++)
+			floor.Clear();
+
+			foreach (var (px, py, vx, vy) in robots)
 			{
-				var (px, py, vx, vy) = rs[i];
-				rs[i] = (MathFunc.Mod(px + vx, w), MathFunc.Mod(py + vy, h), vx, vy);
+				var x = MathFunc.Mod(px + vx * t, w);
+				var y = MathFunc.Mod(py + vy * t, h);
+				floor[w * y + x] = true;
 			}
 
-			var nbors = 0;
-
-			foreach (var (px, py, _, _) in rs)
-			{
-				if (rs.Any(r => Math.Abs(r.px - px) is 1 && Math.Abs(r.py - py) is 1))
-				{
-					nbors++;
-				}
-			}
-
-			// magic number
-			if (nbors > 200)
+			if (floor.IndexOf(match) != -1)
 			{
 				return t + 1;
 			}
@@ -99,6 +88,6 @@ public partial class Day14(string[] input)
 		return rs;
 	}
 
-	[GeneratedRegex(@"p=(?<px>-?\d+),(?<py>-?\d+) v=(?<vx>-?\d+),(?<vy>-?\d+)")]
+	[GeneratedRegex(@"^p=(?<px>-?\d+),(?<py>-?\d+) v=(?<vx>-?\d+),(?<vy>-?\d+)$")]
 	private static partial Regex RobotRegex { get; }
 }
