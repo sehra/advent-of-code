@@ -3,6 +3,7 @@ using System.CommandLine.Invocation;
 using System.CommandLine.IO;
 using System.CommandLine.NamingConventionBinder;
 using System.Reflection;
+using TextCopy;
 
 namespace AdventOfCode;
 
@@ -76,8 +77,11 @@ public static class Program
 			result = result.GetType().GetMethod("GetResult").Invoke(result, []);
 		}
 
+		var output = result.ToString();
+		ClipboardService.SetText(output);
+
 		console.WriteLine(stopwatch.Elapsed.ToString());
-		console.WriteLine(result.ToString());
+		console.WriteLine(output);
 	}
 
 	public static string GetEmbeddedInput(int year, int day, bool trim = true)
