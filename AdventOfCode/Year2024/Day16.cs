@@ -2,7 +2,7 @@ using System.Collections.Frozen;
 
 namespace AdventOfCode.Year2024;
 
-using Map = FrozenDictionary<Vec2<int>, char>;
+using Map = FrozenSet<Vec2<int>>;
 using Vec = Vec2<int>;
 
 public class Day16(string[] input)
@@ -29,7 +29,7 @@ public class Day16(string[] input)
 				continue;
 			}
 
-			if (map.TryGetValue(pos + ToVec(dir), out var tile) && tile != '#')
+			if (map.Contains(pos + ToVec(dir)))
 			{
 				work.Enqueue((pos + ToVec(dir), dir), cost + 1);
 			}
@@ -75,7 +75,7 @@ public class Day16(string[] input)
 
 			seen[(pos, dir)] = cost;
 
-			if (map.TryGetValue(pos + ToVec(dir), out var tile) && tile != '#')
+			if (map.Contains(pos + ToVec(dir)))
 			{
 				work.Enqueue(([.. path, pos + ToVec(dir)], dir), cost + 1);
 			}
@@ -98,7 +98,7 @@ public class Day16(string[] input)
 
 	private (Map, Vec, Vec) Parse()
 	{
-		var map = new Dictionary<Vec, char>();
+		var map = new HashSet<Vec>();
 		var beg = default(Vec);
 		var end = default(Vec);
 
@@ -106,12 +106,24 @@ public class Day16(string[] input)
 		{
 			for (int x = 0; x < input[y].Length; x++)
 			{
-				map[(x, y)] = input[y][x];
-				if (input[y][x] is 'S') beg = (x, y);
-				if (input[y][x] is 'E') end = (x, y);
+				var c = input[y][x];
+
+				if (c is not '#')
+				{
+					map.Add((x, y));
+
+					if (c is 'S')
+					{
+						beg = (x, y);
+					}
+					else if (c is 'E')
+					{
+						end = (x, y);
+					}
+				}
 			}
 		}
 
-		return (map.ToFrozenDictionary(), beg, end);
+		return (map.ToFrozenSet(), beg, end);
 	}
 }
