@@ -1,4 +1,4 @@
-using System.CommandLine;
+﻿using System.CommandLine;
 using System.CommandLine.Invocation;
 using System.CommandLine.IO;
 using System.CommandLine.NamingConventionBinder;
@@ -68,20 +68,28 @@ public static class Program
 		var instance = Activator.CreateInstance(type, args);
 		var method = type.GetMethod($"Part{part}");
 		var parameters = method.GetParameters().Select(p => p.RawDefaultValue).ToArray();
-		var stopwatch = Stopwatch.StartNew();
-		var result = method.Invoke(instance, parameters);
 
-		if (method.ReturnType.IsGenericType && method.ReturnType.GetGenericTypeDefinition() == typeof(Task<>))
+		try
 		{
-			result = result.GetType().GetMethod("GetAwaiter").Invoke(result, []);
-			result = result.GetType().GetMethod("GetResult").Invoke(result, []);
+			var stopwatch = Stopwatch.StartNew();
+			var result = method.Invoke(instance, parameters);
+
+			if (method.ReturnType.IsGenericType && method.ReturnType.GetGenericTypeDefinition() == typeof(Task<>))
+			{
+				result = result.GetType().GetMethod("GetAwaiter").Invoke(result, []);
+				result = result.GetType().GetMethod("GetResult").Invoke(result, []);
+			}
+
+			var output = result.ToString();
+			ClipboardService.SetText(output);
+
+			console.WriteLine(stopwatch.Elapsed.ToString());
+			console.WriteLine(output);
 		}
-
-		var output = result.ToString();
-		ClipboardService.SetText(output);
-
-		console.WriteLine(stopwatch.Elapsed.ToString());
-		console.WriteLine(output);
+		catch (TargetInvocationException ex) when (ex.InnerException is NotImplementedException)
+		{
+			console.WriteLine(ex.InnerException.Message);
+		}
 	}
 
 	public static string GetEmbeddedInput(int year, int day, bool trim = true)
