@@ -14,14 +14,14 @@ public class Day17(string[] input)
 	{
 		/*
 		 * do {
-		 *   b = a & 7        // bst 4
-		 *   b = b ^ 1        // bxl 1
-		 *   c = a / (1 << b) // cdv 5
-		 *   a = a >> 3       // adv 3
-		 *   b = b ^ 4        // bxl 4
-		 *   b = b ^ c        // bxc 5
-		 *   out(b)           // out 5
-		 * } while (a != 0);  // jnz 0
+		 *   b = a & 7      // bst 4
+		 *   b = b ^ 1      // bxl 1
+		 *   c = a >> b     // cdv 5
+		 *   a = a >> 3     // adv 3
+		 *   b = b ^ 4      // bxl 4
+		 *   b = b ^ c      // bxc 5
+		 *   out(b)         // out 5
+		 * } while (a != 0) // jnz 0
 		 */
 
 		var (program, _, b, c) = Parse();
@@ -53,7 +53,7 @@ public class Day17(string[] input)
 			switch (program[i])
 			{
 				case 0: // adv
-					a = a / (1 << (int)Combo(operand));
+					a = a >> (int)Combo(operand);
 					break;
 
 				case 1: // bxl
@@ -77,11 +77,11 @@ public class Day17(string[] input)
 					break;
 
 				case 6: // bdv
-					b = a / (1 << (int)Combo(operand));
+					b = a >> (int)Combo(operand);
 					break;
 
 				case 7: // cdv
-					c = a / (1 << (int)Combo(operand));
+					c = a >> (int)Combo(operand);
 					break;
 
 				default:
