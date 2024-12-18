@@ -12,16 +12,24 @@ public class Day18(string[] input)
 	public string Part2(int size = 70)
 	{
 		var data = Parse();
+		var lo = 0;
+		var hi = data.Length - 1;
 
-		for (int n = 0; n < data.Length; n++)
+		while (lo <= hi)
 		{
+			var n = (lo + hi) / 2;
+
 			if (Walk([.. data.Take(n)], size) is null)
 			{
-				return $"{data[n - 1].X},{data[n - 1].Y}";
+				hi = n - 1;
+			}
+			else
+			{
+				lo = n + 1;
 			}
 		}
 
-		throw new Exception("not found");
+		return $"{data[hi].X},{data[hi].Y}";
 	}
 
 	private static int? Walk(HashSet<Vec> grid, int size)
