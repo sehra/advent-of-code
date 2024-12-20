@@ -90,3 +90,8 @@ if (-not(Test-Path $InputFile -PathType Leaf))
 
 	Invoke-WebRequest "https://adventofcode.com/${Year}/day/${Day}/input" -WebSession $Session -OutFile $InputFile
 }
+
+if (Test-Path $InputFile -PathType Leaf)
+{
+	Get-Content $InputFile -TotalCount 15
+}
