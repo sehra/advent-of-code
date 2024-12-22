@@ -1,40 +1,48 @@
 namespace AdventOfCode.Year2024;
 
-using Key = (long, long, long, long);
+using Key = (int, int, int, int);
 
 public class Day22(int[] input)
 {
 	public long Part1()
 	{
-		return input.Sum(seed => Secrets(seed).Take(2000).Last());
+		return input.Sum(seed => (long)Secrets(seed).Take(2000).Last());
 	}
 
-	public long Part2()
+	public int Part2()
 	{
-		var bananas = new DefaultDictionary<Key, long>();
+		var seqs = new Counter<Key>();
+		var seen = new HashSet<Key>(2000);
 
 		foreach (var seed in input)
 		{
-			var seen = new HashSet<Key>();
-			var nums = Secrets(seed).Take(2000).Prepend(seed).Select(n => n % 10).ToArray();
-			var diff = nums.Zip(nums.Skip(1)).Select(p => p.Second - p.First).ToArray();
+			seen.Clear();
+			var nums = Secrets(seed)
+				.Take(2000)
+				.Prepend(seed)
+				.Select(n => n % 10)
+				.TupleWindow2()
+				.Select(w => (w.Item2 - w.Item1, w.Item2))
+				.TupleWindow4();
 
-			for (int i = 0; i < diff.Length - 3; i++)
+			foreach (var ((a, _), (b, _), (c, _), (d, num)) in nums)
 			{
-				var seq = (diff[i], diff[i + 1], diff[i + 2], diff[i + 3]);
+				var key = (a, b, c, d);
 
-				if (seen.Add(seq))
+				if (seen.Add(key))
 				{
-					bananas[seq] += nums[i + 4];
+					seqs[key] += num;
 				}
 			}
 		}
 
-		return bananas.Values.Max();
+		return seqs.Values.Max();
 	}
 
-	private static IEnumerable<long> Secrets(long state)
+	private static IEnumerable<int> Secrets(int seed)
 	{
+		long state = seed;
+
 		while (true)
 		{
 			state ^= state * 64;
@@ -44,16 +52,7 @@ public class Day22(int[] input)
 			state ^= state * 2048;
 			state %= 16777216;
 
-			yield return state;
-		}
-	}
-
-	private class DefaultDictionary<K, V> : Dictionary<K, V>
-	{
-		public new V this[K key]
-		{
-			get => TryGetValue(key, out var value) ? value : default;
-			set => base[key] = value;
+			yield return (int)state;
 		}
 	}
 }

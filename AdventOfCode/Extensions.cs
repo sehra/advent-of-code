@@ -265,4 +265,73 @@ public static class Extensions
 
 		return source.GroupBy(item => item);
 	}
+
+	public static IEnumerable<(T, T)> TupleWindow2<T>(this IEnumerable<T> source)
+	{
+		ArgumentNullException.ThrowIfNull(source);
+
+		return Impl(source);
+
+		static IEnumerable<(T, T)> Impl(IEnumerable<T> source)
+		{
+			var a = default(T);
+			var b = default(T);
+
+			using var e = source.GetEnumerator();
+			if (e.MoveNext()) b = e.Current; else yield break;
+
+			while (e.MoveNext())
+			{
+				yield return (a, b) = (b, e.Current);
+			}
+		}
+	}
+
+	public static IEnumerable<(T, T, T)> TupleWindow3<T>(this IEnumerable<T> source)
+	{
+		ArgumentNullException.ThrowIfNull(source);
+
+		return Impl(source);
+
+		static IEnumerable<(T, T, T)> Impl(IEnumerable<T> source)
+		{
+			var a = default(T);
+			var b = default(T);
+			var c = default(T);
+
+			using var e = source.GetEnumerator();
+			if (e.MoveNext()) b = e.Current; else yield break;
+			if (e.MoveNext()) c = e.Current; else yield break;
+
+			while (e.MoveNext())
+			{
+				yield return (a, b, c) = (b, c, e.Current);
+			}
+		}
+	}
+
+	public static IEnumerable<(T, T, T, T)> TupleWindow4<T>(this IEnumerable<T> source)
+	{
+		ArgumentNullException.ThrowIfNull(source);
+
+		return Impl(source);
+
+		static IEnumerable<(T, T, T, T)> Impl(IEnumerable<T> source)
+		{
+			var a = default(T);
+			var b = default(T);
+			var c = default(T);
+			var d = default(T);
+
+			using var e = source.GetEnumerator();
+			if (e.MoveNext()) b = e.Current; else yield break;
+			if (e.MoveNext()) c = e.Current; else yield break;
+			if (e.MoveNext()) d = e.Current; else yield break;
+
+			while (e.MoveNext())
+			{
+				yield return (a, b, c, d) = (b, c, d, e.Current);
+			}
+		}
+	}
 }
