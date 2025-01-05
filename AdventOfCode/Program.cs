@@ -29,7 +29,7 @@ public static class Program
 		console.WriteLine($"Advent of Code: Year {year}, Day {day}");
 
 		var type = Type.GetType($"AdventOfCode.Year{year}.Day{day}");
-		var trim = type.GetCustomAttribute<SkipInputTrimAttribute>() is null;
+		var trim = !Attribute.IsDefined(type, typeof(SkipInputTrimAttribute));
 		var input = stdin
 			? MaybeTrim(Console.In.ReadToEnd(), trim)
 			: file is not null
