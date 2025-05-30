@@ -65,6 +65,9 @@ public readonly record struct Vec3<T>(T X, T Y, T Z) : IComparable<Vec3<T>>
 	public T Dot(Vec3<T> vec) =>
 		X * vec.X + Y * vec.Y + Z * vec.Z;
 
+	public Vec3<T> Mod(T val) =>
+		new(MathFunc.Mod(X, val), MathFunc.Mod(Y, val), MathFunc.Mod(Z, val));
+
 	public T Norm() => Dot(this);
 
 	public double Proj(Vec3<T> vec) =>
@@ -90,11 +93,25 @@ public readonly record struct Vec3<T>(T X, T Y, T Z) : IComparable<Vec3<T>>
 	public static Vec3<T> operator %(Vec3<T> vec, T val) =>
 		new(vec.X % val, vec.Y % val, vec.Z % val);
 
+	public static Vec3<T> operator +(Vec3<T> vec) => vec;
+
 	public static Vec3<T> operator -(Vec3<T> vec) =>
 		new(-vec.X, -vec.Y, -vec.Z);
 
-	public static implicit operator Vec3<T>((T x, T y, T z) val) =>
-		new(val.x, val.y, val.z);
+	public static implicit operator Vec3<T>((T, T, T) val) =>
+		new(val.Item1, val.Item2, val.Item3);
+
+	public static bool operator <(Vec3<T> a, Vec3<T> b) =>
+		a.CompareTo(b) < 0;
+
+	public static bool operator <=(Vec3<T> a, Vec3<T> b) =>
+		a.CompareTo(b) <= 0;
+
+	public static bool operator >(Vec3<T> a, Vec3<T> b) =>
+		a.CompareTo(b) > 0;
+
+	public static bool operator >=(Vec3<T> a, Vec3<T> b) =>
+		a.CompareTo(b) >= 0;
 
 	public int CompareTo(Vec3<T> other)
 	{

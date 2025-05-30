@@ -1,4 +1,4 @@
-﻿using System.Globalization;
+using System.Globalization;
 using System.Text;
 
 namespace AdventOfCode;
@@ -331,6 +331,19 @@ public static class Extensions
 			while (e.MoveNext())
 			{
 				yield return (a, b, c, d) = (b, c, d, e.Current);
+			}
+		}
+	}
+
+	public static void Fill<T>(this T[,] array, T item)
+	{
+		ArgumentNullException.ThrowIfNull(array);
+
+		for (int r = 0; r < array.GetLength(0); r++)
+		{
+			for (int c = 0; c < array.GetLength(1); c++)
+			{
+				array[r, c] = item;
 			}
 		}
 	}
