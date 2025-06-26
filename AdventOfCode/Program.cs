@@ -1,7 +1,4 @@
 ﻿using System.CommandLine;
-using System.CommandLine.Invocation;
-using System.CommandLine.IO;
-using System.CommandLine.NamingConventionBinder;
 using System.Reflection;
 using TextCopy;
 
@@ -13,19 +10,25 @@ public static class Program
 	{
 		var command = new RootCommand()
 		{
-			new Option<int>(["-y", "--year"], () => DateTime.Now.Year, "Year to run"),
-			new Option<int>(["-d", "--day"], () => DateTime.Now.Day, "Day to run"),
-			new Option<FileInfo>(["-f", "--file"], "Input file").ExistingOnly(),
-			new Option<bool>(["--stdin"], "Read input from standard input"),
+			new Option<int>("--year", "-y") { Description = "Year to run", DefaultValueFactory = _ => DateTime.Now.Year },
+			new Option<int>("--day", "-d") { Description = "Day to run", DefaultValueFactory = _ => DateTime.Now.Day },
+			new Option<FileInfo>("--file", "-f") { Description = "Input file" }.AcceptExistingOnly(),
+			new Option<bool>("--stdin") { Description = "Read input from standard input" },
 		};
-		command.Handler = CommandHandler.Create(Handler);
+		command.SetAction(result =>
+		{
+			Handler(result.Configuration.Output,
+				result.GetValue<int>("--year"), result.GetValue<int>("--day"),
+				result.GetValue<bool>("--stdin"), result.GetValue<FileInfo>("--file"));
 
-		return command.Invoke(args);
+			return 0;
+		});
+
+		return command.Parse(args).Invoke();
 	}
 
-	private static void Handler(InvocationContext context, int year, int day, bool stdin, FileInfo file)
+	private static void Handler(TextWriter console, int year, int day, bool stdin, FileInfo file)
 	{
-		var console = context.Console;
 		console.WriteLine($"Advent of Code: Year {year}, Day {day}");
 
 		var type = Type.GetType($"AdventOfCode.Year{year}.Day{day}");
@@ -47,7 +50,7 @@ public static class Program
 		}
 	}
 
-	private static void RunPart(IConsole console, Type type, string input, int part)
+	private static void RunPart(TextWriter console, Type type, string input, int part)
 	{
 		console.WriteLine($"-- Part {part} --");
 		object[] args = [input];
