@@ -27,14 +27,14 @@ public class Day9Tests
 		U 20
 		""";
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(13, Input1)]
 	public void Part1(int expected, string input)
 	{
 		Assert.AreEqual(expected, new Day9(input.ToLines()).Part1());
 	}
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(1, Input1)]
 	[DataRow(36, Input2)]
 	public void Part2(int expected, string input)

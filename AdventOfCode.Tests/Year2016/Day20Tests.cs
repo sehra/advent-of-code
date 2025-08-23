@@ -10,14 +10,14 @@ public class Day20Tests
 		4-7
 		""";
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(3u, Input)]
 	public void Part1(uint expected, string input)
 	{
 		Assert.AreEqual(expected, new Day20(input.ToLines()).Part1(0, 9));
 	}
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(2, Input)]
 	public void Part2(long expected, string input)
 	{

@@ -3,7 +3,7 @@
 [TestClass]
 public class Day22Tests
 {
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(0,
 		"deal with increment 7\n" +
 		"deal into new stack\n" +

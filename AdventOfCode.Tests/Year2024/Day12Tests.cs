@@ -32,7 +32,7 @@ public class Day12Tests
 		MMMISSJEEE
 		""";
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(140, Input1)]
 	[DataRow(772, Input2)]
 	[DataRow(1930, Input3)]
@@ -41,7 +41,7 @@ public class Day12Tests
 		Assert.AreEqual(expected, new Day12(input.ToLines()).Part1());
 	}
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(80, Input1)]
 	[DataRow(436, Input2)]
 	[DataRow(1206, Input3)]

@@ -41,7 +41,7 @@ public class Day12Tests
 		..... => .
 		""";
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(325, Input)]
 	public void Part1(int expected, string input)
 	{

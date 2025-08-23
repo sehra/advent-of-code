@@ -3,7 +3,7 @@ namespace AdventOfCode.Year2020;
 [TestClass]
 public class Day15Tests
 {
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(436, "0,3,6")]
 	[DataRow(1, "1,3,2")]
 	[DataRow(10, "2,1,3")]
@@ -17,7 +17,7 @@ public class Day15Tests
 	}
 
 	[Ignore("LongRunning")]
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(175594, "0,3,6")]
 	[DataRow(2578, "1,3,2")]
 	[DataRow(3544142, "2,1,3")]

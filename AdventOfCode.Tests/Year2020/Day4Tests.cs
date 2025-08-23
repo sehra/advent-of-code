@@ -3,7 +3,7 @@ namespace AdventOfCode.Year2020;
 [TestClass]
 public class Day4Tests
 {
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(2,
 		"ecl:gry pid:860033327 eyr:2020 hcl:#fffffd\n" +
 		"byr:1937 iyr:2017 cid:147 hgt:183cm\n" +
@@ -23,7 +23,7 @@ public class Day4Tests
 		Assert.AreEqual(expected, new Day4(input).Part1());
 	}
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(0,
 		"eyr:1972 cid:100\n" +
 		"hcl:#18171d ecl:amb hgt:170 pid:186cm iyr:2018 byr:1926\n" +

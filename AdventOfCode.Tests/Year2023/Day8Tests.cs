@@ -37,7 +37,7 @@ public class Day8Tests
 		XXX = (XXX, XXX)
 		""";
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(2, Input1)]
 	[DataRow(6, Input2)]
 	public void Part1(long expected, string input)
@@ -45,7 +45,7 @@ public class Day8Tests
 		Assert.AreEqual(expected, new Day8(input.ToLines()).Part1());
 	}
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(6, Input3)]
 	public void Part2(long expected, string input)
 	{

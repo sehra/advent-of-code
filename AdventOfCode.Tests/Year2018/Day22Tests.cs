@@ -9,14 +9,14 @@ public class Day22Tests
 		target: 10,10
 		""";
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(114, Input)]
 	public void Part1(int expected, string input)
 	{
 		Assert.AreEqual(expected, new Day22(input.ToLines()).Part1());
 	}
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(45, Input)]
 	public void Part2(int expected, string input)
 	{

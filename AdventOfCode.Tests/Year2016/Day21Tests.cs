@@ -3,7 +3,7 @@ namespace AdventOfCode.Year2016;
 [TestClass]
 public class Day21Tests
 {
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow("decab",
 		"""
 		swap position 4 with position 0

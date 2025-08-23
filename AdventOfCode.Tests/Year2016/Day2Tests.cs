@@ -11,14 +11,14 @@ public class Day2Tests
 		UUUUD
 		""";
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow("1985", Input)]
 	public void Part1(string expected, string input)
 	{
 		Assert.AreEqual(expected, new Day2(input.ToLines()).Part1());
 	}
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow("5DB3", Input)]
 	public void Part2(string expected, string input)
 	{

@@ -13,7 +13,7 @@ public class Day10Tests
 		value 2 goes to bot 2
 		""";
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(2, Input)]
 	public void Part1(int expected, string input)
 	{

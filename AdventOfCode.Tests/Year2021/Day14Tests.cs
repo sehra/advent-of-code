@@ -29,7 +29,7 @@ public class Day14Tests
 		Assert.AreEqual(1588, new Day14(Input.ToLines()).Part1());
 	}
 
-	[DataTestMethod]
+	[TestMethod]
 	public void Part2()
 	{
 		Assert.AreEqual(2188189693529, new Day14(Input.ToLines()).Part2());

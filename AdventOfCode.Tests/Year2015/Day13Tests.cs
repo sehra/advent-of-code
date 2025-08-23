@@ -19,7 +19,7 @@ public class Day13Tests
 		David would gain 41 happiness units by sitting next to Carol.
 		""";
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(330, Input)]
 	public void Part1(int expected, string input)
 	{

@@ -3,7 +3,7 @@ namespace AdventOfCode.Year2020;
 [TestClass]
 public class Day14Tests
 {
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(165,
 		"mask = XXXXXXXXXXXXXXXXXXXXXXXXXXXXX1XXXX0X\n" +
 		"mem[8] = 11\n" +
@@ -14,7 +14,7 @@ public class Day14Tests
 		Assert.AreEqual(expected, new Day14(input).Part1());
 	}
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(208,
 		"mask = 000000000000000000000000000000X1001X\n" +
 		"mem[42] = 100\n" +

@@ -10,14 +10,14 @@ public class Day9Tests
 		Dublin to Belfast = 141
 		""";
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(605, Input)]
 	public void Part1(int expected, string input)
 	{
 		Assert.AreEqual(expected, new Day9(input.ToLines()).Part1());
 	}
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(982, Input)]
 	public void Part2(int expected, string input)
 	{

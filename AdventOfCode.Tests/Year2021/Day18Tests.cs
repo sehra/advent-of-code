@@ -29,7 +29,7 @@ public class Day18Tests
 		Assert.AreEqual(3993, new Day18(Input.ToLines()).Part2());
 	}
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow("[[[[0,9],2],3],4]", "[[[[[9,8],1],2],3],4]")]
 	[DataRow("[7,[6,[5,[7,0]]]]", "[7,[6,[5,[4,[3,2]]]]]")]
 	[DataRow("[[6,[5,[7,0]]],3]", "[[6,[5,[4,[3,2]]]],1]")]
@@ -42,7 +42,7 @@ public class Day18Tests
 		Assert.AreEqual(Number.Parse(expected), number);
 	}
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow("[5,5]", "10")]
 	[DataRow("[5,6]", "11")]
 	[DataRow("[6,6]", "12")]
@@ -53,7 +53,7 @@ public class Day18Tests
 		Assert.AreEqual(Number.Parse(expected), number);
 	}
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow("[[[[0,7],4],[[7,8],[6,0]]],[8,1]]", "[[[[[4,3],4],4],[7,[[8,4],9]]],[1,1]]")]
 	public void ReduceTest(string expected, string input)
 	{
@@ -94,7 +94,7 @@ public class Day18Tests
 		"[[[5,[7,4]],7],1]\n" +
 		"[[[[4,2],2],6],[8,7]]";
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow("[[[[1,1],[2,2]],[3,3]],[4,4]]", Sum1)]
 	[DataRow("[[[[3,0],[5,3]],[4,4]],[5,5]]", Sum2)]
 	[DataRow("[[[[5,0],[7,4]],[5,5]],[6,6]]", Sum3)]
@@ -105,7 +105,7 @@ public class Day18Tests
 		Assert.AreEqual(Number.Parse(expected), Sum(numbers));
 	}
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(143, "[[1,2],[[3,4],5]]")]
 	[DataRow(1384, "[[[[0,7],4],[[7,8],[6,0]]],[8,1]]")]
 	[DataRow(445, "[[[[1,1],[2,2]],[3,3]],[4,4]]")]

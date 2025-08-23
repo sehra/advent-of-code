@@ -22,14 +22,14 @@ public class Day20Tests
 		###############
 		""";
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(14 + 14 + 2 + 4 + 2 + 3 + 1 + 1 + 1 + 1 + 1, Input)]
 	public void Part1(int expected, string input)
 	{
 		Assert.AreEqual(expected, new Day20(input.ToLines()).Part1(1));
 	}
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(32 + 31 + 29 + 39 + 25 + 23 + 20 + 19 + 12 + 14 + 12 + 22 + 4 + 3, Input)]
 	public void Part2(int expected, string input)
 	{

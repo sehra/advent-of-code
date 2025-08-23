@@ -12,14 +12,14 @@ public class Day21Tests
 		379A
 		""";
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(126384, Input)]
 	public void Part1(long expected, string input)
 	{
 		Assert.AreEqual(expected, new Day21(input.ToLines()).Part1());
 	}
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(154115708116294, Input)]
 	public void Part2(long expected, string input)
 	{

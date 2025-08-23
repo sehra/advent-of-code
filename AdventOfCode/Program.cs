@@ -17,7 +17,7 @@ public static class Program
 		};
 		command.SetAction(result =>
 		{
-			Handler(result.Configuration.Output,
+			Handler(result.InvocationConfiguration.Output,
 				result.GetValue<int>("--year"), result.GetValue<int>("--day"),
 				result.GetValue<bool>("--stdin"), result.GetValue<FileInfo>("--file"));
 

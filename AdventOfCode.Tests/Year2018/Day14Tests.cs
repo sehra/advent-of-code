@@ -3,7 +3,7 @@ namespace AdventOfCode.Year2018;
 [TestClass]
 public class Day14Tests
 {
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow("5158916779", "9")]
 	[DataRow("0124515891", "5")]
 	[DataRow("9251071085", "18")]
@@ -13,7 +13,7 @@ public class Day14Tests
 		Assert.AreEqual(expected, new Day14(input).Part1());
 	}
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(9, "51589")]
 	[DataRow(5, "01245")]
 	[DataRow(18, "92510")]

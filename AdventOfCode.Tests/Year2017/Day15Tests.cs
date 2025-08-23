@@ -9,14 +9,14 @@ public class Day15Tests
 		Generator B starts with 8921
 		""";
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(588, Input)]
 	public void Part1(int expected, string input)
 	{
 		Assert.AreEqual(expected, new Day15(input.ToLines()).Part1());
 	}
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(309, Input)]
 	public void Part2(int expected, string input)
 	{

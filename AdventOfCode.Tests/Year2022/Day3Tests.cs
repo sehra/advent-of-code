@@ -13,14 +13,14 @@ public class Day3Tests
 		CrZsJsPPZsGzwwsLwLmpwMDw
 		""";
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(157, Input)]
 	public void Part1(int expected, string input)
 	{
 		Assert.AreEqual(expected, new Day3(input.ToLines()).Part1());
 	}
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(70, Input)]
 	public void Part2(int expected, string input)
 	{

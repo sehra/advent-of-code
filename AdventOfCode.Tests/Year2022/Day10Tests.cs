@@ -153,14 +153,14 @@ public class Day10Tests
 		noop
 		""";
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(13140, Input)]
 	public void Part1(int expected, string input)
 	{
 		Assert.AreEqual(expected, new Day10(input.ToLines()).Part1());
 	}
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(
 		"""
 		##..##..##..##..##..##..##..##..##..##..

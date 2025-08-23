@@ -30,14 +30,14 @@ public class Day13Tests
 		[1,[2,[3,[4,[5,6,0]]]],8,9]
 		""";
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(13, Input)]
 	public void Part1(int expected, string input)
 	{
 		Assert.AreEqual(expected, new Day13(input.ToLines()).Part1());
 	}
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(140, Input)]
 	public void Part2(int expected, string input)
 	{

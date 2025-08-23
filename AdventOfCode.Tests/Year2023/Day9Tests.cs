@@ -10,14 +10,14 @@ public class Day9Tests
 		10 13 16 21 30 45
 		""";
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(114, Input)]
 	public void Part1(int expected, string input)
 	{
 		Assert.AreEqual(expected, new Day9(input.ToLines()).Part1());
 	}
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(2, Input)]
 	public void Part2(int expected, string input)
 	{

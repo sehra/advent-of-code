@@ -9,14 +9,14 @@ public class Day15Tests
 		Cinnamon: capacity 2, durability 3, flavor -2, texture -1, calories 3
 		""";
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(62842880, Input)]
 	public void Part1(int expected, string input)
 	{
 		Assert.AreEqual(expected, new Day15(input.ToLines()).Part1());
 	}
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(57600000, Input)]
 	public void Part2(int expected, string input)
 	{

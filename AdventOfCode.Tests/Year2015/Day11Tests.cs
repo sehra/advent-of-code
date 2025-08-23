@@ -3,7 +3,7 @@ namespace AdventOfCode.Year2015;
 [TestClass]
 public class Day11Tests
 {
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow("abcdffaa", "abcdefgh")]
 	[DataRow("ghjaabcc", "ghijklmn")]
 	public void Part1(string expected, string input)

@@ -34,7 +34,7 @@ public class Day7Tests
 		JJJJ2 41
 		""";
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(6440, Input1)]
 	[DataRow(6592, Input2)]
 	public void Part1(int expected, string input)
@@ -42,7 +42,7 @@ public class Day7Tests
 		Assert.AreEqual(expected, new Day7(input.ToLines()).Part1());
 	}
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(5905, Input1)]
 	[DataRow(6839, Input2)]
 	public void Part2(int expected, string input)

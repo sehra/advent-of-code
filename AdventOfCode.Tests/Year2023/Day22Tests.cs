@@ -14,14 +14,14 @@ public class Day22Tests
 		1,1,8~1,1,9
 		""";
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(5, Input)]
 	public void Part1(int expected, string input)
 	{
 		Assert.AreEqual(expected, new Day22(input.ToLines()).Part1());
 	}
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(7, Input)]
 	public void Part2(int expected, string input)
 	{

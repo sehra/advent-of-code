@@ -20,14 +20,14 @@ public class Day7Tests
 		cntj (57)
 		""";
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow("tknk", Input)]
 	public void Part1(string expected, string input)
 	{
 		Assert.AreEqual(expected, new Day7(input.ToLines()).Part1());
 	}
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(60, Input)]
 	public void Part2(int expected, string input)
 	{

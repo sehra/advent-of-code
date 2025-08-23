@@ -3,7 +3,7 @@ namespace AdventOfCode.Year2015;
 [TestClass]
 public class Day6Tests
 {
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(1_000_000, "turn on 0,0 through 999,999")]
 	[DataRow(1_000, "toggle 0,0 through 999,0")]
 	[DataRow(0, "turn off 499,499 through 500,500")]
@@ -13,7 +13,7 @@ public class Day6Tests
 		Assert.AreEqual(expected, new Day6([input]).Part1());
 	}
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(1, "turn on 0,0 through 0,0")]
 	[DataRow(2_000_000, "toggle 0,0 through 999,999")]
 	public void Part2(int expected, string input)

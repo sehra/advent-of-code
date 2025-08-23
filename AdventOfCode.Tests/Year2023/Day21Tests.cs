@@ -18,14 +18,14 @@ public class Day21Tests
 		...........
 		""";
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(16, Input)]
 	public void Part1(int expected, string input)
 	{
 		Assert.AreEqual(expected, new Day21(input.ToLines()).Part1(6));
 	}
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(16, Input, 6)]
 	[DataRow(50, Input, 10)]
 	[DataRow(1594, Input, 50)]

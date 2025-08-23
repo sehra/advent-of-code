@@ -13,7 +13,7 @@ public class Day12Tests
 		dec a
 		""";
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(42, Input)]
 	public void Part1(int expected, string input)
 	{

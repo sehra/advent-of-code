@@ -3,7 +3,7 @@ namespace AdventOfCode.Year2020;
 [TestClass]
 public class Day6Tests
 {
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(6,
 		"abcx\n" +
 		"abcy\n" +
@@ -29,7 +29,7 @@ public class Day6Tests
 		Assert.AreEqual(expected, new Day6(input).Part1());
 	}
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(6,
 		"abc\n" +
 		"\n" +

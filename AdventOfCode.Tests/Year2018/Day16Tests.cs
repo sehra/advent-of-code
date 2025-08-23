@@ -10,7 +10,7 @@ public class Day16Tests
 		After:  [3, 2, 2, 1]
 		""";
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(1, Input)]
 	public void Part1(int expected, string input)
 	{

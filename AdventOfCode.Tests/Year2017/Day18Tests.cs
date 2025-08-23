@@ -27,7 +27,7 @@ public class Day18Tests
 		rcv d
 		""";
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(4, Input)]
 	public async Task Part1(int expected, string input)
 	{
@@ -35,7 +35,7 @@ public class Day18Tests
 	}
 
 	[Ignore("LongRunning")]
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(3, Input2)]
 	public async Task Part2(int expected, string input)
 	{

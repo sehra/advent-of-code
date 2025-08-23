@@ -3,7 +3,7 @@ namespace AdventOfCode.Year2016;
 [TestClass]
 public class Day7Tests
 {
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(1, "abba[mnop]qrst")]
 	[DataRow(0, "abcd[bddb]xyyx")]
 	[DataRow(0, "aaaa[qwer]tyui")]
@@ -13,7 +13,7 @@ public class Day7Tests
 		Assert.AreEqual(expected, new Day7([input]).Part1());
 	}
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(1, "aba[bab]xyz")]
 	[DataRow(0, "xyx[xyx]xyx")]
 	[DataRow(1, "aaa[kek]eke")]

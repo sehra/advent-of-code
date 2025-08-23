@@ -17,14 +17,14 @@ public class Day4Tests
 		MXMXAXMASX
 		""";
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(18, Input)]
 	public void Part1(int expected, string input)
 	{
 		Assert.AreEqual(expected, new Day4(input.ToLines()).Part1());
 	}
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(9, Input)]
 	public void Part2(int expected, string input)
 	{

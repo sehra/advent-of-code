@@ -3,7 +3,7 @@
 [TestClass]
 public class Day20Tests
 {
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(23,
 		"         A           \n" +
 		"         A           \n" +
@@ -67,7 +67,7 @@ public class Day20Tests
 		Assert.AreEqual(expected, new Day20(input).Part1());
 	}
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(396,
 		"             Z L X W       C                 \n" +
 		"             Z P Q B       K                 \n" +

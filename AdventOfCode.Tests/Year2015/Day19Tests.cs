@@ -20,7 +20,7 @@ public class Day19Tests
 		HOHOHO
 		""";
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(4, Input1)]
 	[DataRow(7, Input2)]
 	public void Part1(int expected, string input)
@@ -28,7 +28,7 @@ public class Day19Tests
 		Assert.AreEqual(expected, new Day19(input.ToLines()).Part1());
 	}
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(3, Input1)]
 	//[DataRow(6, Input2)]
 	public void Part2(int expected, string input)

@@ -3,7 +3,7 @@
 [TestClass]
 public class Day14Tests
 {
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(
 		"10 ORE => 10 A\n" +
 		"1 ORE => 1 B\n" +
@@ -70,7 +70,7 @@ public class Day14Tests
 		Assert.AreEqual(expected, new Day14(input).Part1());
 	}
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(
 		"157 ORE => 5 NZVS\n" +
 		"165 ORE => 6 DCFZ\n" +

@@ -21,14 +21,14 @@ public class Day18Tests
 		U 2 (#7a21e3)
 		""";
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(62, Input)]
 	public void Part1(int expected, string input)
 	{
 		Assert.AreEqual(expected, new Day18(input.ToLines()).Part1());
 	}
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(952408144115, Input)]
 	public void Part2(long expected, string input)
 	{

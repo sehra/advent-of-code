@@ -112,14 +112,14 @@ public class Day20Tests
 		"..#.......\n" +
 		"..#.###...\n";
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(20899048083289, Input)]
 	public void Part1(long expected, string input)
 	{
 		Assert.AreEqual(expected, new Day20(input).Part1());
 	}
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(273, Input)]
 	public void Part2(int expected, string input)
 	{

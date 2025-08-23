@@ -3,7 +3,7 @@ namespace AdventOfCode.Year2015;
 [TestClass]
 public class Day3Tests
 {
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(2, ">")]
 	[DataRow(4, "^>v<")]
 	[DataRow(2, "^v^v^v^v^v")]
@@ -12,7 +12,7 @@ public class Day3Tests
 		Assert.AreEqual(expected, new Day3(input).Part1());
 	}
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(3, "^v")]
 	[DataRow(3, "^>v<")]
 	[DataRow(11, "^v^v^v^v^v")]

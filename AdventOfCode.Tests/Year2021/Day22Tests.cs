@@ -95,7 +95,7 @@ public class Day22Tests
 		"on x=-53470..21291,y=-120233..-33476,z=-44150..38147\n" +
 		"off x=-93533..-4276,y=-16170..68771,z=-104985..-24507\n";
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(39, Input1)]
 	[DataRow(590784, Input2)]
 	public void Part1(long expected, string input)

@@ -24,14 +24,14 @@ public class Day4Tests
 		[1518-11-05 00:55] wakes up
 		""";
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(240, Input)]
 	public void Part1(int expected, string input)
 	{
 		Assert.AreEqual(expected, new Day4(input.ToLines()).Part1());
 	}
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(4455, Input)]
 	public void Part2(int expected, string input)
 	{

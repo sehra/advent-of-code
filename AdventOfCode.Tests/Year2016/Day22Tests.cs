@@ -3,7 +3,7 @@ namespace AdventOfCode.Year2016;
 [TestClass]
 public class Day22Tests
 {
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(7,
 		"""
 		Filesystem            Size  Used  Avail  Use%

@@ -14,14 +14,14 @@ public class Day7Tests
 		Step F must be finished before step E can begin.
 		""";
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow("CABDFE", Input)]
 	public void Part1(string expected, string input)
 	{
 		Assert.AreEqual(expected, new Day7(input.ToLines()).Part1());
 	}
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(15, Input)]
 	public void Part2(int expected, string input)
 	{

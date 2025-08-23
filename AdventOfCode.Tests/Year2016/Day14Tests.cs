@@ -3,7 +3,7 @@ namespace AdventOfCode.Year2016;
 [TestClass]
 public class Day14Tests
 {
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(22728, "abc")]
 	public void Part1(int expected, string input)
 	{
@@ -11,7 +11,7 @@ public class Day14Tests
 	}
 
 	[Ignore("LongRunning")]
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(22551, "abc")]
 	public void Part2(int expected, string input)
 	{

@@ -3,7 +3,7 @@
 [TestClass]
 public class Day16Tests
 {
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow("12345678", 1, "48226158")]
 	[DataRow("12345678", 2, "34040438")]
 	[DataRow("12345678", 3, "03415518")]
@@ -16,7 +16,7 @@ public class Day16Tests
 		Assert.AreEqual(expected, new Day16(input).Part1(phases));
 	}
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow("03036732577212944063491565474664", "84462026")]
 	[DataRow("02935109699940807407585447034323", "78725270")]
 	[DataRow("03081770884921959731165446850517", "53553731")]

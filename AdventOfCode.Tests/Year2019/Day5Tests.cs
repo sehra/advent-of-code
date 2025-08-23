@@ -28,7 +28,7 @@ public class Day5Tests
 		Assert.AreEqual(99, intcode.Get(4));
 	}
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow("3,9,8,9,10,9,4,9,99,-1,8", 8, 1)]
 	[DataRow("3,9,8,9,10,9,4,9,99,-1,8", 9, 0)]
 	[DataRow("3,9,7,9,10,9,4,9,99,-1,8", 7, 1)]
@@ -50,7 +50,7 @@ public class Day5Tests
 		Assert.AreEqual(expected, result);
 	}
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow("3,12,6,12,15,1,13,14,13,4,13,99,-1,0,1,9", 0, 0)]
 	[DataRow("3,12,6,12,15,1,13,14,13,4,13,99,-1,0,1,9", 42, 1)]
 	[DataRow("3,3,1105,-1,9,1101,0,0,12,4,12,99,1", 0, 0)]
@@ -68,7 +68,7 @@ public class Day5Tests
 		Assert.AreEqual(expected, result);
 	}
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(7, 999)]
 	[DataRow(8, 1000)]
 	[DataRow(9, 1001)]

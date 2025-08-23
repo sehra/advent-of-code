@@ -3,7 +3,7 @@ namespace AdventOfCode.Year2020;
 [TestClass]
 public class Day21Tests
 {
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(5,
 		"mxmxvkd kfcds sqjhc nhms (contains dairy, fish)\n" +
 		"trh fvjkl sbzzf mxmxvkd (contains dairy)\n" +
@@ -14,7 +14,7 @@ public class Day21Tests
 		Assert.AreEqual(expected, new Day21(input).Part1());
 	}
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow("mxmxvkd,sqjhc,fvjkl",
 		"mxmxvkd kfcds sqjhc nhms (contains dairy, fish)\n" +
 		"trh fvjkl sbzzf mxmxvkd (contains dairy)\n" +

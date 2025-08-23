@@ -37,14 +37,14 @@ namespace AdventOfCode.Year${Year};
 [TestClass]
 public class Day${Day}Tests
 {
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(0, "")]
 	public void Part1(int expected, string input)
 	{
 		Assert.AreEqual(expected, new Day${Day}(input).Part1());
 	}
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(0, "")]
 	public void Part2(int expected, string input)
 	{

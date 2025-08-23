@@ -17,14 +17,14 @@ public class Day19Tests
 		bbrgwb
 		""";
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(6, Input)]
 	public void Part1(int expected, string input)
 	{
 		Assert.AreEqual(expected, new Day19(input.ToLines()).Part1());
 	}
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(16, Input)]
 	public void Part2(long expected, string input)
 	{

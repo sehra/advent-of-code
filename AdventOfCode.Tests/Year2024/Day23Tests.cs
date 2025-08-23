@@ -39,14 +39,14 @@ public class Day23Tests
 		td-yn
 		""";
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(7, Input)]
 	public void Part1(int expected, string input)
 	{
 		Assert.AreEqual(expected, new Day23(input.ToLines()).Part1());
 	}
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow("co,de,ka,ta", Input)]
 	public void Part2(string expected, string input)
 	{

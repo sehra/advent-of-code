@@ -3,7 +3,7 @@ namespace AdventOfCode.Year2020;
 [TestClass]
 public class Day16Tests
 {
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(71,
 		"class: 1-3 or 5-7\n" +
 		"row: 6-11 or 33-44\n" +
@@ -22,7 +22,7 @@ public class Day16Tests
 		Assert.AreEqual(expected, new Day16(input).Part1());
 	}
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(1,
 		"class: 0-1 or 4-19\n" +
 		"row: 0-5 or 8-19\n" +

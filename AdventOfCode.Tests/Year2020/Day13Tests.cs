@@ -3,14 +3,14 @@ namespace AdventOfCode.Year2020;
 [TestClass]
 public class Day13Tests
 {
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(295, "939\n7,13,x,x,59,x,31,19\n")]
 	public void Part1(int expected, string input)
 	{
 		Assert.AreEqual(expected, new Day13(input).Part1());
 	}
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(1068781, "7,13,x,x,59,x,31,19")]
 	[DataRow(3417, "17,x,13,19")]
 	[DataRow(754018, "67,7,59,61")]

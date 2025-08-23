@@ -17,14 +17,14 @@ public class Day24Tests
 		11
 		""";
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(99, Input)]
 	public void Part1(int expected, string input)
 	{
 		Assert.AreEqual(expected, new Day24(input.ToLines().ToInt64()).Part1());
 	}
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(44, Input)]
 	public void Part2(int expected, string input)
 	{

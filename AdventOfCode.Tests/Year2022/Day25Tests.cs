@@ -20,7 +20,7 @@ public class Day25Tests
 		122
 		""";
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow("2=-1=0", Input)]
 	public void Part1(string expected, string input)
 	{

@@ -22,14 +22,14 @@ public class Day13Tests
 		Prize: X=18641, Y=10279
 		""";
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(480, Input)]
 	public void Part1(long expected, string input)
 	{
 		Assert.AreEqual(expected, new Day13(input.ToLines()).Part1());
 	}
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(875318608908, Input)]
 	public void Part2(long expected, string input)
 	{

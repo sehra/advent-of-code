@@ -12,14 +12,14 @@ public class Day2Tests
 		Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green
 		""";
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(8, Input)]
 	public void Part1(int expected, string input)
 	{
 		Assert.AreEqual(expected, new Day2(input.ToLines()).Part1());
 	}
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(2286, Input)]
 	public void Part2(int expected, string input)
 	{

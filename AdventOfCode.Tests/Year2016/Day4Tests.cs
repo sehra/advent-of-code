@@ -3,7 +3,7 @@ namespace AdventOfCode.Year2016;
 [TestClass]
 public class Day4Tests
 {
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(123, "aaaaa-bbb-z-y-x-123[abxyz]")]
 	[DataRow(987, "a-b-c-d-e-f-g-h-987[abcde]")]
 	[DataRow(404, "not-a-real-room-404[oarel]")]

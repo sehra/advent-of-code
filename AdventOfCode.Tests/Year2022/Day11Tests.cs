@@ -34,14 +34,14 @@ public class Day11Tests
 		    If false: throw to monkey 1
 		""";
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(10_605, Input)]
 	public void Part1(long expected, string input)
 	{
 		Assert.AreEqual(expected, new Day11(input.ToLines()).Part1());
 	}
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(2_713_310_158, Input)]
 	public void Part2(long expected, string input)
 	{

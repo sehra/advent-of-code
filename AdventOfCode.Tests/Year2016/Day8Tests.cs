@@ -11,7 +11,7 @@ public class Day8Tests
 		rotate column x=1 by 1
 		""";
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(6, Input)]
 	public void Part1(int expected, string input)
 	{

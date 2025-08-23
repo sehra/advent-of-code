@@ -5,7 +5,7 @@ public class Day6Tests
 {
 	private const string Input = "3,4,3,1,2";
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(26, 18)]
 	[DataRow(5934, 80)]
 	public void Part1(long expected, int days)

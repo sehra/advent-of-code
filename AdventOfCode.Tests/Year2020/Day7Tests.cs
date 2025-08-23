@@ -3,7 +3,7 @@ namespace AdventOfCode.Year2020;
 [TestClass]
 public class Day7Tests
 {
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(4,
 		"light red bags contain 1 bright white bag, 2 muted yellow bags.\n" +
 		"dark orange bags contain 3 bright white bags, 4 muted yellow bags.\n" +
@@ -19,7 +19,7 @@ public class Day7Tests
 		Assert.AreEqual(expected, new Day7(input).Part1());
 	}
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(32,
 		"light red bags contain 1 bright white bag, 2 muted yellow bags.\n" +
 		"dark orange bags contain 3 bright white bags, 4 muted yellow bags.\n" +

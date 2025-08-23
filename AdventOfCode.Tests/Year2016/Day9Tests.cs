@@ -3,7 +3,7 @@ namespace AdventOfCode.Year2016;
 [TestClass]
 public class Day9Tests
 {
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(6, "ADVENT")]
 	[DataRow(7, "A(1x5)BC")]
 	[DataRow(9, "(3x3)XYZ")]
@@ -15,7 +15,7 @@ public class Day9Tests
 		Assert.AreEqual(expected, new Day9(input).Part1());
 	}
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(9, "(3x3)XYZ")]
 	[DataRow(20, "X(8x2)(3x3)ABCY")]
 	[DataRow(241920, "(27x12)(20x12)(13x14)(7x10)(1x12)A")]

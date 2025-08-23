@@ -20,7 +20,7 @@ public class Day20Tests
 		&con -> output
 		"""; 
 	
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(32000000, Input1)]
 	[DataRow(11687500, Input2)]
 	public void Part1(int expected, string input)

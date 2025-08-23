@@ -13,14 +13,14 @@ public class Day4Tests
 		Card 6: 31 18 13 56 72 | 74 77 10 23 35 67 36 11
 		""";
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(13, Input)]
 	public void Part1(int expected, string input)
 	{
 		Assert.AreEqual(expected, new Day4(input.ToLines()).Part1());
 	}
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(30, Input)]
 	public void Part2(int expected, string input)
 	{

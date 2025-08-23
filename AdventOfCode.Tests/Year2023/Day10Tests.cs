@@ -74,7 +74,7 @@ public class Day10Tests
 		L7JLJL-JLJLJL--JLJ.L
 		""";
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(4, Input1Easy)]
 	[DataRow(4, Input1Hard)]
 	[DataRow(8, Input2Easy)]
@@ -84,7 +84,7 @@ public class Day10Tests
 		Assert.AreEqual(expected, new Day10(input.ToLines()).Part1());
 	}
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(4, Input3)]
 	[DataRow(8, Input4)]
 	[DataRow(10, Input5)]

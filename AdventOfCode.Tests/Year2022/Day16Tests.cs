@@ -17,14 +17,14 @@ public class Day16Tests
 		Valve JJ has flow rate=21; tunnel leads to valve II
 		""";
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(1651, Input)]
 	public void Part1(int expected, string input)
 	{
 		Assert.AreEqual(expected, new Day16(input.ToLines()).Part1());
 	}
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(1707, Input)]
 	public void Part2(int expected, string input)
 	{

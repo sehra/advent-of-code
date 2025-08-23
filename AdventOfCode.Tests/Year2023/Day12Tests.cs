@@ -3,7 +3,7 @@ namespace AdventOfCode.Year2023;
 [TestClass]
 public class Day12Tests
 {
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(1, "???.### 1,1,3")]
 	[DataRow(4, ".??..??...?##. 1,1,3")]
 	[DataRow(1, "?#?#?#?#?#?#?#? 1,3,1,6")]
@@ -15,7 +15,7 @@ public class Day12Tests
 		Assert.AreEqual(expected, new Day12([input]).Part1());
 	}
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(1, "???.### 1,1,3")]
 	[DataRow(16384, ".??..??...?##. 1,1,3")]
 	[DataRow(1, "?#?#?#?#?#?#?#? 1,3,1,6")]

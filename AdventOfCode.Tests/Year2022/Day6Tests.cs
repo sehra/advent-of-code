@@ -3,7 +3,7 @@ namespace AdventOfCode.Year2022;
 [TestClass]
 public class Day6Tests
 {
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(7, "mjqjpqmgbljsphdztnvjfqwrcgsmlb")]
 	[DataRow(5, "bvwbjplbgvbhsrlpgdmjqwftvncz")]
 	[DataRow(6, "nppdvjthqldpwncqszvftbrmjlhg")]
@@ -14,7 +14,7 @@ public class Day6Tests
 		Assert.AreEqual(expected, new Day6(input).Part1());
 	}
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(19, "mjqjpqmgbljsphdztnvjfqwrcgsmlb")]
 	[DataRow(23, "bvwbjplbgvbhsrlpgdmjqwftvncz")]
 	[DataRow(23, "nppdvjthqldpwncqszvftbrmjlhg")]

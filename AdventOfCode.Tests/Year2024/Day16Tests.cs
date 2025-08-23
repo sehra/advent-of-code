@@ -42,7 +42,7 @@ public class Day16Tests
 		#################
 		""";
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(7036, Input1)]
 	[DataRow(11048, Input2)]
 	public void Part1(int expected, string input)
@@ -50,7 +50,7 @@ public class Day16Tests
 		Assert.AreEqual(expected, new Day16(input.ToLines()).Part1());
 	}
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(45, Input1)]
 	[DataRow(64, Input2)]
 	public void Part2(int expected, string input)

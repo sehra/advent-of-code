@@ -64,7 +64,7 @@ public class Day10Tests
 		"#.#.#.#####.####.###\n" +
 		"###.##.####.##.#..##";
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(Input1, 3, 4, 8)]
 	[DataRow(Input2, 5, 8, 33)]
 	[DataRow(Input3, 1, 2, 35)]

@@ -3,7 +3,7 @@ namespace AdventOfCode.Year2021;
 [TestClass]
 public class Day16Tests
 {
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(6, "D2FE28")]
 	[DataRow(9, "38006F45291200")]
 	[DataRow(14, "EE00D40C823060")]
@@ -16,7 +16,7 @@ public class Day16Tests
 		Assert.AreEqual(expected, new Day16(input).Part1());
 	}
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(3, "C200B40A82")]
 	[DataRow(54, "04005AC33890")]
 	[DataRow(7, "880086C3E88112")]

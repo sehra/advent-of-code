@@ -9,7 +9,7 @@ public class Day21Tests
 		.#./..#/### => #..#/..../..../#..#
 		""";
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(12, Input)]
 	public void Part1(int expected, string input)
 	{

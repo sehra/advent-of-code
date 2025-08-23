@@ -9,7 +9,7 @@ public class Day19Tests
 		Blueprint 2: Each ore robot costs 2 ore. Each clay robot costs 3 ore. Each obsidian robot costs 3 ore and 8 clay. Each geode robot costs 3 ore and 12 obsidian.
 		""";
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(33, Input)]
 	public void Part1(int expected, string input)
 	{
@@ -17,7 +17,7 @@ public class Day19Tests
 	}
 
 	[Ignore("LongRunning")]
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(56 * 62, Input)]
 	public void Part2(int expected, string input)
 	{

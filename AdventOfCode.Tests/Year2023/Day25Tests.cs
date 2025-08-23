@@ -20,7 +20,7 @@ public class Day25Tests
 		frs: qnr lhk lsr
 		""";
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(54, Input)]
 	public void Part1(int expected, string input)
 	{

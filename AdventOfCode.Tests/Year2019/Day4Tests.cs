@@ -3,7 +3,7 @@
 [TestClass]
 public class Day4Tests
 {
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow("111111", true)]
 	[DataRow("223450", false)]
 	[DataRow("123789", false)]
@@ -12,7 +12,7 @@ public class Day4Tests
 		Assert.AreEqual(expected, Day4.IsValid1(value));
 	}
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow("112233", true)]
 	[DataRow("123444", false)]
 	[DataRow("111122", true)]

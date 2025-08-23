@@ -41,7 +41,7 @@ public class Day15Tests
 		v^^>>><<^^<>>^v^<v^vv<>v^<<>^<^v^v><^<<<><<^<v><v<>vv>>v><v^<vv<>v^<<^
 		""";
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(2028, Input1)]
 	[DataRow(10092, Input2)]
 	public void Part1(int expected, string input)
@@ -49,7 +49,7 @@ public class Day15Tests
 		Assert.AreEqual(expected, new Day15(input.ToLines()).Part1());
 	}
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(9021, Input2)]
 	public void Part2(int expected, string input)
 	{

@@ -3,7 +3,7 @@ namespace AdventOfCode.Year2018;
 [TestClass]
 public class Day25Tests
 {
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(2,
 		"""
 		 0,0,0,0

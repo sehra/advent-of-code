@@ -16,14 +16,14 @@ public class Day5Tests
 		move 1 from 1 to 2
 		""";
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow("CMZ", Input)]
 	public void Part1(string expected, string input)
 	{
 		Assert.AreEqual(expected, new Day5(input).Part1());
 	}
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow("MCD", Input)]
 	public void Part2(string expected, string input)
 	{

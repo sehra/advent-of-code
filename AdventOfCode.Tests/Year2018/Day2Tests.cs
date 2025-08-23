@@ -14,7 +14,7 @@ public class Day2Tests
 		ababab
 		""";
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(12, Input1)]
 	public void Part1(int expected, string input)
 	{
@@ -32,7 +32,7 @@ public class Day2Tests
 		wvxyz
 		""";
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow("fgij", Input2)]
 	public void Part2(string expected, string input)
 	{

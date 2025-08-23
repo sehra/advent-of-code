@@ -15,7 +15,7 @@ public class Day7Tests
 		NOT y -> i
 		""";
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(72, Input, "d")]
 	[DataRow(507, Input, "e")]
 	[DataRow(492, Input, "f")]

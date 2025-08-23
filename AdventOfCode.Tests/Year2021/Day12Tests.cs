@@ -44,7 +44,7 @@ public class Day12Tests
 		"pj-fs\n" +
 		"start-RW\n";
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(10, Input1)]
 	[DataRow(19, Input2)]
 	[DataRow(226, Input3)]
@@ -53,7 +53,7 @@ public class Day12Tests
 		Assert.AreEqual(expected, new Day12(input.ToLines()).Part1());
 	}
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(36, Input1)]
 	[DataRow(103, Input2)]
 	[DataRow(3509, Input3)]

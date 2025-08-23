@@ -25,14 +25,14 @@ public class Day24Tests
 		"neswnwewnwnwseenwseesewsenwsweewe\n" +
 		"wseweeenwnesenwwwswnew\n";
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(10, Input)]
 	public void Part1(int expected, string input)
 	{
 		Assert.AreEqual(expected, new Day24(input).Part1());
 	}
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(2208, Input)]
 	public void Part2(int expected, string input)
 	{

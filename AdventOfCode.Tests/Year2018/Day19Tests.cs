@@ -15,7 +15,7 @@ public class Day19Tests
 		seti 9 0 5
 		""";
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(6, Input)]
 	public void Part1(int expected, string input)
 	{

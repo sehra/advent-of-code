@@ -3,7 +3,7 @@ namespace AdventOfCode.Year2018;
 [TestClass]
 public class Day20Tests
 {
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(3, "^WNE$")]
 	[DataRow(10, "^ENWWW(NEEE|SSE(EE|N))$")]
 	[DataRow(18, "^ENNWSWW(NEWS|)SSSEEN(WNSE|)EE(SWEN|)NNN$")]

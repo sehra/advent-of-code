@@ -24,14 +24,14 @@ public class Day19Tests
 		{x=2127,m=1623,a=2188,s=1013}
 		""";
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(19114, Input)]
 	public void Part1(int expected, string input)
 	{
 		Assert.AreEqual(expected, new Day19(input.ToLines()).Part1());
 	}
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(167409079868000, Input)]
 	public void Part2(long expected, string input)
 	{

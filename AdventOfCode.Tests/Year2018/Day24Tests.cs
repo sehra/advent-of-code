@@ -14,14 +14,14 @@ public class Day24Tests
 		4485 units each with 2961 hit points (immune to radiation; weak to fire, cold) with an attack that does 12 slashing damage at initiative 4
 		""";
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(5216, Input)]
 	public void Part1(int expected, string input)
 	{
 		Assert.AreEqual(expected, new Day24(input.ToLines()).Part1());
 	}
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(51, Input)]
 	public void Part2(int expected, string input)
 	{

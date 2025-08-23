@@ -49,14 +49,14 @@ public class Day10Tests
 		#...#..###
 		""";
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(Hi, Input)]
 	public void Part1(string expected, string input)
 	{
 		Assert.AreEqual(expected, new Day10(input.ToLines()).Part1());
 	}
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(3, Input)]
 	public void Part2(int expected, string input)
 	{

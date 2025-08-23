@@ -35,14 +35,14 @@ public class Day5Tests
 		97,13,75,29,47
 		""";
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(143, Input)]
 	public void Part1(int expected, string input)
 	{
 		Assert.AreEqual(expected, new Day5(input.ToLines()).Part1());
 	}
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(123, Input)]
 	public void Part2(int expected, string input)
 	{

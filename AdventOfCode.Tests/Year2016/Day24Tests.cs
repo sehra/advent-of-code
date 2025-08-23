@@ -12,7 +12,7 @@ public class Day24Tests
 		###########
 		""";
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(14, Input)]
 	public void Part1(int expected, string input)
 	{

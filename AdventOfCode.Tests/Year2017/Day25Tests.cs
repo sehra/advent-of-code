@@ -29,7 +29,7 @@ public class Day25Tests
 		    - Continue with state A.
 		""";
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(3, Input)]
 	public void Part1(int expected, string input)
 	{

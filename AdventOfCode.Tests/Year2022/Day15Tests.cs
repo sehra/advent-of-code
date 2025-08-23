@@ -21,14 +21,14 @@ public class Day15Tests
 		Sensor at x=20, y=1: closest beacon is at x=15, y=3
 		""";
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(26, Input)]
 	public void Part1(int expected, string input)
 	{
 		Assert.AreEqual(expected, new Day15(input.ToLines()).Part1(10));
 	}
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(56000011, Input)]
 	public void Part2(int expected, string input)
 	{

@@ -26,14 +26,14 @@ public class Day23Tests
 		pos=<10,10,10>, r=5
 		""";
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(7, Input1)]
 	public void Part1(int expected, string input)
 	{
 		Assert.AreEqual(expected, new Day23(input.ToLines()).Part1());
 	}
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(36, Input2)]
 	public void Part2(int expected, string input)
 	{

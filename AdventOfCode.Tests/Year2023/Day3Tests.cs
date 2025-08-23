@@ -17,14 +17,14 @@ public class Day3Tests
 		.664.598..
 		""";
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(4361, Input)]
 	public void Part1(int expected, string input)
 	{
 		Assert.AreEqual(expected, new Day3(input.ToLines()).Part1());
 	}
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(467835, Input)]
 	public void Part2(int expected, string input)
 	{

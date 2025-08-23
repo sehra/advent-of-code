@@ -22,14 +22,14 @@ public class Day21Tests
 		hmdt: 32
 		""";
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(152, Input)]
 	public void Part1(long expected, string input)
 	{
 		Assert.AreEqual(expected, new Day21(input.ToLines()).Part1());
 	}
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(301, Input)]
 	public void Part2(long expected, string input)
 	{

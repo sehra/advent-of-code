@@ -17,7 +17,7 @@ public class Day18Tests
 		...#.|..|.
 		""";
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(1147, Input)]
 	public void Part1(int expected, string input)
 	{
