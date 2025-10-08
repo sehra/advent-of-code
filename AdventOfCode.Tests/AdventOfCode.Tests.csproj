@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>true</ImplicitUsings>
+    <NoWarn>MSB3270</NoWarn>
     <Nullable>enable</Nullable>
     <RootNamespace>AdventOfCode</RootNamespace>
   </PropertyGroup>
