@@ -8,7 +8,7 @@ public class Day8Tests
 	{
 		var picture = Day8.DecodePicture("123456789012", 3, 2);
 
-		Assert.AreEqual(2, picture.Count);
+		Assert.HasCount(2, picture);
 		Assert.AreEqual(1, picture[0][0, 0]);
 		Assert.AreEqual(2, picture[0][1, 0]);
 		Assert.AreEqual(3, picture[0][2, 0]);

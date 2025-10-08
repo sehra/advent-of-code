@@ -5,16 +5,18 @@ namespace AdventOfCode.Year2019;
 [TestClass]
 public class Day5Tests
 {
-	[TestMethod]
+    public TestContext TestContext { get; set; }
+
+    [TestMethod]
 	public async Task InputOutput()
 	{
 		BigInteger result = -1;
-		var intcode = new IntcodeComputer(new BigInteger[] { 3, 0, 4, 0, 99 })
+		var intcode = new IntcodeComputer([3, 0, 4, 0, 99])
 		{
 			Input = () => Task.FromResult((BigInteger)42),
 			Output = value => { result = value; return Task.CompletedTask; },
 		};
-		await intcode.RunAsync();
+		await intcode.RunAsync(TestContext.CancellationToken);
 
 		Assert.AreEqual(42, result);
 	}
@@ -22,8 +24,8 @@ public class Day5Tests
 	[TestMethod]
 	public async Task AddressingMode()
 	{
-		var intcode = new IntcodeComputer(new BigInteger[] { 1002, 4, 3, 4, 33 });
-		await intcode.RunAsync();
+		var intcode = new IntcodeComputer([1002, 4, 3, 4, 33]);
+		await intcode.RunAsync(TestContext.CancellationToken);
 
 		Assert.AreEqual(99, intcode.Get(4));
 	}
@@ -45,7 +47,7 @@ public class Day5Tests
 			Input = () => Task.FromResult((BigInteger)input),
 			Output = value => { result = value; return Task.CompletedTask; },
 		};
-		await intcode.RunAsync();
+		await intcode.RunAsync(TestContext.CancellationToken);
 
 		Assert.AreEqual(expected, result);
 	}
@@ -63,7 +65,7 @@ public class Day5Tests
 			Input = () => Task.FromResult((BigInteger)input),
 			Output = value => { result = value; return Task.CompletedTask; },
 		};
-		await intcode.RunAsync();
+		await intcode.RunAsync(TestContext.CancellationToken);
 
 		Assert.AreEqual(expected, result);
 	}
@@ -86,7 +88,7 @@ public class Day5Tests
 			Input = () => Task.FromResult((BigInteger)input),
 			Output = value => { result = value; return Task.CompletedTask; },
 		};
-		await intcode.RunAsync();
+		await intcode.RunAsync(TestContext.CancellationToken);
 
 		Assert.AreEqual(expected, result);
 	}
