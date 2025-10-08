@@ -1,10 +1,8 @@
 ﻿namespace AdventOfCode.Year2019;
 
 [TestClass]
-public class Day2Tests
+public class Day2Tests(TestContext context)
 {
-    public TestContext TestContext { get; set; }
-
 	[TestMethod]
 	[DataRow("1,9,10,3,2,3,11,0,99,30,40,50", 0, 3500)]
 	[DataRow("1,0,0,0,99", 0, 2)]
@@ -14,7 +12,7 @@ public class Day2Tests
 	public async Task Computer(string memory, int address, int expected)
 	{
 		var intcode = new IntcodeComputer(memory);
-		await intcode.RunAsync(TestContext.CancellationToken);
+		await intcode.RunAsync(context.CancellationToken);
 
 		Assert.AreEqual(expected, intcode.Get(address));
 	}
