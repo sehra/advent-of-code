@@ -27,7 +27,7 @@ public class Day15
 		{
 			numbers[_input[turn]] = turn + 1;
 		}
-		
+
 		var last = _input[^1];
 
 		for (int turn = _input.Length - 1; turn < turns - 1; turn++)

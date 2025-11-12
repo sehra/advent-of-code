@@ -18,8 +18,8 @@ public class Day20Tests
 		&inv -> b
 		%b -> con
 		&con -> output
-		"""; 
-	
+		""";
+
 	[TestMethod]
 	[DataRow(32000000, Input1)]
 	[DataRow(11687500, Input2)]

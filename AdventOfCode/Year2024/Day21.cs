@@ -1,7 +1,7 @@
 namespace AdventOfCode.Year2024;
 
-using Pos = (int R, int C);
 using Cache = Dictionary<((int, int), (int, int), int), long>;
+using Pos = (int R, int C);
 
 public class Day21(string[] input)
 {

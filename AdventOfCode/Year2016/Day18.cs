@@ -36,8 +36,8 @@ public class Day18(string input)
 		return floor.Sum(row => row.Count(c => c is '.'));
 
 		char GetTile(int row, int col) =>
-			0 <= col && col < floor[row].Length 
-			? floor[row][col] 
+			0 <= col && col < floor[row].Length
+			? floor[row][col]
 			: '.';
 	}
 }

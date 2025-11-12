@@ -71,7 +71,7 @@ public class Day10
 	{
 		var stack = new Stack<char>();
 		var corrupt = false;
-		
+
 		foreach (var c in line)
 		{
 			if (c is '(' or '[' or '{' or '<')

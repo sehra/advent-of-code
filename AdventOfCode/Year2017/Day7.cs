@@ -40,7 +40,7 @@ public class Day7(string[] input)
 			.Group()
 			.Count() is 1;
 
-		int GetWeight(string node) => 
+		int GetWeight(string node) =>
 			tower[node].Weight + tower[node].Above.Sum(GetWeight);
 	}
 

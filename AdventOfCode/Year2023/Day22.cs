@@ -67,7 +67,7 @@ public class Day22(string[] input)
 
 			world.Add(brick);
 			taken.UnionWith(brick.TopLayer());
-			
+
 			var hits = world
 				.Where(b => b.Top.Z == brick.Bot.Z - 1)
 				.Where(b => b.TopLayer().Intersect(brick.Drop().BotLayer()).Any())

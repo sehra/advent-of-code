@@ -41,7 +41,7 @@ public class Day8(string input)
 	{
 		var data = input.Split().ToInt32();
 		var span = data.AsSpan();
-		
+
 		return ParseNode(ref span);
 
 		static Node ParseNode(ref Span<int> span)

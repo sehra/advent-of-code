@@ -172,7 +172,7 @@ public class Day18
 		}
 
 		public bool Equals(Number other) => _nodes.SequenceEqual(other._nodes);
-		
+
 		public override bool Equals(object obj) => Equals(obj as Number);
 
 		public override int GetHashCode() =>

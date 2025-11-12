@@ -99,7 +99,7 @@ public class Day14(string[] input)
 	private static int Load(Dish dish) => dish
 		.Index()
 		.Sum(row => row.Item.Count(c => c is 'O') * (dish.Length - row.Index));
-	
+
 	private Dish Parse() => input
 		.Select(line => line.ToCharArray())
 		.ToArray();

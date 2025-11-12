@@ -24,7 +24,7 @@ public class Day7(string[] input)
 			var split1 = line.Split("->", StringSplitOptions.TrimEntries);
 			var dst = split1[1];
 			var src = split1[0].Split(' ', StringSplitOptions.TrimEntries);
-			
+
 			Lazy<ushort> func = src switch
 			{
 				[var lhs, "AND", var rhs] => new(() => (ushort)(GetVal(lhs)() & GetVal(rhs)())),

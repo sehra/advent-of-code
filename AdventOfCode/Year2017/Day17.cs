@@ -1,5 +1,3 @@
-using System.ComponentModel.DataAnnotations;
-
 namespace AdventOfCode.Year2017;
 
 public class Day17(string input)

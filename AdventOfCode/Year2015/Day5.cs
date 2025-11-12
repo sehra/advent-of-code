@@ -1,5 +1,3 @@
-using System.CommandLine.Parsing;
-
 namespace AdventOfCode.Year2015;
 
 public class Day5(string[] input)

@@ -43,9 +43,9 @@ public partial class Day14(string[] input)
 		private int _delay;
 
 		public int Distance { get; private set; }
-        public int Score { get; set; }
+		public int Score { get; set; }
 
-        public void Tick()
+		public void Tick()
 		{
 			(_state, _delay, Distance) = (_state, _delay) switch
 			{

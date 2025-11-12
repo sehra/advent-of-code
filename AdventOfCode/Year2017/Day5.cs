@@ -15,7 +15,7 @@ public class Day5(string[] input)
 		while (0 <= index && index < jumps.Length)
 		{
 			var offset = jumps[index];
-			jumps[index] = next(offset);;
+			jumps[index] = next(offset);
 			index += offset;
 			steps++;
 		}

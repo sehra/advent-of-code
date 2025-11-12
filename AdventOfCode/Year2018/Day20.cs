@@ -25,9 +25,9 @@ public class Day20(string input)
 				point = next;
 			}
 			else if (c is '(')
-            {
-                stack.Push(point);
-            }
+			{
+				stack.Push(point);
+			}
 			else if (c is ')')
 			{
 				point = stack.Pop();
@@ -36,7 +36,7 @@ public class Day20(string input)
 			{
 				point = stack.Peek();
 			}
-        }
+		}
 
 		var dists = new Dictionary<Point, int>();
 		var work = new PriorityQueue<Point, int>();

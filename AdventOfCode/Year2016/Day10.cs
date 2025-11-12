@@ -62,11 +62,11 @@ public partial class Day10(string[] input)
 	{
 		private readonly List<int> _buf = [];
 
-        public Lazy<Unit> Lo { get; set; }
+		public Lazy<Unit> Lo { get; set; }
 		public Lazy<Unit> Hi { get; set; }
-        public bool Me { get; private set; }
+		public bool Me { get; private set; }
 
-        public void Give(int chip)
+		public void Give(int chip)
 		{
 			_buf.Add(chip);
 

@@ -47,7 +47,7 @@ public class Day20(string[] input)
 					{
 						allowed.Add((block.Max + 1, allow.Max));
 					}
-				}               
+				}
 				// | block |
 				//  | allow |
 				else if (block.Min < allow.Min && allow.Min <= block.Max)

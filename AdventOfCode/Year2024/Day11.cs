@@ -18,7 +18,7 @@ public class Day11(string input)
 			{
 				return value;
 			}
-			
+
 			if (blinks is 0)
 			{
 				return 1;

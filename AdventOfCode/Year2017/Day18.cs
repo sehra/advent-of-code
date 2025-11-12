@@ -54,8 +54,8 @@ public class Day18(string[] input)
 		private readonly DefaultDictionary<string, long> _regs = [];
 		private readonly string[][] _prog = [.. input.Select(line => line.Split())];
 
-        public CancellationToken Halt { get; set; }
-        public Func<ValueTask<long>> Rcv { get; set; }
+		public CancellationToken Halt { get; set; }
+		public Func<ValueTask<long>> Rcv { get; set; }
 		public Func<long, ValueTask> Snd { get; set; }
 
 		public async Task RunAsync()

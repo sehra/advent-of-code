@@ -1,5 +1,3 @@
-using System.Data;
-
 namespace AdventOfCode.Year2015;
 
 public class Day8(string[] input)

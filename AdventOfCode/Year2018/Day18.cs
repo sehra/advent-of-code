@@ -19,7 +19,7 @@ public class Day18(string[] input)
 	public int Part2()
 	{
 		const int n = 1_000_000_000;
-		
+
 		var grid = Parse();
 		var seen = new Dictionary<string, int>();
 

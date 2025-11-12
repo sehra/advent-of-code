@@ -1,7 +1,7 @@
 namespace AdventOfCode.Year2018;
 
-using Sample = (int[] Before, int[] Code, int[] After);
 using Result = (int Reg, int Val);
+using Sample = (int[] Before, int[] Code, int[] After);
 
 public class Day16(string[] input)
 {

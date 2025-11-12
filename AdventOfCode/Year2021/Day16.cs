@@ -1,5 +1,3 @@
-using System.Text;
-
 namespace AdventOfCode.Year2021;
 
 public class Day16
@@ -177,7 +175,7 @@ public class Day16
 
 	private class MaxPacket : Packet
 	{
-		public MaxPacket(int version) 
+		public MaxPacket(int version)
 			: base(version)
 		{
 		}

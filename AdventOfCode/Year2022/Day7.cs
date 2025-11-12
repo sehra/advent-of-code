@@ -1,5 +1,3 @@
-using System.Diagnostics;
-
 namespace AdventOfCode.Year2022;
 
 public class Day7

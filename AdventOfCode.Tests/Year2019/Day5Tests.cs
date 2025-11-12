@@ -5,7 +5,7 @@ namespace AdventOfCode.Year2019;
 [TestClass]
 public class Day5Tests(TestContext context)
 {
-    [TestMethod]
+	[TestMethod]
 	public async Task InputOutput()
 	{
 		BigInteger result = -1;

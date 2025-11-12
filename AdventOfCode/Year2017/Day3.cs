@@ -1,5 +1,3 @@
-using System.Data;
-
 namespace AdventOfCode.Year2017;
 
 public class Day3(string input)

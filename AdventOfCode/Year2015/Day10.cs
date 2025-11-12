@@ -32,7 +32,7 @@ public class Day10(string input)
 	{
 		var num = new List<(char, char)>();
 
-		for (int i = 0; i < number.Length; )
+		for (int i = 0; i < number.Length;)
 		{
 			var c = number[i];
 			var n = '0';

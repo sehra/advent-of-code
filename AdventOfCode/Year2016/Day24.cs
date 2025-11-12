@@ -8,7 +8,7 @@ public class Day24(string[] input)
 		var dists = PairDists(grid);
 		var nums = grid.Values.Except(['0', '.']).ToArray();
 		var best = Int32.MaxValue;
-		
+
 		foreach (var path in nums.Permutations())
 		{
 			var dist = path
