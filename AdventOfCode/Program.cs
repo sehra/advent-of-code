@@ -30,8 +30,14 @@ public static class Program
 	private static void Handler(TextWriter console, int year, int day, bool stdin, FileInfo file)
 	{
 		console.WriteLine($"Advent of Code: Year {year}, Day {day}");
-
 		var type = Type.GetType($"AdventOfCode.Year{year}.Day{day}");
+
+		if (type is null)
+		{
+			console.WriteLine("Missing puzzle class.");
+			return;
+		}
+
 		var trim = !Attribute.IsDefined(type, typeof(SkipInputTrimAttribute));
 		var input = stdin
 			? MaybeTrim(Console.In.ReadToEnd(), trim)
@@ -42,17 +48,20 @@ public static class Program
 		if (input is null)
 		{
 			console.WriteLine("Missing puzzle input.");
+			return;
 		}
-		else
+
+		foreach (var method in type.GetMethods().Where(m => m.Name.StartsWith("Part")).OrderBy(m => m.Name))
 		{
-			RunPart(console, type, input, 1);
-			RunPart(console, type, input, 2);
+			Execute(console, method, input);
 		}
 	}
 
-	private static void RunPart(TextWriter console, Type type, string input, int part)
+	private static void Execute(TextWriter console, MethodInfo method, string input)
 	{
-		console.WriteLine($"-- Part {part} --");
+		console.WriteLine($"-- {method.Name.Insert(4, " ")} --");
+
+		var type = method.DeclaringType;
 		object[] args = [input];
 
 		if (type.GetConstructor([typeof(string[])]) is not null)
@@ -69,7 +78,6 @@ public static class Program
 		}
 
 		var instance = Activator.CreateInstance(type, args);
-		var method = type.GetMethod($"Part{part}");
 		var parameters = method.GetParameters().Select(p => p.RawDefaultValue).ToArray();
 
 		try
