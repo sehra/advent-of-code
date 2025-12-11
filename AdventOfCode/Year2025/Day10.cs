@@ -6,7 +6,7 @@ public partial class Day10(string[] input)
 {
 	public int Part1() => Parse()
 		.Select(machine => Enumerable
-			.Range(0, machine.Buttons.Length)
+			.Range(1, machine.Buttons.Length)
 			.Select(count => machine.Buttons
 				.Combinations(count)
 				.Select(buttons => new
@@ -20,7 +20,8 @@ public partial class Day10(string[] input)
 								{
 									state[toggle] = !state[toggle];
 									return state;
-								}))
+								})
+						)
 				})
 			)
 			.SelectMany(results => results.Where(result => result.Lights.SequenceEqual(machine.Lights)))
@@ -37,7 +38,6 @@ public partial class Day10(string[] input)
 		foreach (var machine in Parse())
 		{
 			using var opt = ctx.MkOptimize();
-
 			var buttons = new IntExpr[machine.Buttons.Length];
 
 			for (int b = 0; b < machine.Buttons.Length; b++)
