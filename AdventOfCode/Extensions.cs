@@ -36,22 +36,54 @@ public static class Extensions
 
 		static IEnumerable<IEnumerable<T>> PermutationsImpl(IEnumerable<T> source)
 		{
-			var count = source.Count();
+			T[] items = [.. source];
 
-			if (count == 1)
+			if (items.Length == 0)
 			{
-				yield return source;
+				yield break;
 			}
-			else
+
+			var indices = new int[items.Length];
+
+			for (var i = 0; i < indices.Length; i++)
 			{
-				for (var i = 0; i < count; i++)
-				{
-					foreach (var permutation in PermutationsImpl(source.Take(i).Concat(source.Skip(i + 1))))
-					{
-						yield return source.Skip(i).Take(1).Concat(permutation);
-					}
-				}
+				indices[i] = i;
 			}
+
+			do
+			{
+				yield return items.AsSpan().ToArray();
+			}
+			while (NextPermutation(items, indices));
+		}
+
+		static bool NextPermutation(Span<T> items, Span<int> indices)
+		{
+			var pivot = indices.Length - 2;
+
+			while (pivot >= 0 && indices[pivot] > indices[pivot + 1])
+			{
+				pivot--;
+			}
+
+			if (pivot < 0)
+			{
+				return false;
+			}
+
+			var successor = indices.Length - 1;
+
+			while (indices[successor] < indices[pivot])
+			{
+				successor--;
+			}
+
+			(indices[pivot], indices[successor]) = (indices[successor], indices[pivot]);
+			(items[pivot], items[successor]) = (items[successor], items[pivot]);
+			indices[(pivot + 1)..].Reverse();
+			items[(pivot + 1)..].Reverse();
+
+			return true;
 		}
 	}
 
@@ -239,13 +271,62 @@ public static class Extensions
 		ArgumentNullException.ThrowIfNull(source);
 		ArgumentOutOfRangeException.ThrowIfNegative(count);
 
-		return count is 0
-			? EnumerableEx.Return(Enumerable.Empty<T>())
-			: source.SelectMany(
-				(item, index) => source
-					.Skip(index + 1)
-					.Combinations(count - 1)
-					.Select(rest => EnumerableEx.Return(item).Concat(rest)));
+		return CombinationsImpl(source, count);
+
+		static IEnumerable<IEnumerable<T>> CombinationsImpl(IEnumerable<T> source, int count)
+		{
+			if (count == 0)
+			{
+				yield return Array.Empty<T>();
+				yield break;
+			}
+
+			T[] items = [.. source];
+
+			if (count > items.Length)
+			{
+				yield break;
+			}
+
+			var indices = new int[count];
+			var combination = items.AsSpan(0, count).ToArray();
+
+			for (var i = 0; i < indices.Length; i++)
+			{
+				indices[i] = i;
+			}
+
+			do
+			{
+				yield return combination.AsSpan().ToArray();
+			}
+			while (NextCombination(items, indices, combination));
+		}
+
+		static bool NextCombination(ReadOnlySpan<T> items, Span<int> indices, Span<T> combination)
+		{
+			var pivot = indices.Length - 1;
+
+			while (pivot >= 0 && indices[pivot] == items.Length - indices.Length + pivot)
+			{
+				pivot--;
+			}
+
+			if (pivot < 0)
+			{
+				return false;
+			}
+
+			var index = indices[pivot] + 1;
+
+			for (var i = pivot; i < indices.Length; i++, index++)
+			{
+				indices[i] = index;
+				combination[i] = items[index];
+			}
+
+			return true;
+		}
 	}
 
 	public static U Sum<T, U>(this IEnumerable<T> source, Func<T, int, U> selector)
