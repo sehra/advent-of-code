@@ -5,6 +5,7 @@
     <TargetFramework>net11.0</TargetFramework>
     <ImplicitUsings>true</ImplicitUsings>
     <NoWarn>MSB3270</NoWarn>
+    <AnalysisMode>recommended</AnalysisMode>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
@@ -18,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Z3" Version="5.1.0" />
+    <PackageReference Include="Microsoft.Z3" Version="5.4.1" />
     <PackageReference Include="System.CommandLine" Version="3.0.0" />
     <PackageReference Include="System.Interactive" Version="7.0.1" />
     <PackageReference Include="TextCopy" Version="6.2.1" />
