@@ -9,7 +9,7 @@ public class Day19
 		_input = input;
 	}
 
-	public int Part1() => Parse().Select(bp => bp.Id * Solve(bp, 24)).Sum();
+	public int Part1() => Parse().Sum(bp => bp.Id * Solve(bp, 24));
 
 	public int Part2() => Parse().Take(3).Select(bp => Solve(bp, 32)).Multiply();
 

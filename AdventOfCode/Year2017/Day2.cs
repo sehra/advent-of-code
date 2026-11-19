@@ -17,8 +17,7 @@ public class Day2(string[] input)
 				.Order()
 				.Combinations(2)
 				.Select(pair => Math.DivRem(pair.ElementAt(1), pair.ElementAt(0)))
-				.Where(div => div.Remainder is 0)
-				.Single()
+				.Single(div => div.Remainder is 0)
 			)
 			.Sum(div => div.Quotient);
 	}

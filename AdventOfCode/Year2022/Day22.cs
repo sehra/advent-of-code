@@ -67,8 +67,7 @@ public class Day22(string input)
 		var (cube, size) = Fold(grid);
 		var face = cube
 			.Where(f => f.Pos.X <= start.X && start.X < f.Pos.X + size)
-			.Where(f => f.Pos.Y <= start.Y && start.Y < f.Pos.Y + size)
-			.Single();
+			.Single(f => f.Pos.Y <= start.Y && start.Y < f.Pos.Y + size);
 		var pos = (start - face.Pos).X * face.U + (start - face.Pos).Y * face.V;
 		var dir = face.U;
 

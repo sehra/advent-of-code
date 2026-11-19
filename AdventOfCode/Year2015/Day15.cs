@@ -23,8 +23,7 @@ public class Day15(string[] input)
 		if (filter > 0)
 		{
 			var calories = ingredients.Zip(recipe)
-				.Select(prop => prop.First.TakeLast(1).Select(value => value * prop.Second).Single())
-				.Sum();
+				.Sum(prop => prop.First.TakeLast(1).Select(value => value * prop.Second).Single());
 
 			if (calories != filter)
 			{

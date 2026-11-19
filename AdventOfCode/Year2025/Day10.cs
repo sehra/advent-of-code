@@ -5,7 +5,7 @@ namespace AdventOfCode.Year2025;
 public partial class Day10(string[] input)
 {
 	public int Part1() => Parse()
-		.Select(machine => Enumerable
+		.Sum(machine => Enumerable
 			.Range(1, machine.Buttons.Length)
 			.Select(count => machine.Buttons
 				.Combinations(count)
@@ -27,8 +27,7 @@ public partial class Day10(string[] input)
 			.SelectMany(results => results.Where(result => result.Lights.SequenceEqual(machine.Lights)))
 			.First()
 			.Count
-		)
-		.Sum();
+		);
 	
 	public int Part2()
 	{

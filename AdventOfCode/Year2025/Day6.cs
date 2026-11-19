@@ -6,7 +6,7 @@ public class Day6(string input)
 	public long Part1() => Parse()
 		.Sum(x => x.Oper switch
 		{
-			'+' => x.Grid.Select(row => row.ToInt64()).Sum(),
+			'+' => x.Grid.Sum(row => row.ToInt64()),
 			'*' => x.Grid.Select(row => row.ToInt64()).Multiply(),
 			_ => throw new Exception("oper?"),
 		});

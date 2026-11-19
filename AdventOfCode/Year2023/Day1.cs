@@ -3,7 +3,7 @@ namespace AdventOfCode.Year2023;
 public class Day1(string[] input)
 {
 	public int Part1() => input
-		.Select(line =>
+		.Sum(line =>
 		{
 			var nums = new List<int>();
 
@@ -13,11 +13,10 @@ public class Day1(string[] input)
 			}
 
 			return nums.First() * 10 + nums.Last();
-		})
-		.Sum();
+		});
 
 	public int Part2() => input
-		.Select(line =>
+		.Sum(line =>
 		{
 			var nums = new List<int>();
 
@@ -44,6 +43,5 @@ public class Day1(string[] input)
 			}
 
 			return nums.First() * 10 + nums.Last();
-		})
-		.Sum();
+		});
 }

@@ -24,8 +24,7 @@ public class Day13(string[] input)
 		return table.Keys
 			.Permutations()
 			.Select(x => x.Append(x.First()))
-			.Select(x => x.Window(2).Aggregate(0, (acc, y) => acc + table[y[0]][y[1]] + table[y[1]][y[0]]))
-			.Max();
+			.Max(x => x.Window(2).Aggregate(0, (acc, y) => acc + table[y[0]][y[1]] + table[y[1]][y[0]]));
 	}
 
 	private Dictionary<string, Dictionary<string, int>> Parse()

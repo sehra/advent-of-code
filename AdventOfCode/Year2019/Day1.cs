@@ -11,7 +11,7 @@ public class Day1
 
 	public int Part1()
 	{
-		return _input.Select(NeededFuelPart1).Sum();
+		return _input.Sum(NeededFuelPart1);
 	}
 
 	private static int NeededFuelPart1(int mass)
@@ -21,7 +21,7 @@ public class Day1
 
 	public int Part2()
 	{
-		return _input.Select(NeededFuelPart2).Sum();
+		return _input.Sum(NeededFuelPart2);
 	}
 
 	private static int NeededFuelPart2(int mass)

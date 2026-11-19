@@ -6,8 +6,7 @@ public class Day4(string[] input)
 	{
 		return input
 			.Select(line => line.Split())
-			.Where(words => words.Group().All(group => group.Count() is 1))
-			.Count();
+			.Count(words => words.Group().All(group => group.Count() is 1));
 	}
 
 	public int Part2()

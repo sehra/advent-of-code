@@ -7,8 +7,7 @@ public class Day5(string input)
 	public int Part2() => input
 		.Where(Char.IsLower)
 		.Distinct()
-		.Select(c => React(input.Replace($"{c}", "", StringComparison.OrdinalIgnoreCase)))
-		.Min();
+		.Min(c => React(input.Replace($"{c}", "", StringComparison.OrdinalIgnoreCase)));
 
 	private static int React(string input)
 	{

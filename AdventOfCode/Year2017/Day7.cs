@@ -28,8 +28,8 @@ public class Day7(string[] input)
 				.GroupBy(n => n.Weight)
 				.ToArray();
 
-			var have = weights.Where(g => g.Count() is 1).Single();
-			var want = weights.Where(g => g.Count() > 1).Single().Key;
+			var have = weights.Single(g => g.Count() is 1);
+			var want = weights.Single(g => g.Count() > 1).Key;
 
 			return tower[have.Single().Node].Weight + want - have.Key;
 		}

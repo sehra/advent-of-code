@@ -11,7 +11,7 @@ public class Day5
 
 	public int Part1()
 	{
-		return _input.Select(Decode).Max();
+		return _input.Max(Decode);
 	}
 
 	public int Part2()

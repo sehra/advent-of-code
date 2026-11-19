@@ -20,7 +20,7 @@ public class Day8
 	{
 		return _input
 			.Select(line => line.Split(" | "))
-			.Select(line =>
+			.Sum(line =>
 			{
 				var inputs = line[0].Split(' ');
 				var wires1 = inputs.Single(x => x.Length is 2);
@@ -48,7 +48,6 @@ public class Day8
 							_ => throw new Exception("digit?"),
 						};
 					});
-			})
-			.Sum();
+			});
 	}
 }

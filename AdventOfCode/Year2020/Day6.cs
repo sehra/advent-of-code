@@ -13,20 +13,17 @@ public class Day6
 	public int Part1()
 	{
 		return _input
-			.Select(group => group.Replace("\n", "").Distinct().Count())
-			.Sum();
+			.Sum(group => group.Replace("\n", "").Distinct().Count());
 	}
 
 	public int Part2()
 	{
 		return _input
 			.Select(group => group.ToLines())
-			.Select(group => group
+			.Sum(group => group
 				.SelectMany(answer => answer.Distinct())
 				.GroupBy(answer => answer, (_, answers) => answers.Count())
-				.Where(count => count == group.Length)
-				.Count()
-			)
-			.Sum();
+				.Count(count => count == group.Length)
+			);
 	}
 }
