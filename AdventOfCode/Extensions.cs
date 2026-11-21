@@ -355,7 +355,6 @@ public static class Extensions
 
 		static IEnumerable<(T, T)> Impl(IEnumerable<T> source)
 		{
-			var a = default(T);
 			var b = default(T);
 
 			using var e = source.GetEnumerator();
@@ -363,6 +362,7 @@ public static class Extensions
 
 			while (e.MoveNext())
 			{
+				T a;
 				yield return (a, b) = (b, e.Current);
 			}
 		}
@@ -376,7 +376,6 @@ public static class Extensions
 
 		static IEnumerable<(T, T, T)> Impl(IEnumerable<T> source)
 		{
-			var a = default(T);
 			var b = default(T);
 			var c = default(T);
 
@@ -386,6 +385,7 @@ public static class Extensions
 
 			while (e.MoveNext())
 			{
+				T a;
 				yield return (a, b, c) = (b, c, e.Current);
 			}
 		}
@@ -399,7 +399,6 @@ public static class Extensions
 
 		static IEnumerable<(T, T, T, T)> Impl(IEnumerable<T> source)
 		{
-			var a = default(T);
 			var b = default(T);
 			var c = default(T);
 			var d = default(T);
@@ -411,6 +410,7 @@ public static class Extensions
 
 			while (e.MoveNext())
 			{
+				T a;
 				yield return (a, b, c, d) = (b, c, d, e.Current);
 			}
 		}
