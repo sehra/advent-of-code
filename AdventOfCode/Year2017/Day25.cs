@@ -33,7 +33,7 @@ public class Day25(string[] input)
 		}
 	}
 
-	public string Part2()
+	public static string Part2()
 	{
 		return "get 49 stars";
 	}

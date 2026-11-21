@@ -18,7 +18,7 @@ public class Day25(string[] input)
 		return 0b1010_1010_1010 - first;
 	}
 
-	public string Part2()
+	public static string Part2()
 	{
 		return "get 49 stars";
 	}

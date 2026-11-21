@@ -6,7 +6,7 @@ public class Day12(string[] input)
 
 	public long Part2() => Parse(5).Sum(x => Count(x.Record, x.Expect));
 
-	private long Count(char[] record, int[] expect)
+	private static long Count(char[] record, int[] expect)
 	{
 		var cache = new Dictionary<int, long>();
 

@@ -8,7 +8,7 @@ public class Day15(string[] input)
 
 	public int Part2() => Solve(Parse().Append((11, 0)));
 
-	private int Solve(IEnumerable<Disc> discs)
+	private static int Solve(IEnumerable<Disc> discs)
 	{
 		var num = discs.Select(d => d.Slots).ToArray();
 		var rem = discs.Select((d, i) => num[i] - (d.Start + i + 1) % num[i]);

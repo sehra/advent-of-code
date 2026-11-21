@@ -41,7 +41,7 @@ public class Day25(string[] input)
 			Math.Abs(a.Z - b.Z) + Math.Abs(a.W - b.W);
 	}
 
-	public string Part2()
+	public static string Part2()
 	{
 		return "get 49 stars";
 	}

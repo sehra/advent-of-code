@@ -6,7 +6,7 @@ public class Day22(string[] input)
 
 	public int Part2(int hp = 50, int mp = 500) => Solve(new(hp, 0, 0, mp, []), Parse(), true);
 
-	private int Solve(Unit player, Unit boss, bool hard)
+	private static int Solve(Unit player, Unit boss, bool hard)
 	{
 		var spells = new Spell[]
 		{

@@ -13,7 +13,4 @@ public class Day25Bench
 
 	[Benchmark]
 	public int Part1() => new Day25(_input).Part1();
-
-	[Benchmark]
-	public string Part2() => new Day25(_input).Part2();
 }

@@ -29,7 +29,7 @@ public class Day25(string[] input)
 		return matches.Count();
 	}
 
-	public string Part2()
+	public static string Part2()
 	{
 		return "get 49 stars";
 	}

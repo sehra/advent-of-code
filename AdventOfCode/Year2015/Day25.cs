@@ -12,7 +12,7 @@ public class Day25(string input)
 		return (int)(BigInteger.ModPow(252533, exp, 33554393) * 20151125 % 33554393);
 	}
 
-	public string Part2()
+	public static string Part2()
 	{
 		return "get 49 stars";
 	}

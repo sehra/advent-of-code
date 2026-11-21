@@ -88,7 +88,7 @@ public class Day23(string[] input)
 			}
 		}
 
-		private string[] Toggle(string[] asm)
+		private static string[] Toggle(string[] asm)
 		{
 			var args = asm.AsSpan(1);
 

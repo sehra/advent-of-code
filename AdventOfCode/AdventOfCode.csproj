@@ -5,7 +5,6 @@
     <TargetFramework>net11.0</TargetFramework>
     <ImplicitUsings>true</ImplicitUsings>
     <NoWarn>MSB3270</NoWarn>
-    <AnalysisMode>recommended</AnalysisMode>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'">

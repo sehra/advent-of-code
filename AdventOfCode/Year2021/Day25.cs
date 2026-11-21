@@ -71,7 +71,7 @@ public class Day25
 		int NextRow(int row) => (row + 1) % _input.Length;
 	}
 
-	public string Part2()
+	public static string Part2()
 	{
 		return "get 49 stars";
 	}
